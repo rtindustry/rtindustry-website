@@ -137,7 +137,7 @@
 
             <h3>2.2 Prodotto RTIndustry (software installato presso il cliente)</h3>
             <p>
-                Il software RTIndustry, installato presso le sedi dei clienti, può raccogliere e trasmettere i seguenti dati al <strong>Site Manager</strong> (se configurato):
+                Il software RTIndustry, installato presso le sedi dei clienti, trasmette al <strong>Site Manager</strong> (il servizio online di gestione delle licenze) i seguenti dati:
             </p>
             <table>
                 <thead>
@@ -170,8 +170,8 @@
             <p>Gli account personali degli operatori e il registro attività (chi ha fatto cosa e quando) sono conservati nel database installato sul PC del cliente, che ne è titolare, e non vengono trasmessi al Site Manager.
             </p>
 
-            <h3>2.3 Site Manager (piattaforma di gestione)</h3>
-            <p>Il Site Manager, se utilizzato dal cliente o dal reseller, tratta i seguenti dati:</p>
+            <h3>2.3 Site Manager (servizio online di gestione delle licenze)</h3>
+            <p>Il Site Manager è il servizio online, raggiungibile all'indirizzo licenze.rtindustry.it, con cui RTIndustry verifica le licenze e con cui clienti e reseller consultano le proprie installazioni. Tratta i seguenti dati:</p>
             <ul>
                 <li><strong>Credenziali utente:</strong> username e password (quest'ultima conservata con hash bcrypt)</li>
                 <li><strong>Log eventi:</strong> registrazioni di attività di sistema (validazione licenze, heartbeat, errori)</li>
@@ -181,7 +181,7 @@
             <h2>3. Base giuridica del trattamento</h2>
             <p>Il trattamento dei dati personali si fonda sulle seguenti basi giuridiche (art. 6 GDPR):</p>
             <ul>
-                <li><strong>Consenso</strong> (art. 6.1.a): per le comunicazioni inviate volontariamente via email e per i dati di contatto facoltativi forniti nell'installer</li>
+                <li><strong>Consenso</strong> (art. 6.1.a): per le comunicazioni inviate volontariamente via email e per i dati di contatto facoltativi indicati nella configurazione guidata del software</li>
                 <li><strong>Esecuzione contrattuale</strong> (art. 6.1.b): per la validazione delle licenze, la telemetria produttiva e la fornitura del servizio</li>
                 <li><strong>Legittimo interesse</strong> (art. 6.1.f): per la sicurezza del sistema, il debug e il miglioramento del prodotto</li>
             </ul>
@@ -235,10 +235,12 @@
             <p>I dati possono essere trattati dai seguenti soggetti, in qualità di responsabili del trattamento:</p>
             <ul>
                 <li><strong>GitHub, Inc.</strong> (hosting del sito web tramite GitHub Pages) — server situati negli Stati Uniti, con adeguate garanzie ai sensi dell'art. 46 GDPR (Standard Contractual Clauses)</li>
+                <li><strong>Fornitore di infrastruttura cloud</strong> (hosting del Site Manager) — data center situati nell'Unione Europea</li>
+                <li><strong>Fornitore del servizio di posta elettronica</strong> (caselle @rtindustry.it) — server situati nell'Unione Europea</li>
                 <li><strong>Reseller autorizzati</strong> — possono accedere ai dati delle installazioni a loro assegnate tramite il Site Manager, limitatamente al ruolo di assistenza e gestione licenze</li>
             </ul>
             <p>
-                Il Site Manager e i dati di telemetria risiedono su server gestiti direttamente dal cliente o dal reseller (on-premise o cloud privato). RTIndustry non ha accesso diretto a tali dati salvo specifica autorizzazione per interventi di supporto.
+                I dati di produzione (work order, telemetria completa, report, account degli operatori e registro attività) restano nel database installato sul PC del cliente. Al Site Manager arrivano solo i dati indicati al punto 2.2, necessari alla gestione della licenza e all'assistenza. RTIndustry accede ai dati presenti sul PC del cliente solo su sua richiesta, per interventi di supporto.
             </p>
 
             <h2>7. Diritti dell'interessato</h2>
