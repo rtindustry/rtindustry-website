@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Manager RTIndustry — Licenze e installazioni in un unico pannello</title>
+    <meta name="description" content="Il Site Manager di RTIndustry gestisce licenze, posti e installazioni: stato online delle postazioni, eventi, avvisi e area clienti self-service. Per integratori e rivenditori.">
+    <link rel="canonical" href="https://www.rtindustry.it/site-manager/">
+    <meta name="theme-color" content="#0d1b2a">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:site_name" content="RTIndustry">
+    <meta property="og:title" content="Site Manager RTIndustry — Licenze e installazioni in un unico pannello">
+    <meta property="og:description" content="Licenze, posti, installazioni ed eventi di tutte le postazioni RTIndustry, con area clienti self-service.">
+    <meta property="og:url" content="https://www.rtindustry.it/site-manager/">
+    <meta property="og:image" content="https://www.rtindustry.it/img/rtindustry-anteprima.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link href="../css/common.css" rel="stylesheet">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "name": "Site Manager RTIndustry",
+          "url": "https://www.rtindustry.it/site-manager/",
+          "inLanguage": "it-IT",
+          "description": "Gestione centralizzata di licenze, posti e installazioni RTIndustry, con area clienti self-service.",
+          "isPartOf": { "@type": "WebSite", "name": "RTIndustry", "url": "https://www.rtindustry.it/" },
+          "about": { "@type": "SoftwareApplication", "name": "RTIndustry", "softwareVersion": "2.0" }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "RTIndustry", "item": "https://www.rtindustry.it/" },
+            { "@type": "ListItem", "position": 2, "name": "Site Manager", "item": "https://www.rtindustry.it/site-manager/" }
+          ]
+        }
+      ]
+    }
+    </script>
+    <style>
+        .hero { background: var(--gradient-success); color: white; padding: 72px 0 60px; }
+        .hero h1 { font-size: 2.8rem; font-weight: 800; line-height: 1.15; margin-bottom: 20px; }
+        .hero p.lead { font-size: 1.15rem; opacity: .92; max-width: 640px; margin-bottom: 28px; }
+        .pannello { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); border-radius: 18px; padding: 24px; }
+        .pannello .riga { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,.12); }
+        .pannello .riga:last-child { border-bottom: 0; }
+        .pannello .pallino { width: 10px; height: 10px; border-radius: 50%; flex: 0 0 auto; }
+        .pannello .nome { font-weight: 600; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .pannello .stato { font-size: .8rem; opacity: .85; white-space: nowrap; }
+        .sezione { padding: 72px 0; }
+        .sezione.chiara { background: var(--light-bg); }
+        .flow { display: flex; align-items: stretch; gap: 16px; flex-wrap: wrap; justify-content: center; }
+        .flow .nodo { background: white; border: 1px solid #e9ecef; border-radius: 16px; padding: 22px 20px; text-align: center; flex: 1 1 220px; max-width: 300px; }
+        .flow .nodo i { font-size: 1.8rem; color: var(--success); }
+        .flow .nodo h3 { font-size: 1.05rem; font-weight: 700; color: var(--primary); margin: 10px 0 6px; }
+        .flow .nodo p { font-size: .9rem; color: #5b6570; margin: 0; }
+        .flow .freccia { align-self: center; color: #adb5bd; font-size: 1.6rem; }
+        .ruolo { background: white; border: 1px solid #e9ecef; border-radius: 16px; padding: 28px; height: 100%; }
+        .ruolo h3 { font-size: 1.15rem; font-weight: 800; color: var(--primary); }
+        .cta-section { background: var(--dark); color: white; padding: 72px 0; text-align: center; }
+        .cta-section h2 { font-size: 2.1rem; font-weight: 800; margin-bottom: 14px; }
+        .cta-section p { opacity: .85; max-width: 600px; margin: 0 auto 28px; }
+        .cta-section .contatti-cta a { color: white; }
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .flow .freccia { transform: rotate(90deg); width: 100%; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="site-nav" aria-label="Menu principale">
+        <div class="container">
+            <a href="../" class="nav-brand" aria-label="RTIndustry, pagina principale"><span class="brand-accent">RT</span>Industry</a>
+            <button class="nav-toggle" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="menu-principale" onclick="var m=document.getElementById('menu-principale');this.setAttribute('aria-expanded',m.classList.toggle('open'))">
+                <i class="bi bi-list" aria-hidden="true"></i>
+            </button>
+            <!-- Sezione prezzi temporaneamente nascosta: la voce "Prezzi" (../pricing/) tornerà qui. -->
+            <ul class="nav-links" id="menu-principale">
+                <li><a href="../">Prodotto</a></li>
+                <li><a href="../site-manager/" class="active" aria-current="page">Site Manager</a></li>
+                <li><a href="../documentazione/">Documentazione</a></li>
+                <li><a href="../manuale/">Manuale</a></li>
+                <li><a href="../developers/">Integrazione ERP</a></li>
+                <li><a href="mailto:demo@rtindustry.it?subject=Richiesta%20demo%20RTIndustry&amp;body=Buongiorno%2C%0D%0Avorrei%20richiedere%20una%20demo%20di%20RTIndustry.%0D%0A%0D%0AAzienda%3A%0D%0ASede%20%28citt%C3%A0%29%3A%0D%0AMacchine%20da%20collegare%20%28marca%2C%20modello%20e%20controllo%20CNC/PLC%29%3A%0D%0ANumero%20di%20macchine%3A%0D%0AReferente%20%28nome%20e%20ruolo%29%3A%0D%0ATelefono%3A%0D%0ANote%3A%0D%0A%0D%0AGrazie." class="nav-cta">Richiedi una demo</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+    <section class="hero">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-7">
+                    <span class="section-tag white">Per integratori e rivenditori</span>
+                    <h1>Tutte le installazioni RTIndustry<br>in un unico pannello.</h1>
+                    <p class="lead">Il Site Manager è il servizio online che emette e verifica le licenze di RTIndustry e mostra lo stato di ogni postazione installata presso i clienti: licenze, posti, installazioni, eventi e avvisi.</p>
+                    <a href="mailto:demo@rtindustry.it?subject=Richiesta%20demo%20RTIndustry&amp;body=Buongiorno%2C%0D%0Avorrei%20richiedere%20una%20demo%20di%20RTIndustry.%0D%0A%0D%0AAzienda%3A%0D%0ASede%20%28citt%C3%A0%29%3A%0D%0AMacchine%20da%20collegare%20%28marca%2C%20modello%20e%20controllo%20CNC/PLC%29%3A%0D%0ANumero%20di%20macchine%3A%0D%0AReferente%20%28nome%20e%20ruolo%29%3A%0D%0ATelefono%3A%0D%0ANote%3A%0D%0A%0D%0AGrazie." class="btn-cta-primary">Richiedi una demo</a>
+                    <a href="#come-funziona" class="btn-cta-secondary">Come funziona</a>
+                </div>
+                <div class="col-lg-5">
+                    <div class="pannello" role="img" aria-label="Esempio di elenco installazioni con stato online, offline e avviso">
+                        <div class="riga"><span class="pallino" style="background:#22c55e"></span><span class="nome">TORNIO-01 · Officina Demo</span><span class="stato">online</span></div>
+                        <div class="riga"><span class="pallino" style="background:#22c55e"></span><span class="nome">FRESA-02 · Officina Demo</span><span class="stato">online</span></div>
+                        <div class="riga"><span class="pallino" style="background:#f59e0b"></span><span class="nome">CENTRO-03 · Cliente di esempio</span><span class="stato">avviso disco</span></div>
+                        <div class="riga"><span class="pallino" style="background:#94a3b8"></span><span class="nome">RETTIFICA-01 · Cliente di esempio</span><span class="stato">offline</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sezione">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-tag success">Funzionalità</span>
+                <h2 class="section-title">Licenze, installazioni ed eventi</h2>
+                <p class="section-subtitle">Ogni postazione RTIndustry verifica la sua licenza con il Site Manager e invia periodicamente un riepilogo di stato. Il lavoro in officina non dipende dalla connessione: se manca, RTIndustry continua a raccogliere i dati e riprova da solo.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3"><div class="card-hover"><div class="card-icon success"><i class="bi bi-key" aria-hidden="true"></i></div><h3 class="h5" style="font-weight:700;color:var(--primary)">Licenze e posti</h3><p style="color:#5b6570;font-size:.93rem;margin:0">Chiavi nel formato XXXX-XXXX-XXXX-XXXX con scadenza, stato (attiva, sospesa, revocata) e numero di posti, cioè di PC che possono usarle.</p></div></div>
+                <div class="col-md-6 col-lg-3"><div class="card-hover"><div class="card-icon success"><i class="bi bi-pc-display" aria-hidden="true"></i></div><h3 class="h5" style="font-weight:700;color:var(--primary)">Installazioni</h3><p style="color:#5b6570;font-size:.93rem;margin:0">Stato online e offline di ogni postazione, versione del programma e ultimo contatto. Le postazioni si registrano da sole all'attivazione.</p></div></div>
+                <div class="col-md-6 col-lg-3"><div class="card-hover"><div class="card-icon success"><i class="bi bi-activity" aria-hidden="true"></i></div><h3 class="h5" style="font-weight:700;color:var(--primary)">Stato e avvisi</h3><p style="color:#5b6570;font-size:.93rem;margin:0">Riepilogo periodico di produzione e salute del PC (per esempio lo spazio disco), con avvisi per le postazioni che non si fanno sentire.</p></div></div>
+                <div class="col-md-6 col-lg-3"><div class="card-hover"><div class="card-icon success"><i class="bi bi-person-badge" aria-hidden="true"></i></div><h3 class="h5" style="font-weight:700;color:var(--primary)">Area clienti</h3><p style="color:#5b6570;font-size:.93rem;margin:0">Il cliente vede le sue installazioni, libera un posto disattivando un vecchio PC e scarica l'installer aggiornato, senza chiamare l'assistenza.</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sezione chiara" id="come-funziona">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-tag accent">Come funziona</span>
+                <h2 class="section-title">Dalla postazione al pannello</h2>
+            </div>
+            <div class="flow mt-4">
+                <div class="nodo"><i class="bi bi-cpu" aria-hidden="true"></i><h3>Postazione RTIndustry</h3><p>Sul PC dell'officina, collegata al CNC o al PLC. Attiva la licenza con la chiave.</p></div>
+                <div class="freccia" aria-hidden="true"><i class="bi bi-arrow-right"></i></div>
+                <div class="nodo"><i class="bi bi-cloud-check" aria-hidden="true"></i><h3>Site Manager</h3><p>Verifica la licenza, registra l'installazione e riceve un riepilogo di stato ogni 5 minuti. Funziona anche attraverso il proxy aziendale.</p></div>
+                <div class="freccia" aria-hidden="true"><i class="bi bi-arrow-right"></i></div>
+                <div class="nodo"><i class="bi bi-people" aria-hidden="true"></i><h3>Chi gestisce</h3><p>Integratori e rivenditori seguono le proprie installazioni; il cliente usa l'area clienti.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sezione">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-tag success">Accessi</span>
+                <h2 class="section-title">Ognuno vede solo ciò che gli compete</h2>
+            </div>
+            <div class="row g-4 mt-2">
+                <div class="col-md-4"><div class="ruolo"><h3>Amministratore</h3><ul class="feature-check mb-0"><li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Tutte le licenze e le installazioni</li><li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Gestione di utenti e ruoli</li><li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Assegnazione delle licenze ai rivenditori</li></ul></div></div>
+                <div class="col-md-4"><div class="ruolo"><h3>Rivenditore</h3><ul class="feature-check mb-0"><li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Solo le licenze e le installazioni assegnate</li><li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Stato ed eventi dei propri clienti</li><li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Nessun accesso ai dati di altri rivenditori</li></ul></div></div>
+                <div class="col-md-4"><div class="ruolo"><h3>Osservatore</h3><ul class="feature-check mb-0"><li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Consultazione in sola lettura</li><li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Licenze, installazioni ed eventi</li><li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Nessuna modifica</li></ul></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Gestisci più officine?</h2>
+            <p>Scrivici per diventare rivenditore o integratore RTIndustry e ricevere l'accesso al Site Manager.</p>
+            <a href="mailto:demo@rtindustry.it?subject=Richiesta%20demo%20RTIndustry&amp;body=Buongiorno%2C%0D%0Avorrei%20richiedere%20una%20demo%20di%20RTIndustry.%0D%0A%0D%0AAzienda%3A%0D%0ASede%20%28citt%C3%A0%29%3A%0D%0AMacchine%20da%20collegare%20%28marca%2C%20modello%20e%20controllo%20CNC/PLC%29%3A%0D%0ANumero%20di%20macchine%3A%0D%0AReferente%20%28nome%20e%20ruolo%29%3A%0D%0ATelefono%3A%0D%0ANote%3A%0D%0A%0D%0AGrazie." class="btn-cta-primary">Richiedi una demo</a>
+            <p class="contatti-cta mt-4 mb-0" style="opacity:.75">Informazioni commerciali: <a href="mailto:demo@rtindustry.it?subject=Richiesta%20demo%20RTIndustry&amp;body=Buongiorno%2C%0D%0Avorrei%20richiedere%20una%20demo%20di%20RTIndustry.%0D%0A%0D%0AAzienda%3A%0D%0ASede%20%28citt%C3%A0%29%3A%0D%0AMacchine%20da%20collegare%20%28marca%2C%20modello%20e%20controllo%20CNC/PLC%29%3A%0D%0ANumero%20di%20macchine%3A%0D%0AReferente%20%28nome%20e%20ruolo%29%3A%0D%0ATelefono%3A%0D%0ANote%3A%0D%0A%0D%0AGrazie.">demo@rtindustry.it</a> · Assistenza clienti: <a href="mailto:assistenza@rtindustry.it">assistenza@rtindustry.it</a></p>
+        </div>
+    </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h2 class="h6"><span style="color:var(--accent)">RT</span>Industry</h2>
+                    <p>Software per il monitoraggio in tempo reale di macchine CNC e PLC: work order, OEE, energia, allarmi e report.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h2 class="h6">Navigazione</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="../">Prodotto</a></li>
+                        <li><a href="../site-manager/">Site Manager</a></li>
+                        <li><a href="../documentazione/">Documentazione tecnica</a></li>
+                        <li><a href="../manuale/">Manuale d'uso</a></li>
+                        <li><a href="../developers/">Integrazione ERP e MES</a></li>
+                        <!-- Sezione prezzi temporaneamente nascosta. -->
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h2 class="h6">Contatti</h2>
+                    <ul class="list-unstyled contact-line">
+                        <li><i class="bi bi-calendar-check me-2" aria-hidden="true"></i>Demo e informazioni: <a href="mailto:demo@rtindustry.it?subject=Richiesta%20demo%20RTIndustry&amp;body=Buongiorno%2C%0D%0Avorrei%20richiedere%20una%20demo%20di%20RTIndustry.%0D%0A%0D%0AAzienda%3A%0D%0ASede%20%28citt%C3%A0%29%3A%0D%0AMacchine%20da%20collegare%20%28marca%2C%20modello%20e%20controllo%20CNC/PLC%29%3A%0D%0ANumero%20di%20macchine%3A%0D%0AReferente%20%28nome%20e%20ruolo%29%3A%0D%0ATelefono%3A%0D%0ANote%3A%0D%0A%0D%0AGrazie.">demo@rtindustry.it</a></li>
+                        <li><i class="bi bi-life-preserver me-2" aria-hidden="true"></i>Assistenza clienti: <a href="mailto:assistenza@rtindustry.it">assistenza@rtindustry.it</a></li>
+                    </ul>
+                    <h2 class="h6 mt-3">Legale</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="../privacy/">Privacy Policy</a></li>
+                        <li><a href="../cookie-policy/">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <p class="text-center mb-0">&copy; <span class="anno-corrente"></span> RTIndustry. Tutti i diritti riservati.</p>
+        </div>
+    </footer>
+    <script>document.querySelectorAll('.anno-corrente').forEach(function (e) { e.textContent = new Date().getFullYear(); });</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+.DS_Store
+Thumbs.db
+*.log
+node_modules/
+.env
+data/users.json
+data/sync_config.json
+__pycache__/
+*.lnk

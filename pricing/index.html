@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<!--
+  Sezione prezzi temporaneamente nascosta.
+  Questa pagina resta nel sorgente ma NON viene pubblicata: il workflow
+  .github/workflows/deploy.yml la esclude e al suo posto pubblica un rimando
+  alla home (noindex). Per ripristinarla: togliere l'esclusione e il rimando dal
+  workflow, togliere il meta robots noindex qui sotto e rimettere i collegamenti
+  (menu, piè di pagina, sitemap.xml, llms.txt).
+-->
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing &amp; Licensing — RTIndustry IIoT</title>
+    <meta name="description" content="Prezzi e modello di licenza RTIndustry IIoT. Trial gratuito 30 giorni, licenza per macchina, Site Manager incluso.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link href="../css/common.css" rel="stylesheet">
+    <style>
+        .hero {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 80px 0 70px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero h1 { font-size: 2.8rem; font-weight: 800; line-height: 1.15; margin-bottom: 24px; }
+        .hero h1 span { color: var(--accent-light); }
+        .hero p.lead { font-size: 1.2rem; opacity: 0.9; margin-bottom: 0; max-width: 600px; }
+
+        /* Pricing cards */
+        .pricing-section { padding: 80px 0; }
+        .pricing-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 20px;
+            padding: 40px 32px;
+            height: 100%;
+            transition: all 0.2s;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .pricing-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+        }
+        .pricing-card.featured {
+            border-color: var(--accent);
+            box-shadow: 0 8px 40px rgba(230,57,70,0.12);
+        }
+        .pricing-card.featured .popular-badge {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient-accent);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 6px 20px;
+            border-radius: 20px;
+        }
+        .pricing-card .plan-icon {
+            width: 56px; height: 56px; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; margin-bottom: 20px;
+        }
+        .plan-icon.trial { background: rgba(42,157,143,0.1); color: var(--success); }
+        .plan-icon.pro { background: rgba(230,57,70,0.1); color: var(--accent); }
+        .plan-icon.enterprise { background: rgba(26,58,92,0.1); color: var(--primary); }
+        .pricing-card h3 { font-size: 1.3rem; font-weight: 800; color: var(--primary); margin-bottom: 8px; }
+        .pricing-card .plan-desc { color: #6c757d; font-size: 0.92rem; margin-bottom: 24px; }
+        .pricing-card .price { font-size: 2.6rem; font-weight: 800; color: var(--primary); line-height: 1; }
+        .pricing-card .price .currency { font-size: 1.4rem; vertical-align: top; }
+        .pricing-card .price-period { color: #6c757d; font-size: 0.88rem; margin-bottom: 8px; }
+        .pricing-card .price-note { color: #6c757d; font-size: 0.82rem; margin-bottom: 24px; }
+        .pricing-card .plan-features {
+            list-style: none; padding: 0; margin: 0 0 32px; flex: 1;
+        }
+        .pricing-card .plan-features li {
+            padding: 8px 0; font-size: 0.92rem; color: #444;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .pricing-card .plan-features li:last-child { border-bottom: none; }
+        .pricing-card .plan-features li i { margin-right: 10px; }
+        .pricing-card .plan-features li i.bi-check-circle-fill { color: var(--success); }
+        .pricing-card .plan-features li i.bi-x-circle { color: #ccc; }
+        .pricing-card .plan-features li.disabled { color: #bbb; }
+
+        .btn-plan {
+            display: block; width: 100%; padding: 14px; border-radius: 10px;
+            font-weight: 600; font-size: 1rem; text-decoration: none; text-align: center;
+            transition: all 0.2s; border: 2px solid transparent;
+        }
+        .btn-plan.primary {
+            background: var(--gradient-accent); color: white;
+        }
+        .btn-plan.primary:hover {
+            box-shadow: 0 6px 20px rgba(230,57,70,0.35); transform: translateY(-1px); color: white;
+        }
+        .btn-plan.outline {
+            background: white; color: var(--primary); border-color: #dee2e6;
+        }
+        .btn-plan.outline:hover {
+            border-color: var(--primary); background: rgba(26,58,92,0.04);
+        }
+
+        /* Come funziona il licensing */
+        .licensing-section { background: var(--light-bg); padding: 80px 0; }
+
+        .status-card {
+            background: white; border: 1px solid #e9ecef; border-radius: 16px;
+            padding: 24px; height: 100%; transition: all 0.2s;
+        }
+        .status-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+        .status-badge {
+            display: inline-block; padding: 4px 12px; border-radius: 8px;
+            font-size: 0.75rem; font-weight: 700; margin-bottom: 12px;
+        }
+        .status-badge.green { background: #d4edda; color: #155724; }
+        .status-badge.yellow { background: #fff3cd; color: #856404; }
+        .status-badge.orange { background: #ffe0cc; color: #8b4000; }
+        .status-badge.red { background: #f8d7da; color: #721c24; }
+        .status-badge.gray { background: #e9ecef; color: #495057; }
+        .status-card h5 { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+        .status-card p { font-size: 0.88rem; color: #6c757d; margin: 0; }
+
+        /* Timeline */
+        .timeline-section { padding: 80px 0; }
+        .timeline { position: relative; padding-left: 40px; }
+        .timeline::before {
+            content: ''; position: absolute; left: 15px; top: 0; bottom: 0;
+            width: 3px; background: #e9ecef; border-radius: 2px;
+        }
+        .timeline-item { position: relative; padding-bottom: 40px; }
+        .timeline-item:last-child { padding-bottom: 0; }
+        .timeline-dot {
+            position: absolute; left: -40px; top: 2px;
+            width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.85rem; color: white; font-weight: 700;
+            z-index: 1;
+        }
+        .timeline-dot.green { background: var(--success); }
+        .timeline-dot.yellow { background: #f0ad4e; }
+        .timeline-dot.orange { background: #e67e22; }
+        .timeline-dot.red { background: var(--accent); }
+        .timeline-item h5 { font-size: 1.05rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+        .timeline-item p { font-size: 0.92rem; color: #6c757d; margin: 0; }
+
+        /* FAQ */
+        .faq-section { background: var(--light-bg); padding: 80px 0; }
+        .faq-item {
+            background: white; border: 1px solid #e9ecef; border-radius: 12px;
+            padding: 24px 28px; margin-bottom: 12px;
+        }
+        .faq-item summary {
+            font-weight: 700; color: var(--primary); font-size: 1rem;
+            cursor: pointer; list-style: none; display: flex; align-items: center; gap: 12px;
+        }
+        .faq-item summary::-webkit-details-marker { display: none; }
+        .faq-item summary::before {
+            content: '+'; font-size: 1.4rem; font-weight: 400; color: var(--accent);
+            width: 28px; text-align: center; flex-shrink: 0; transition: transform 0.2s;
+        }
+        .faq-item[open] summary::before { content: '\2212'; }
+        .faq-item .faq-answer { padding-top: 16px; color: #555; font-size: 0.95rem; line-height: 1.7; }
+
+        /* Grace period */
+        .grace-section { padding: 80px 0; }
+        .grace-card {
+            background: white; border-radius: 16px; padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid #e9ecef;
+        }
+
+        /* CTA */
+        .cta-section { background: var(--dark); color: white; padding: 80px 0; text-align: center; }
+        .cta-section h2 { font-size: 2.4rem; font-weight: 800; margin-bottom: 16px; }
+        .cta-section p { font-size: 1.15rem; opacity: 0.8; max-width: 550px; margin: 0 auto 32px; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .pricing-card { padding: 32px 24px; }
+            .pricing-card .price { font-size: 2.2rem; }
+            .timeline { padding-left: 36px; }
+            .timeline-dot { left: -36px; width: 28px; height: 28px; font-size: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="site-nav" aria-label="Menu principale">
+        <div class="container">
+            <a href="../" class="nav-brand" aria-label="RTIndustry, pagina principale"><span class="brand-accent">RT</span>Industry</a>
+            <button class="nav-toggle" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="menu-principale" onclick="var m=document.getElementById('menu-principale');this.setAttribute('aria-expanded',m.classList.toggle('open'))">
+                <i class="bi bi-list" aria-hidden="true"></i>
+            </button>
+            <!-- Sezione prezzi temporaneamente nascosta: la voce "Prezzi" (../pricing/) tornerà qui. -->
+            <ul class="nav-links" id="menu-principale">
+                <li><a href="../">Prodotto</a></li>
+                <li><a href="../site-manager/">Site Manager</a></li>
+                <li><a href="../documentazione/">Documentazione</a></li>
+                <li><a href="../manuale/">Manuale</a></li>
+                <li><a href="../developers/">Integrazione ERP</a></li>
+                <li><a href="mailto:demo@rtindustry.it?subject=Richiesta%20demo%20RTIndustry&amp;body=Buongiorno%2C%0D%0Avorrei%20richiedere%20una%20demo%20di%20RTIndustry.%0D%0A%0D%0AAzienda%3A%0D%0ASede%20%28citt%C3%A0%29%3A%0D%0AMacchine%20da%20collegare%20%28marca%2C%20modello%20e%20controllo%20CNC/PLC%29%3A%0D%0ANumero%20di%20macchine%3A%0D%0AReferente%20%28nome%20e%20ruolo%29%3A%0D%0ATelefono%3A%0D%0ANote%3A%0D%0A%0D%0AGrazie." class="nav-cta">Richiedi una demo</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container text-center">
+            <span class="section-tag white" style="margin-bottom:24px">Pricing &amp; Licensing</span>
+            <h1>Un prezzo semplice,<br><span>per macchina.</span></h1>
+            <p class="lead mx-auto">
+                Licenza annuale per ogni macchina connessa. Trial gratuito di 30 giorni, senza carta di credito.
+                Site Manager incluso per gestire tutte le installazioni.
+            </p>
+        </div>
+    </section>
+
+    <!-- PRICING CARDS -->
+    <section class="pricing-section">
+        <div class="container">
+            <div class="row g-4 justify-content-center">
+                <!-- Trial -->
+                <div class="col-lg-4">
+                    <div class="pricing-card">
+                        <div class="plan-icon trial"><i class="bi bi-gift"></i></div>
+                        <h3>Trial Gratuito</h3>
+                        <p class="plan-desc">Prova tutte le funzionalità per 30 giorni senza impegno.</p>
+                        <div class="price">Gratis</div>
+                        <div class="price-period">30 giorni &middot; 1 macchina</div>
+                        <div class="price-note">Attivazione automatica — anche senza connessione al Site Manager</div>
+                        <ul class="plan-features">
+                            <li><i class="bi bi-check-circle-fill"></i> HMI operatore completo</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Calcolo OEE automatico</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Telemetria &amp; Energy Tracking</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Kanban Board</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Analisi ordini di lavoro</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Tutti i protocolli (OPC UA, Modbus, FOCAS, DNC)</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Funziona offline — nessun server richiesto</li>
+                            <li class="disabled"><i class="bi bi-x-circle"></i> Supporto tecnico</li>
+                        </ul>
+                        <a href="mailto:demo@rtindustry.it?subject=Richiesta%20demo%20RTIndustry&amp;body=Buongiorno%2C%0D%0Avorrei%20richiedere%20una%20demo%20di%20RTIndustry.%0D%0A%0D%0AAzienda%3A%0D%0ASede%20%28citt%C3%A0%29%3A%0D%0AMacchine%20da%20collegare%20%28marca%2C%20modello%20e%20controllo%20CNC/PLC%29%3A%0D%0ANumero%20di%20macchine%3A%0D%0AReferente%20%28nome%20e%20ruolo%29%3A%0D%0ATelefono%3A%0D%0ANote%3A%0D%0A%0D%0AGrazie." class="btn-plan outline">Inizia il Trial</a>
+                    </div>
+                </div>
+
+                <!-- Professional -->
+                <div class="col-lg-4">
+                    <div class="pricing-card featured">
+                        <div class="popular-badge">Consigliato</div>
+                        <div class="plan-icon pro"><i class="bi bi-rocket-takeoff"></i></div>
+                        <h3>Professional</h3>
+                        <p class="plan-desc">Per officine che vogliono il controllo totale della produzione.</p>
+                        <div class="price"><span class="currency">&euro;</span>490</div>
+                        <div class="price-period">per macchina / anno</div>
+                        <div class="price-note">&euro;40,80/mese &middot; fatturazione annuale</div>
+                        <ul class="plan-features">
+                            <li><i class="bi bi-check-circle-fill"></i> Tutto incluso nel Trial</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Licenza annuale rinnovabile</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Site Manager incluso</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Aggiornamenti software</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Supporto tecnico via email</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Grace period offline 7 giorni</li>
+                        </ul>
+                        <a href="mailto:demo@rtindustry.it?subject=Richiesta%20demo%20RTIndustry&amp;body=Buongiorno%2C%0D%0Avorrei%20richiedere%20una%20demo%20di%20RTIndustry.%0D%0A%0D%0AAzienda%3A%0D%0ASede%20%28citt%C3%A0%29%3A%0D%0AMacchine%20da%20collegare%20%28marca%2C%20modello%20e%20controllo%20CNC/PLC%29%3A%0D%0ANumero%20di%20macchine%3A%0D%0AReferente%20%28nome%20e%20ruolo%29%3A%0D%0ATelefono%3A%0D%0ANote%3A%0D%0A%0D%0AGrazie." class="btn-plan primary">Richiedi Preventivo</a>
+                    </div>
+                </div>
+
+                <!-- Enterprise -->
+                <div class="col-lg-4">
+                    <div class="pricing-card">
+                        <div class="plan-icon enterprise"><i class="bi bi-building"></i></div>
+                        <h3>Enterprise</h3>
+                        <p class="plan-desc">Per aziende con molte macchine o esigenze particolari.</p>
+                        <div class="price">Su misura</div>
+                        <div class="price-period">da 5 macchine in su</div>
+                        <div class="price-note">Sconti volume &middot; fatturazione personalizzata</div>
+                        <ul class="plan-features">
+                            <li><i class="bi bi-check-circle-fill"></i> Tutto incluso nel Professional</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Sconti volume progressivi</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Supporto tecnico prioritario</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Personalizzazioni su richiesta</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Formazione operatori inclusa</li>
+                            <li><i class="bi bi-check-circle-fill"></i> SLA dedicato</li>
+                        </ul>
+                        <a href="mailto:demo@rtindustry.it?subject=Richiesta%20demo%20RTIndustry&amp;body=Buongiorno%2C%0D%0Avorrei%20richiedere%20una%20demo%20di%20RTIndustry.%0D%0A%0D%0AAzienda%3A%0D%0ASede%20%28citt%C3%A0%29%3A%0D%0AMacchine%20da%20collegare%20%28marca%2C%20modello%20e%20controllo%20CNC/PLC%29%3A%0D%0ANumero%20di%20macchine%3A%0D%0AReferente%20%28nome%20e%20ruolo%29%3A%0D%0ATelefono%3A%0D%0ANote%3A%0D%0A%0D%0AGrazie." class="btn-plan outline">Contattaci</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COME FUNZIONA IL LICENSING -->
+    <section class="licensing-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="section-tag accent">Licensing</span>
+                <h2 class="section-title">Come funziona la licenza</h2>
+                <p class="section-subtitle">Il sistema di licensing è integrato nella piattaforma. Nessuna configurazione manuale: si attiva da solo alla prima connessione.</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="status-card">
+                        <div class="status-badge green">Attiva</div>
+                        <h5>Licenza valida</h5>
+                        <p>Tutte le funzionalità sono disponibili. Nessun banner o limitazione. Il sistema invia telemetria al Site Manager ogni 5 minuti.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="status-card">
+                        <div class="status-badge yellow">In scadenza</div>
+                        <h5>Meno di 7 giorni alla scadenza</h5>
+                        <p>Compare un banner giallo con il conto alla rovescia. Tutto continua a funzionare normalmente. È il momento di rinnovare.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="status-card">
+                        <div class="status-badge orange">Sola lettura</div>
+                        <h5>Scaduta da meno di 30 giorni</h5>
+                        <p>Il Kanban è visibile ma le scritture sono bloccate: non si possono creare, modificare o spostare ordini di lavoro.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="status-card">
+                        <div class="status-badge red">Bloccata</div>
+                        <h5>Scaduta da oltre 30 giorni</h5>
+                        <p>L'interfaccia reindirizza alla pagina di login. Per ripristinare l'accesso è necessario rinnovare la licenza.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="status-card">
+                        <div class="status-badge gray">Nessuna licenza</div>
+                        <h5>Trial locale automatico (30 giorni)</h5>
+                        <p>Anche senza Site Manager o connessione Internet, l'installazione funziona in modalità trial per 30 giorni dalla data di installazione. Accesso completo a tutte le funzionalità, inclusi Kanban, configurazione e settings.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="status-card">
+                        <div class="status-badge green">Trial</div>
+                        <h5>Auto-provisioning (con Site Manager)</h5>
+                        <p>Se configurato il Site Manager, il sistema richiede automaticamente una licenza trial di 30 giorni. Se il Site Manager non è raggiungibile, il trial locale si attiva comunque.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCADENZA GRADUALE - Timeline -->
+    <section class="timeline-section">
+        <div class="container">
+            <div class="row g-5 align-items-start">
+                <div class="col-lg-5">
+                    <span class="section-tag success">Scadenza graduale</span>
+                    <h2 class="section-title">Nessun blocco improvviso</h2>
+                    <p style="color:#555;font-size:1.05rem;margin-bottom:24px">
+                        La licenza non si blocca da un giorno all'altro. Il sistema applica una transizione graduale
+                        per minimizzare l'impatto sulla produzione e darti il tempo di rinnovare.
+                    </p>
+                </div>
+                <div class="col-lg-7">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-dot green"><i class="bi bi-check-lg"></i></div>
+                            <h5>Licenza attiva</h5>
+                            <p>Tutte le funzionalità disponibili. Nessun banner visibile. La macchina lavora senza interruzioni.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot yellow"><i class="bi bi-exclamation"></i></div>
+                            <h5>7 giorni prima della scadenza</h5>
+                            <p>Compare un banner giallo di avviso. Tutto continua a funzionare. Contatta il fornitore per rinnovare.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot orange"><i class="bi bi-eye"></i></div>
+                            <h5>Giorno della scadenza</h5>
+                            <p>Modalità sola lettura. I dati sono visibili ma non si possono creare o modificare ordini di lavoro nel Kanban.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot red"><i class="bi bi-lock"></i></div>
+                            <h5>30 giorni dopo la scadenza</h5>
+                            <p>Blocco totale dell'interfaccia. È necessario rinnovare la licenza per ripristinare l'accesso.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GRACE PERIOD -->
+    <section class="faq-section">
+        <div class="container">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-5">
+                    <span class="section-tag accent">Offline</span>
+                    <h2 class="section-title">Funziona anche offline</h2>
+                    <p style="color:#555;font-size:1.05rem">
+                        RTIndustry non richiede una connessione Internet per funzionare. Le nuove installazioni
+                        hanno un trial locale automatico di 30 giorni. Con licenza attiva, se il Site Manager
+                        diventa irraggiungibile, la macchina continua a funzionare per 7 giorni.
+                    </p>
+                    <ul class="feature-check" style="margin-top:20px">
+                        <li><i class="bi bi-check-circle-fill"></i> Trial locale 30 giorni senza alcun server</li>
+                        <li><i class="bi bi-check-circle-fill"></i> 7 giorni di grace period con licenza attiva</li>
+                        <li><i class="bi bi-check-circle-fill"></i> Riconnessione e rivalidazione automatica</li>
+                        <li><i class="bi bi-check-circle-fill"></i> Nessun dato perso durante il periodo offline</li>
+                        <li><i class="bi bi-check-circle-fill"></i> Pagina Settings sempre accessibile per configurare la licenza</li>
+                    </ul>
+                </div>
+                <div class="col-lg-7">
+                    <div class="grace-card">
+                        <h5 style="font-weight:700;color:var(--primary);margin-bottom:20px"><i class="bi bi-wifi-off me-2"></i>Cosa succede senza connessione</h5>
+                        <table class="table table-sm mb-0" style="font-size:0.9rem">
+                            <thead>
+                                <tr><th>Scenario</th><th>Comportamento</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Nuova installazione senza licenza e senza SM</td>
+                                    <td><span class="status-badge green" style="font-size:.7rem">Trial locale 30gg</span> Accesso completo per 30 giorni dalla data di installazione</td>
+                                </tr>
+                                <tr>
+                                    <td>Con licenza, SM irraggiungibile, mai validata</td>
+                                    <td><span class="status-badge green" style="font-size:.7rem">Grazia 7gg</span> Funziona per 7 giorni dalla data di installazione</td>
+                                </tr>
+                                <tr>
+                                    <td>Ultima validazione &lt; 7 giorni fa</td>
+                                    <td><span class="status-badge green" style="font-size:.7rem">Stato invariato</span> Mantiene lo stato precedente</td>
+                                </tr>
+                                <tr>
+                                    <td>Ultima validazione &gt; 7 giorni fa (con licenza)</td>
+                                    <td><span class="status-badge red" style="font-size:.7rem">Blocco</span> Passa a blocco totale</td>
+                                </tr>
+                                <tr>
+                                    <td>Connessione ripristinata</td>
+                                    <td><span class="status-badge green" style="font-size:.7rem">Automatico</span> Rivalidazione immediata</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="timeline-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="section-tag success">FAQ</span>
+                <h2 class="section-title">Domande frequenti</h2>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <details class="faq-item">
+                        <summary>Come si attiva il trial gratuito?</summary>
+                        <div class="faq-answer">
+                            Basta installare RTIndustry. Il trial di 30 giorni si attiva automaticamente dalla data di installazione,
+                            anche senza connessione al Site Manager o a Internet. Se il Site Manager è configurato, il sistema
+                            richiede una licenza trial remota; altrimenti funziona in modalità trial locale con accesso completo a tutte le funzionalità.
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Cosa succede alla fine del trial?</summary>
+                        <div class="faq-answer">
+                            Alla scadenza del trial, il sistema applica la scadenza graduale: prima sola lettura per 30 giorni,
+                            poi blocco totale. Per continuare a usare tutte le funzionalità, è sufficiente acquistare una licenza Professional
+                            e inserire la chiave di licenza.
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>La licenza è legata alla macchina?</summary>
+                        <div class="faq-answer">
+                            Sì. Ogni licenza è associata a un dispositivo tramite il suo fingerprint hardware (una combinazione di indirizzo MAC,
+                            hostname e identificativo del sistema operativo). Non è possibile usare la stessa licenza su un'altra macchina.
+                            In caso di sostituzione hardware, contattare il supporto per il trasferimento.
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Serve una connessione Internet?</summary>
+                        <div class="faq-answer">
+                            No. RTIndustry funziona interamente on-premise: non serve Internet per il monitoraggio della macchina.
+                            La connessione al Site Manager (LAN o Internet) serve solo per la validazione della licenza e la telemetria.
+                            Senza connessione, il trial locale di 30 giorni si attiva automaticamente. Con licenza attiva, il grace period
+                            di 7 giorni mantiene il funzionamento anche se il Site Manager diventa irraggiungibile.
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Il Site Manager è incluso nel prezzo?</summary>
+                        <div class="faq-answer">
+                            Sì. L'accesso al Site Manager è incluso in tutte le licenze Professional e Enterprise.
+                            Il Site Manager può essere ospitato dal rivenditore o dall'azienda stessa su un proprio server.
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Come funziona il rinnovo?</summary>
+                        <div class="faq-answer">
+                            La licenza si rinnova annualmente. 7 giorni prima della scadenza, il sistema mostra un banner di avviso.
+                            Il rinnovo viene gestito dal Site Manager: il rivenditore o l'amministratore aggiorna la data di scadenza
+                            e la macchina la riceve automaticamente alla successiva validazione.
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Posso avere sconti per più macchine?</summary>
+                        <div class="faq-answer">
+                            Sì. A partire da 5 macchine sono disponibili sconti volume progressivi con il piano Enterprise.
+                            Contattaci per un preventivo personalizzato in base al numero di macchine e alle esigenze specifiche.
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" id="contatti">
+        <div class="container">
+            <h2>Pronto a partire?</h2>
+            <p>Richiedi una demo gratuita o inizia subito con il trial di 30 giorni. Senza carta di credito, senza impegno.</p>
+            <a href="mailto:demo@rtindustry.it?subject=Richiesta%20demo%20RTIndustry&amp;body=Buongiorno%2C%0D%0Avorrei%20richiedere%20una%20demo%20di%20RTIndustry.%0D%0A%0D%0AAzienda%3A%0D%0ASede%20%28citt%C3%A0%29%3A%0D%0AMacchine%20da%20collegare%20%28marca%2C%20modello%20e%20controllo%20CNC/PLC%29%3A%0D%0ANumero%20di%20macchine%3A%0D%0AReferente%20%28nome%20e%20ruolo%29%3A%0D%0ATelefono%3A%0D%0ANote%3A%0D%0A%0D%0AGrazie." class="btn-cta-primary" style="font-size:1.2rem;padding:16px 48px">Richiedi una demo</a>
+            <p style="margin-top:20px;font-size:.9rem;opacity:.5">Oppure scrivici a demo@rtindustry.it</p>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h2 class="h6"><span style="color:var(--accent)">RT</span>Industry</h2>
+                    <p>Software per il monitoraggio in tempo reale di macchine CNC e PLC: work order, OEE, energia, allarmi e report.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h2 class="h6">Navigazione</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="../">Prodotto</a></li>
+                        <li><a href="../site-manager/">Site Manager</a></li>
+                        <li><a href="../documentazione/">Documentazione tecnica</a></li>
+                        <li><a href="../manuale/">Manuale d'uso</a></li>
+                        <li><a href="../developers/">Integrazione ERP e MES</a></li>
+                        <!-- Sezione prezzi temporaneamente nascosta. -->
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h2 class="h6">Contatti</h2>
+                    <ul class="list-unstyled contact-line">
+                        <li><i class="bi bi-calendar-check me-2" aria-hidden="true"></i>Demo e informazioni: <a href="mailto:demo@rtindustry.it?subject=Richiesta%20demo%20RTIndustry&amp;body=Buongiorno%2C%0D%0Avorrei%20richiedere%20una%20demo%20di%20RTIndustry.%0D%0A%0D%0AAzienda%3A%0D%0ASede%20%28citt%C3%A0%29%3A%0D%0AMacchine%20da%20collegare%20%28marca%2C%20modello%20e%20controllo%20CNC/PLC%29%3A%0D%0ANumero%20di%20macchine%3A%0D%0AReferente%20%28nome%20e%20ruolo%29%3A%0D%0ATelefono%3A%0D%0ANote%3A%0D%0A%0D%0AGrazie.">demo@rtindustry.it</a></li>
+                        <li><i class="bi bi-life-preserver me-2" aria-hidden="true"></i>Assistenza clienti: <a href="mailto:assistenza@rtindustry.it">assistenza@rtindustry.it</a></li>
+                    </ul>
+                    <h2 class="h6 mt-3">Legale</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="../privacy/">Privacy Policy</a></li>
+                        <li><a href="../cookie-policy/">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <p class="text-center mb-0">&copy; <span class="anno-corrente"></span> RTIndustry. Tutti i diritti riservati.</p>
+        </div>
+    </footer>
+    <script>document.querySelectorAll('.anno-corrente').forEach(function (e) { e.textContent = new Date().getFullYear(); });</script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

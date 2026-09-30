@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentazione tecnica RTIndustry 2.0 — Requisiti, installazione, collegamento macchina</title>
+    <meta name="description" content="Documentazione tecnica di RTIndustry 2.0: requisiti del PC, installazione del servizio Windows, configurazione guidata, collegamento OPC UA, FANUC, Heidenhain e Modbus, licenza, backup, rete e risoluzione dei problemi.">
+    <link rel="canonical" href="https://www.rtindustry.it/documentazione/">
+    <meta name="theme-color" content="#0d1b2a">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:site_name" content="RTIndustry">
+    <meta property="og:title" content="Documentazione tecnica RTIndustry 2.0">
+    <meta property="og:description" content="Requisiti, installazione, collegamento alla macchina, licenza, backup e risoluzione dei problemi.">
+    <meta property="og:url" content="https://www.rtindustry.it/documentazione/">
+    <meta property="og:image" content="https://www.rtindustry.it/img/rtindustry-anteprima.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link href="../css/common.css" rel="stylesheet">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "TechArticle",
+          "headline": "Documentazione tecnica RTIndustry 2.0",
+          "description": "Requisiti, installazione, configurazione guidata, collegamento alla macchina, licenza, backup, rete e risoluzione dei problemi di RTIndustry 2.0.",
+          "inLanguage": "it-IT",
+          "url": "https://www.rtindustry.it/documentazione/",
+          "about": { "@type": "SoftwareApplication", "name": "RTIndustry", "softwareVersion": "2.0", "operatingSystem": "Windows" },
+          "author": { "@type": "Organization", "name": "RTIndustry", "url": "https://www.rtindustry.it/" },
+          "publisher": { "@type": "Organization", "name": "RTIndustry", "url": "https://www.rtindustry.it/" }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "RTIndustry", "item": "https://www.rtindustry.it/" },
+            { "@type": "ListItem", "position": 2, "name": "Documentazione", "item": "https://www.rtindustry.it/documentazione/" }
+          ]
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+
+    <nav class="site-nav" aria-label="Menu principale">
+        <div class="container">
+            <a href="../" class="nav-brand" aria-label="RTIndustry, pagina principale"><span class="brand-accent">RT</span>Industry</a>
+            <button class="nav-toggle" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="menu-principale" onclick="var m=document.getElementById('menu-principale');this.setAttribute('aria-expanded',m.classList.toggle('open'))">
+                <i class="bi bi-list" aria-hidden="true"></i>
+            </button>
+            <!-- Sezione prezzi temporaneamente nascosta: la voce "Prezzi" (../pricing/) tornerà qui. -->
+            <ul class="nav-links" id="menu-principale">
+                <li><a href="../">Prodotto</a></li>
+                <li><a href="../site-manager/">Site Manager</a></li>
+                <li><a href="../documentazione/" class="active" aria-current="page">Documentazione</a></li>
+                <li><a href="../manuale/">Manuale</a></li>
+                <li><a href="../developers/">Integrazione ERP</a></li>
+                <li><a href="mailto:demo@rtindustry.it?subject=Richiesta%20demo%20RTIndustry&amp;body=Buongiorno%2C%0D%0Avorrei%20richiedere%20una%20demo%20di%20RTIndustry.%0D%0A%0D%0AAzienda%3A%0D%0ASede%20%28citt%C3%A0%29%3A%0D%0AMacchine%20da%20collegare%20%28marca%2C%20modello%20e%20controllo%20CNC/PLC%29%3A%0D%0ANumero%20di%20macchine%3A%0D%0AReferente%20%28nome%20e%20ruolo%29%3A%0D%0ATelefono%3A%0D%0ANote%3A%0D%0A%0D%0AGrazie." class="nav-cta">Richiedi una demo</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="docs-header">
+        <div class="container">
+            <div class="docs-breadcrumb"><a href="../">RTIndustry</a><span>/</span><a href="./">Documentazione</a></div>
+            <h1>Documentazione tecnica RTIndustry 2.0</h1>
+            <p>Per chi installa e mantiene RTIndustry: requisiti, installazione, collegamento alla macchina, licenza, rete, backup e soluzione dei problemi. Per l'uso quotidiano delle schermate c'è il <a href="../manuale/" style="color:#fff">manuale d'uso</a>.</p>
+        </div>
+    </header>
+
+    <div class="docs-layout">
+        <nav class="docs-sidebar" aria-label="Indice della documentazione">
+            <div class="gruppo">Per iniziare</div>
+            <a href="#panoramica">Panoramica</a>
+            <a href="#requisiti">Requisiti</a>
+            <a href="#verifica">Verifica prima dell'installazione</a>
+            <a href="#installazione">Installazione</a>
+            <a href="#configurazione-guidata">Configurazione guidata</a>
+            <div class="gruppo">Collegamento</div>
+            <a href="#macchina">Collegamento alla macchina</a>
+            <a href="#energia">Contatore di energia</a>
+            <a href="#turni">Turni</a>
+            <a href="#integrazione">Integrazione ERP e MES</a>
+            <div class="gruppo">Gestione</div>
+            <a href="#utenti">Utenti e registro</a>
+            <a href="#licenza">Licenza</a>
+            <a href="#rete">Rete e sicurezza</a>
+            <a href="#dati">Dati e backup</a>
+            <a href="#servizio">Servizio e icona</a>
+            <a href="#aggiornamenti">Aggiornamenti e versione 1</a>
+            <div class="gruppo">Supporto</div>
+            <a href="#problemi">Problemi frequenti</a>
+            <a href="#assistenza">Assistenza</a>
+        </nav>
+
+        <main class="docs-content">
+            <details class="docs-indice-mobile">
+                <summary>Indice</summary>
+                <a href="#panoramica">Panoramica</a>
+                <a href="#requisiti">Requisiti</a>
+                <a href="#verifica">Verifica prima dell'installazione</a>
+                <a href="#installazione">Installazione</a>
+                <a href="#configurazione-guidata">Configurazione guidata</a>
+                <a href="#macchina">Collegamento alla macchina</a>
+                <a href="#energia">Contatore di energia</a>
+                <a href="#turni">Turni</a>
+                <a href="#integrazione">Integrazione ERP e MES</a>
+                <a href="#utenti">Utenti e registro</a>
+                <a href="#licenza">Licenza</a>
+                <a href="#rete">Rete e sicurezza</a>
+                <a href="#dati">Dati e backup</a>
+                <a href="#servizio">Servizio e icona</a>
+                <a href="#aggiornamenti">Aggiornamenti e versione 1</a>
+                <a href="#problemi">Problemi frequenti</a>
+                <a href="#assistenza">Assistenza</a>
+            </details>
+
+            <h2 id="panoramica">Panoramica</h2>
+            <p>RTIndustry 2.0 è un <strong>unico servizio Windows</strong> installato su un PC collegato in rete alla macchina. Il servizio legge i dati dal controllo (CNC o PLC), li elabora e li conserva nel suo database; l'interfaccia si usa dal browser, sullo stesso PC o da qualunque PC, tablet o telefono della rete aziendale.</p>
+            <div class="tabella"><table>
+                <thead><tr><th>Componente</th><th>Cosa fa</th></tr></thead>
+                <tbody>
+                    <tr><td>Servizio <code>RTIndustry</code></td><td>Parte con Windows e raccoglie i dati anche a browser chiuso. Si riavvia da solo in caso di errore.</td></tr>
+                    <tr><td>Interfaccia web</td><td>Porta 1880: Work order, HMI macchina, Telemetria, OEE, Report, Energia, Allarmi, Storico WO, Impostazioni, Operatori e registro.</td></tr>
+                    <tr><td>Database integrato</td><td>Work order, storico dei turni, allarmi, impostazioni e registro attività. Non serve installare un database a parte.</td></tr>
+                    <tr><td>Broker MQTT integrato</td><td>Porta 1883: telemetria in uscita e comandi sui work order dai sistemi esterni autenticati.</td></tr>
+                    <tr><td>Icona nell'area di notifica</td><td>Stato del servizio e della licenza a colori, apertura della dashboard, riavvio del servizio, log.</td></tr>
+                    <tr><td>Manuale d'uso</td><td>Incluso nel programma (pulsante «? Guida» in ogni schermata) e disponibile <a href="../manuale/">online</a>.</td></tr>
+                </tbody>
+            </table></div>
+
+            <h2 id="requisiti">Requisiti</h2>
+            <div class="tabella"><table>
+                <thead><tr><th>Voce</th><th>Requisito</th></tr></thead>
+                <tbody>
+                    <tr><td>Sistema operativo</td><td>Windows 10 versione 1809 o successiva, Windows 11, Windows Server 2019 o successivo. Solo <strong>64 bit</strong>.</td></tr>
+                    <tr><td>Memoria</td><td>Almeno 4 GB consigliati (il servizio usa circa 100 MB; il resto serve a Windows e al browser).</td></tr>
+                    <tr><td>Disco</td><td>Almeno 2 GB liberi; consigliati 10 GB per conservare anni di storico e i backup.</td></tr>
+                    <tr><td>Rete verso la macchina</td><td>Collegamento Ethernet al CNC o al PLC (vedi <a href="#macchina">porte per protocollo</a>).</td></tr>
+                    <tr><td>Porte locali</td><td>1880 (interfaccia web e API) e 1883 (MQTT), aperte nel firewall di Windows dall'installer.</td></tr>
+                    <tr><td>Internet</td><td>Per la verifica della licenza, anche tramite proxy aziendale. Senza connessione il programma continua a lavorare.</td></tr>
+                    <tr><td>Alimentazione</td><td>Il PC non deve andare in sospensione: con il PC sospeso i dati non vengono raccolti.</td></tr>
+                    <tr><td>Browser</td><td>Un browser aggiornato (Chrome, Edge, Firefox, Safari) su PC, tablet o telefono.</td></tr>
+                    <tr><td>Installazione</td><td>Serve un account amministratore di Windows.</td></tr>
+                </tbody>
+            </table></div>
+
+            <h2 id="verifica">Verifica prima dell'installazione</h2>
+            <p>Lo strumento <code>Verifica-RTIndustry.bat</code> si copia su una chiavetta e si lancia sul PC del cliente <strong>prima</strong> di installare. Non modifica nulla: legge soltanto e crea una pagella sul Desktop (verde = pronto, giallo = avvisi da valutare, rosso = da risolvere prima).</p>
+            <p>Controlla versione di Windows, memoria e disco, permessi, porte 1880 e 1883, schede di rete, sospensione del PC, antivirus, proxy, raggiungibilità del servizio licenze, ora e fuso orario, raggiungibilità della macchina (ping e porta del protocollo). Dopo l'installazione lo stesso strumento si trova in <code>C:\RTIndustry\strumenti</code>.</p>
+
+            <h2 id="installazione">Installazione</h2>
+            <ol>
+                <li>Avvia l'installer di RTIndustry con un account amministratore. La cartella predefinita è <code>C:\RTIndustry</code>.</li>
+                <li>L'installer crea il servizio Windows <code>RTIndustry</code> con avvio automatico e riavvio automatico in caso di errore, apre nel firewall le porte 1880 e 1883 e protegge la cartella dei dati.</li>
+                <li>Al termine si apre il browser sulla <a href="#configurazione-guidata">configurazione guidata</a>.</li>
+            </ol>
+            <div class="tabella"><table>
+                <thead><tr><th>Cartella</th><th>Contenuto</th><th>Agli aggiornamenti</th></tr></thead>
+                <tbody>
+                    <tr><td><code>app\</code>, <code>node\</code>, <code>tray\</code></td><td>Programma, runtime e icona dell'area di notifica</td><td>Sostituite</td></tr>
+                    <tr><td><code>config\</code></td><td>Configurazione di avvio (porta, cartella dati)</td><td>Mai sovrascritta</td></tr>
+                    <tr><td><code>data\</code></td><td>Database, backup, log, identità dell'installazione</td><td>Mai toccata</td></tr>
+                    <tr><td><code>strumenti\</code></td><td>Strumento di verifica di PC, rete e macchina</td><td>Sostituita</td></tr>
+                </tbody>
+            </table></div>
+            <div class="box-attenzione">Il programma è legato al PC su cui è installato: non copiare la cartella su un altro computer. Per spostare RTIndustry su un nuovo PC si reinstalla e si trasferisce la licenza (vedi <a href="#licenza">Licenza</a>).</div>
+
+            <h2 id="configurazione-guidata">Configurazione guidata</h2>
+            <p>Compare solo la prima volta, subito dopo l'installazione. Se si chiude il browser a metà, riaprendolo si riprende dal passo a cui si era arrivati.</p>
+            <ol>
+                <li><strong>Azienda</strong>: nome dell'azienda (obbligatorio), stabilimento, reparto, nome della macchina e fuso orario (per l'Italia <code>Europe/Rome</code>, l'ora legale è automatica).</li>
+                <li><strong>Macchina</strong>: tipo di collegamento (OPC UA, FANUC, Heidenhain, Modbus TCP oppure Simulatore per dati di prova), indirizzo e <em>Prova la connessione</em>. Il riquadro verde «Macchina collegata» conferma che stato e pezzi arrivano. Se la macchina è spenta si può proseguire e riprovare più tardi dalle Impostazioni.</li>
+                <li><strong>Turni</strong>: orari di inizio e fine di ogni turno, anche a cavallo della mezzanotte.</li>
+                <li><strong>Licenza</strong>: chiave nel formato <code>XXXX-XXXX-XXXX-XXXX</code> e <em>Attiva licenza</em>. Senza chiave parte una prova gratuita di 30 giorni. In <em>Opzioni avanzate</em> si indica l'eventuale proxy aziendale.</li>
+                <li><strong>Amministratore</strong>: nome utente e password (almeno 8 caratteri) del primo amministratore.</li>
+                <li><strong>Avvio</strong>: riepilogo e <em>Avvia RTIndustry</em>.</li>
+            </ol>
+            <p><img src="../img/configurazione-guidata.webp" width="1440" height="900" loading="lazy" alt="Passo Macchina della configurazione guidata di RTIndustry" class="img-screenshot"></p>
+
+            <h2 id="macchina">Collegamento alla macchina</h2>
+            <p>Il collegamento si sceglie nella configurazione guidata e si modifica in <em>Impostazioni › Macchina e protocollo</em>. Cambiando protocollo, la configurazione precedente resta salvata. Con <em>Prova le modifiche prima di salvare</em> si verifica un nuovo indirizzo o protocollo senza toccare quello in uso.</p>
+            <div class="tabella"><table>
+                <thead><tr><th>Protocollo</th><th>Macchine</th><th>Note</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>OPC UA</strong></td><td>PLC e CNC con server OPC UA</td><td>Indirizzo <code>opc.tcp://IP:porta</code> (spesso 4840). Profili pronti per Siemens SINUMERIK 840D sl, macchine umati (OPC 40501) e gateway già usati con la versione 1. Sicurezza: nessuna, firma, firma e cifratura (Basic256Sha256, Aes128_Sha256_RsaOaep, Aes256_Sha256_RsaPss), con utente e password. Pulsanti per cercare i nodi della macchina e riconoscere il tipo di controllo.</td></tr>
+                    <tr><td><strong>FANUC FOCAS</strong></td><td>CNC FANUC con Ethernet integrata</td><td>Porta 8193 del CNC. Serie: 0i-D / 0i-F, 30i / 31i / 32i / 35i, 16i / 18i / 21i, 15 / 15i. La serie decide come si leggono gli stati.</td></tr>
+                    <tr><td><strong>Heidenhain DNC</strong></td><td>TNC 640, TNC 6xx, TNC 320, TNC 128, iTNC 530, CNC PILOT 6xx, MANUALplus 620, MillPlus IT</td><td>Porta DNC del controllo. Lettura facoltativa del contapezzi da un percorso dati del PLC (con password di accesso). Invio dei programmi al controllo da <em>Impostazioni › Cartelle e trasferimenti</em>.</td></tr>
+                    <tr><td><strong>Modbus TCP</strong></td><td>PLC e moduli di I/O</td><td>Indirizzo IP, porta (di solito 502) e Unit ID. Mappa pronta oppure registri personalizzati: holding (FC3), input (FC4), coil (FC1), ingressi (FC2); tipi da 16 e 32 bit, float e stringhe, con ordine dei byte configurabile e pulsante <em>Prova</em> per ogni registro.</td></tr>
+                    <tr><td><strong>Simulatore</strong></td><td>Nessuna macchina</td><td>Dati realistici per demo e prove in ufficio.</td></tr>
+                </tbody>
+            </table></div>
+            <h3>Variabili, stati e contapezzi</h3>
+            <p>Da ogni macchina RTIndustry legge fino a 11 variabili: stato, modo operativo, contapezzi, programma, stato e messaggio di allarme, avanzamento, override mandrino e rapido, utensile, contatore di energia. Di solito sono proposte in automatico dal profilo del protocollo; si possono cambiare in <em>Impostazioni › Variabili macchina</em>.</p>
+            <p>In <em>Mapping stati e modi · contapezzi</em> si indica come tradurre i valori della macchina negli stati di RTIndustry (In lavorazione, In pausa, Fermo, In allarme, Inattivo…) e come contare i pezzi. Il conteggio è protetto da azzeramenti e salti del contatore della macchina, anche dopo un riavvio del PC.</p>
+            <p>Se non arrivano dati per oltre 15 secondi la macchina risulta «Spenta o non raggiungibile».</p>
+
+            <h2 id="energia">Contatore di energia</h2>
+            <p>Oltre al contatore letto dalla macchina, si può collegare un <strong>contatore di energia Modbus TCP</strong> separato (<em>Impostazioni › Contatore di energia</em>), con prova di lettura. Il prezzo dell'energia in euro al kWh, usato per il costo del turno e dei periodi, si imposta in <em>Impostazioni › Servizi, energia e licenza</em>.</p>
+
+            <h2 id="turni">Turni</h2>
+            <p>I turni si definiscono con numero, ora di inizio e ora di fine, anche a cavallo della mezzanotte. Il cambio turno usa il fuso orario impostato (non l'ora del PC): all'inizio di ogni turno si azzerano i contatori del turno, mentre i work order conservano i loro totali. L'OEE e i report si possono leggere per turno.</p>
+
+            <h2 id="integrazione">Integrazione ERP e MES</h2>
+            <p>I sistemi esterni creano, modificano, avviano ed eliminano i work order e ne leggono l'avanzamento tramite <strong>API REST</strong>, <strong>tabella di scambio su database</strong> (compatibile con la versione 1) o <strong>MQTT</strong>. I canali si attivano in <em>Impostazioni › Integrazione work order</em>. Tutti i dettagli, con esempi, sono nella <a href="../developers/">guida all'integrazione</a>.</p>
+
+            <h2 id="utenti">Utenti e registro attività</h2>
+            <div class="tabella"><table>
+                <thead><tr><th>Ruolo</th><th>Cosa può fare</th></tr></thead>
+                <tbody>
+                    <tr><td>Operatore</td><td>Work order, HMI, telemetria, OEE, report, energia, allarmi, storico. Non vede le Impostazioni.</td></tr>
+                    <tr><td>Amministratore</td><td>Tutto, più Impostazioni, licenza e Operatori e registro. Si crea nella configurazione guidata.</td></tr>
+                </tbody>
+            </table></div>
+            <p>L'amministratore crea gli account degli operatori in <em>Operatori e registro</em> (nome utente, nome e cognome, password iniziale di almeno 8 caratteri) e può modificarli, disattivarli o eliminarli: un account disattivato viene scollegato subito. Ogni utente cambia la propria password da <em>La mia password</em>.</p>
+            <p>Il <strong>registro attività</strong> elenca ogni operazione fatta nell'interfaccia: accessi (anche quelli rifiutati), uscite, creazione, modifica, spostamento, cambio di stato, scarti ed eliminazione dei work order, gestione degli account, salvataggio delle impostazioni. Si filtra per periodo, utente e attività e si esporta in CSV (fino a 1000 voci, data e ora in UTC). Dall'interfaccia non si modifica né si cancella.</p>
+            <p><img src="../img/operatori-registro.webp" width="1440" height="900" loading="lazy" alt="Operatori e registro attività in RTIndustry" class="img-screenshot"></p>
+
+            <h2 id="licenza">Licenza</h2>
+            <p>La licenza si attiva con la chiave (<code>XXXX-XXXX-XXXX-XXXX</code>) nella configurazione guidata o in <em>Impostazioni › Servizi, energia e licenza</em>, e si verifica via internet con il servizio licenze. Senza chiave parte una prova gratuita di 30 giorni.</p>
+            <ul>
+                <li>Se la connessione manca, RTIndustry continua a lavorare normalmente e riprova da solo.</li>
+                <li>Se l'azienda esce su internet tramite <strong>proxy</strong>, se ne indicano indirizzo ed eventuali utente e password.</li>
+                <li>Una licenza scaduta porta l'interfaccia in <strong>sola lettura</strong>: i dati si vedono ma non si modificano. Va rinnovata entro 30 giorni.</li>
+                <li>Ogni chiave ha un numero di posti (PC). <em>Disattiva licenza</em> libera il posto per un altro PC, ma ferma la raccolta dati su quello attuale finché non la si riattiva.</li>
+            </ul>
+            <p>I messaggi della licenza e cosa fare sono spiegati nel <a href="../manuale/#licenza">manuale</a>.</p>
+
+            <h2 id="rete">Rete e sicurezza</h2>
+            <ul>
+                <li>Accesso con account personali; password conservate in forma cifrata (hash), mai in chiaro.</li>
+                <li>Sessione firmata con una chiave generata al primo avvio sul PC, protezione delle scritture da richieste esterne.</li>
+                <li>Porte: 1880 (interfaccia e API REST) e 1883 (MQTT). Il protocollo HTTPS si attiva installando un certificato sul PC.</li>
+                <li>API ERP con chiave generata dall'amministratore e mostrata una sola volta: RTIndustry ne conserva solo l'impronta.</li>
+                <li>MQTT: la telemetria è leggibile, ma i comandi sui work order sono accettati solo da client autenticati.</li>
+                <li>Password della macchina, del proxy e dei database esterni conservate cifrate sul PC.</li>
+                <li>Il file di diagnostica per l'assistenza non contiene password.</li>
+            </ul>
+
+            <h2 id="dati">Dati e backup</h2>
+            <ul>
+                <li>I dati stanno nella cartella <code>C:\RTIndustry\data</code>, accessibile solo agli amministratori di Windows.</li>
+                <li><strong>Backup automatico giornaliero</strong> del database in <code>data\backups</code>: si conservano gli ultimi 7 giorni e 4 domeniche. Si può impostare una copia secondaria (per esempio su un'altra unità) e lanciare un backup a mano da <em>Impostazioni › Servizi, energia e licenza</em>.</li>
+                <li>All'avvio il database viene controllato; se risulta danneggiato si ripristina dall'ultimo backup valido. Prima di ogni aggiornamento del database viene fatta una copia di sicurezza.</li>
+                <li>I log di funzionamento sono in <code>data\logs</code>, con rotazione automatica.</li>
+            </ul>
+
+            <h2 id="servizio">Servizio e icona nell'area di notifica</h2>
+            <p>Vicino all'orologio di Windows c'è l'icona di RTIndustry:</p>
+            <ul>
+                <li><strong>Verde</strong>: servizio attivo e licenza valida.</li>
+                <li><strong>Gialla</strong>: configurazione da completare o avviso (per esempio licenza in scadenza).</li>
+                <li><strong>Rossa</strong>: servizio fermo o licenza non attiva.</li>
+            </ul>
+            <p>Con il clic destro: versione installata, stato di servizio e licenza, <em>Apri Dashboard</em>, <em>Impostazioni</em>, <em>Ferma/Riavvia servizio</em>, <em>Mostra log</em>. Gli utenti di Windows possono fermare e riavviare il servizio dall'icona senza permessi di amministratore.</p>
+
+            <h2 id="aggiornamenti">Aggiornamenti e passaggio dalla versione 1</h2>
+            <p>Un aggiornamento si installa sopra la versione precedente: configurazione e dati restano dove sono e gli aggiornamenti del database si applicano all'avvio, dopo una copia di sicurezza.</p>
+            <p>Chi usa RTIndustry 1 può passare alla 2.0 mantenendo lo storico (work order, turni, allarmi), la configurazione della macchina, gli utenti e la stessa licenza. La migrazione la esegue il tecnico sul PC che ospiterà la nuova versione. Le integrazioni ERP basate sulle tabelle <code>writewo</code>/<code>readwo</code> continuano a funzionare (vedi <a href="../developers/#tabella">tabella di scambio</a>).</p>
+
+            <h2 id="problemi">Problemi frequenti</h2>
+            <h3>La macchina risulta «Spenta o non raggiungibile»</h3>
+            <ul>
+                <li>Verifica che la macchina sia accesa e il cavo di rete collegato.</li>
+                <li>In Impostazioni premi <em>Testa connessione</em>: il messaggio indica cosa non va (indirizzo, porta, credenziali).</li>
+                <li>Lancia <code>C:\RTIndustry\strumenti\Verifica-RTIndustry.bat</code> per controllare rete e porta del protocollo.</li>
+            </ul>
+            <h3>I pezzi non aumentano</h3>
+            <ul>
+                <li>Controlla che ci sia un work order In corso e che la macchina sia In lavorazione.</li>
+                <li>In <em>Impostazioni › Mapping stati e modi · contapezzi</em> verifica la variabile del contapezzi.</li>
+            </ul>
+            <h3>La pagina non si apre</h3>
+            <ul>
+                <li>Guarda l'icona nell'area di notifica: se è rossa, clic destro › <em>Riavvia servizio</em>.</li>
+                <li>Da un altro PC usa l'indirizzo <code>http://NOME-O-IP-DEL-PC:1880</code> e verifica che il firewall non blocchi la porta.</li>
+            </ul>
+            <h3>Codici di errore</h3>
+            <div class="tabella"><table>
+                <thead><tr><th>Codice</th><th>Significato e soluzione</th></tr></thead>
+                <tbody>
+                    <tr><td><code>RTI-E001</code></td><td>Il programma non si avvia su questo PC (cartella copiata da un altro PC, nome del PC cambiato o Windows reinstallato). Reinstalla RTIndustry: i dati vengono conservati.</td></tr>
+                    <tr><td><code>RTI-E011</code></td><td>La porta 1880 è occupata da un altro programma (per esempio la versione precedente). Chiudi l'altro programma o cambia porta.</td></tr>
+                    <tr><td><code>RTI-E020</code> / <code>E021</code></td><td>Problema del database. Contatta l'assistenza: esistono backup automatici giornalieri.</td></tr>
+                    <tr><td><code>RTI-E030</code></td><td>Identità dell'installazione non leggibile: va riattivata la licenza.</td></tr>
+                </tbody>
+            </table></div>
+
+            <h2 id="assistenza">Assistenza</h2>
+            <p>Per dubbi o problemi contatta il tecnico o il rivenditore che ha installato RTIndustry, oppure scrivi a <a href="mailto:assistenza@rtindustry.it">assistenza@rtindustry.it</a>. Allega il file della diagnostica (<em>Impostazioni › Esporta diagnostica</em>) oppure, se il programma non si apre, la pagella dello strumento di verifica.</p>
+            <p>Per una demo o informazioni commerciali: <a href="mailto:demo@rtindustry.it?subject=Richiesta%20demo%20RTIndustry&amp;body=Buongiorno%2C%0D%0Avorrei%20richiedere%20una%20demo%20di%20RTIndustry.%0D%0A%0D%0AAzienda%3A%0D%0ASede%20%28citt%C3%A0%29%3A%0D%0AMacchine%20da%20collegare%20%28marca%2C%20modello%20e%20controllo%20CNC/PLC%29%3A%0D%0ANumero%20di%20macchine%3A%0D%0AReferente%20%28nome%20e%20ruolo%29%3A%0D%0ATelefono%3A%0D%0ANote%3A%0D%0A%0D%0AGrazie.">demo@rtindustry.it</a>.</p>
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h2 class="h6"><span style="color:var(--accent)">RT</span>Industry</h2>
+                    <p>Software per il monitoraggio in tempo reale di macchine CNC e PLC: work order, OEE, energia, allarmi e report.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h2 class="h6">Navigazione</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="../">Prodotto</a></li>
+                        <li><a href="../site-manager/">Site Manager</a></li>
+                        <li><a href="../documentazione/">Documentazione tecnica</a></li>
+                        <li><a href="../manuale/">Manuale d'uso</a></li>
+                        <li><a href="../developers/">Integrazione ERP e MES</a></li>
+                        <!-- Sezione prezzi temporaneamente nascosta. -->
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h2 class="h6">Contatti</h2>
+                    <ul class="list-unstyled contact-line">
+                        <li><i class="bi bi-calendar-check me-2" aria-hidden="true"></i>Demo e informazioni: <a href="mailto:demo@rtindustry.it?subject=Richiesta%20demo%20RTIndustry&amp;body=Buongiorno%2C%0D%0Avorrei%20richiedere%20una%20demo%20di%20RTIndustry.%0D%0A%0D%0AAzienda%3A%0D%0ASede%20%28citt%C3%A0%29%3A%0D%0AMacchine%20da%20collegare%20%28marca%2C%20modello%20e%20controllo%20CNC/PLC%29%3A%0D%0ANumero%20di%20macchine%3A%0D%0AReferente%20%28nome%20e%20ruolo%29%3A%0D%0ATelefono%3A%0D%0ANote%3A%0D%0A%0D%0AGrazie.">demo@rtindustry.it</a></li>
+                        <li><i class="bi bi-life-preserver me-2" aria-hidden="true"></i>Assistenza clienti: <a href="mailto:assistenza@rtindustry.it">assistenza@rtindustry.it</a></li>
+                    </ul>
+                    <h2 class="h6 mt-3">Legale</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="../privacy/">Privacy Policy</a></li>
+                        <li><a href="../cookie-policy/">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <p class="text-center mb-0">&copy; <span class="anno-corrente"></span> RTIndustry. Tutti i diritti riservati.</p>
+        </div>
+    </footer>
+    <script>document.querySelectorAll('.anno-corrente').forEach(function (e) { e.textContent = new Date().getFullYear(); });</script>
+</body>
+</html>

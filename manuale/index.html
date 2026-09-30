@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d1117">
+  <title>Manuale RTIndustry</title>
+  <link rel="canonical" href="https://www.rtindustry.it/manuale/">
+  <meta name="description" content="Manuale d'uso di RTIndustry 2.0: come usare ogni schermata del monitoraggio della produzione (work order, HMI, telemetria, OEE, report, energia, allarmi, impostazioni).">
+  <!-- Manuale AUTOSUFFICIENTE: nessuna risorsa esterna, funziona anche sui PC d'officina senza internet.
+       La stessa pagina è pubblicata su https://www.rtindustry.it/manuale/ (versione online). Le ancore coincidono con le
+       schermate dell'app (#kanban, #hmi, ...): il pulsante "?" apre direttamente la sezione giusta. -->
+  <style>
+    :root {
+      --bg: #0d1117; --bg2: #131a23; --surface: #18212c; --border: #2b3746;
+      --text: #e6edf3; --muted: #8b98a8; --brand: #e5202e; --brand2: #ff4d57;
+      --ok: #22c55e; --warn: #f59e0b; --stop: #ef4444; --info: #38bdf8; --maint: #a78bfa; --done: #14b8a6; --idle: #64748b;
+      --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --mono: ui-monospace, "Cascadia Mono", Consolas, "Liberation Mono", monospace;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 var(--font); }
+    a { color: var(--brand2); }
+    header.testa { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: 12px; padding: 12px 20px;
+      background: rgba(13, 17, 23, .92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+    .logo { font-weight: 800; font-size: 1.35rem; letter-spacing: -.02em; text-decoration: none; }
+    .logo .rt { color: var(--text); } .logo .ind { color: var(--brand); }
+    header .sotto { color: var(--muted); font-size: .95rem; }
+    header .spazio { flex: 1; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 6px 14px; border-radius: 10px;
+      border: 1px solid var(--border); background: var(--surface); color: var(--text); text-decoration: none; font: inherit; font-size: .9rem; cursor: pointer; }
+    .btn:hover { border-color: var(--brand); }
+    .btn-menu { display: none; }
+    .layout { display: grid; grid-template-columns: 270px minmax(0, 1fr); max-width: 1180px; margin: 0 auto; }
+    nav.indice { position: sticky; top: 65px; align-self: start; max-height: calc(100vh - 65px); overflow-y: auto; padding: 20px 12px 40px 20px; }
+    nav.indice .gruppo { color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; margin: 16px 0 6px 10px; }
+    nav.indice a { display: block; padding: 7px 10px; border-radius: 8px; color: var(--text); text-decoration: none; font-size: .93rem; }
+    nav.indice a:hover { background: var(--surface); }
+    nav.indice a.attivo { background: var(--surface); box-shadow: inset 3px 0 0 var(--brand); }
+    main { padding: 24px 28px 80px; min-width: 0; }
+    h1 { font-size: 2rem; margin: 8px 0 4px; letter-spacing: -.02em; }
+    .intro { color: var(--muted); margin: 0 0 24px; }
+    section { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 22px 24px; margin: 0 0 18px; }
+    section:target { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(229, 32, 46, .25); }
+    h2 { font-size: 1.35rem; margin: 0 0 4px; display: flex; align-items: center; gap: 10px; }
+    h2 .num { display: inline-grid; place-items: center; min-width: 30px; height: 30px; border-radius: 8px; background: var(--brand); color: #fff; font-size: .9rem; }
+    h3 { font-size: 1.02rem; margin: 18px 0 6px; color: var(--text); }
+    .scopo { color: var(--muted); margin: 0 0 8px; }
+    p, li { margin: 6px 0; }
+    ol, ul { padding-left: 22px; }
+    kbd, .tasto { display: inline-block; padding: 1px 8px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface); font: .85rem var(--font); white-space: nowrap; }
+    code { font: .88rem var(--mono); background: var(--surface); padding: 1px 6px; border-radius: 5px; }
+    .nota { border-left: 3px solid var(--info); background: rgba(56, 189, 248, .08); padding: 10px 14px; border-radius: 0 10px 10px 0; margin: 12px 0; }
+    .attenzione { border-left: 3px solid var(--warn); background: rgba(245, 158, 11, .08); padding: 10px 14px; border-radius: 0 10px 10px 0; margin: 12px 0; }
+    table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: .93rem; }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { color: var(--muted); font-weight: 600; font-size: .82rem; text-transform: uppercase; letter-spacing: .04em; }
+    .stato { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+    .stato::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--c, var(--idle)); }
+    footer.piede { max-width: 1180px; margin: 0 auto; padding: 24px 28px 40px; color: var(--muted); font-size: .88rem; border-top: 1px solid var(--border); }
+    .su { position: fixed; right: 18px; bottom: 18px; }
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      nav.indice { display: none; position: fixed; inset: 65px 0 0 0; z-index: 9; background: var(--bg); max-height: none; padding: 16px; }
+      nav.indice.aperto { display: block; }
+      .btn-menu { display: inline-flex; }
+      main { padding: 16px 16px 80px; }
+      section { padding: 18px 16px; }
+      header .sotto, .solo-largo { display: none; }
+      header.testa { gap: 8px; padding: 10px 12px; }
+      .btn { padding: 6px 10px; }
+      table { display: block; overflow-x: auto; }
+    }
+    @media print {
+      :root { --bg: #fff; --bg2: #fff; --surface: #f3f4f6; --border: #d1d5db; --text: #111827; --muted: #4b5563; }
+      header.testa, nav.indice, .su, .solo-schermo { display: none !important; }
+      .layout { display: block; }
+      section { break-inside: avoid-page; border-color: #d1d5db; box-shadow: none !important; }
+      a { color: inherit; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="testa">
+    <button class="btn btn-menu" type="button" id="apriIndice" aria-label="Indice" aria-controls="indice" aria-expanded="false">☰<span class="solo-largo">&nbsp;Indice</span></button>
+    <a class="logo" href="#inizio"><span class="rt">RT</span><span class="ind">industry</span></a>
+    <span class="sotto">Manuale d'uso</span>
+    <span class="spazio"></span>
+    <a class="btn solo-schermo" id="versioneOnline" href="https://www.rtindustry.it/manuale/" target="_blank" rel="noopener"><span class="solo-largo">Versione</span>online&nbsp;↗</a>
+    <button class="btn solo-schermo solo-largo" type="button" onclick="window.print()">Stampa</button>
+  </header>
+
+  <div class="layout">
+    <nav class="indice" id="indice" aria-label="Indice del manuale">
+      <div class="gruppo">Per iniziare</div>
+      <a href="#primi-passi">Primi passi</a>
+      <a href="#accesso">Accesso</a>
+      <a href="#wizard">Configurazione guidata</a>
+      <a href="#navigazione">Muoversi nel programma</a>
+      <div class="gruppo">Le schermate</div>
+      <a href="#kanban">Work order</a>
+      <a href="#hmi">HMI macchina</a>
+      <a href="#telemetry">Telemetria</a>
+      <a href="#oee">OEE</a>
+      <a href="#report">Report</a>
+      <a href="#energy">Energia</a>
+      <a href="#alarms">Allarmi</a>
+      <a href="#table">Storico WO</a>
+      <a href="#settings">Impostazioni</a>
+      <a href="#operatori">Operatori e registro</a>
+      <div class="gruppo">Da sapere</div>
+      <a href="#stati">Stati macchina e work order</a>
+      <a href="#tablet">Uso su tablet</a>
+      <a href="#tray">Icona nell'area di notifica</a>
+      <a href="#licenza">Licenza e messaggi</a>
+      <a href="#problemi">Problemi frequenti</a>
+      <a href="#glossario">Glossario</a>
+      <a href="#assistenza">Assistenza</a>
+    </nav>
+
+    <main id="inizio">
+      <h1>Manuale di RTIndustry</h1>
+      <p class="intro">RTIndustry controlla in tempo reale la tua macchina a controllo numerico (CNC) o il tuo PLC: conta i pezzi, misura i tempi e calcola l'efficienza della produzione. In ogni schermata del programma trovi in alto il pulsante <span class="tasto">? Guida</span>: ti porta direttamente alla spiegazione di quella schermata.</p>
+
+      <section id="primi-passi">
+        <h2><span class="num">1</span>Primi passi</h2>
+        <p class="scopo">Cosa fa RTIndustry e come si usa ogni giorno, in cinque minuti.</p>
+        <ol>
+          <li><strong>La macchina lavora, RTIndustry registra.</strong> Il programma legge dalla macchina lo stato (in lavorazione, in pausa, in allarme…), il contapezzi e, se c'è il contatore di energia, i consumi. Non serve fare nulla: i dati arrivano da soli.</li>
+          <li><strong>Il lavoro si organizza in work order (WO).</strong> Un work order è una commessa: cosa produrre e quanti pezzi. Si crea nella schermata <a href="#kanban">Work order</a> e si avvia trascinandolo in "In corso". Se la macchina parte senza un work order attivo, RTIndustry ne crea uno automatico ("Lavorazione avviata dalla macchina") per non perdere i pezzi.</li>
+          <li><strong>L'operatore usa l'HMI.</strong> La schermata <a href="#hmi">HMI macchina</a> è pensata per chi sta a bordo macchina: pezzi fatti, scarti, stato e pulsanti grandi.</li>
+          <li><strong>Il responsabile guarda i risultati.</strong> <a href="#telemetry">Telemetria</a>, <a href="#oee">OEE</a>, <a href="#report">Report</a>, <a href="#energy">Energia</a> e <a href="#alarms">Allarmi</a> mostrano come sta andando il turno e i periodi passati.</li>
+        </ol>
+        <div class="nota">Il programma funziona sempre, anche se chiudi il browser: la raccolta dati la fa un servizio di Windows che parte con il PC. Il browser serve solo per guardare e comandare.</div>
+        <h3>Come si apre</h3>
+        <ul>
+          <li>Doppio clic sull'icona <strong>RTIndustry</strong> sul desktop, oppure</li>
+          <li>clic destro sull'icona di RTIndustry vicino all'orologio di Windows → <span class="tasto">Apri Dashboard</span>, oppure</li>
+          <li>da un altro PC o tablet della rete: indirizzo <code>http://NOME-O-IP-DEL-PC:1880</code>.</li>
+        </ul>
+      </section>
+
+      <section id="accesso">
+        <h2><span class="num">2</span>Accesso</h2>
+        <p class="scopo">Ognuno entra con il <strong>proprio</strong> nome utente e la propria password: ogni operazione resta registrata a suo nome.</p>
+        <ol>
+          <li>Scrivi <strong>Nome utente</strong> e <strong>Password</strong>.</li>
+          <li>Premi <span class="tasto">Accedi</span>. Si apre la schermata dei work order, oppure la pagina che stavi cercando di aprire.</li>
+        </ol>
+        <p>Per uscire: menu con il tuo nome in alto a destra → <span class="tasto">Esci</span>.</p>
+        <p>Gli account sono di due tipi:</p>
+        <table>
+          <tr><th>Ruolo</th><th>Cosa può fare</th></tr>
+          <tr><td>Operatore</td><td>Work order, HMI, telemetria, OEE, report, energia, allarmi, storico. Non vede le Impostazioni.</td></tr>
+          <tr><td>Amministratore</td><td>Tutto, più <a href="#settings">Impostazioni</a>, licenza e <a href="#operatori">Operatori e registro</a>. Il suo account si crea nella <a href="#wizard">configurazione guidata</a>.</td></tr>
+        </table>
+        <p><strong>Cambiare la propria password</strong>: menu con il tuo nome in alto a destra → <span class="tasto">La mia password</span>. Scrivi la password attuale, poi due volte quella nuova (almeno 8 caratteri).</p>
+        <div class="nota">Password dimenticata? L'amministratore può impostarne una nuova da <a href="#operatori">Operatori e registro</a>. Se l'ha dimenticata l'amministratore, contatta l'<a href="#assistenza">assistenza</a>.</div>
+        <div class="attenzione">Non usare l'account di un collega e non comunicare la tua password: il registro attribuisce ogni operazione all'account con cui è stata fatta.</div>
+      </section>
+
+      <section id="wizard">
+        <h2><span class="num">3</span>Configurazione guidata</h2>
+        <p class="scopo">Compare solo la prima volta, subito dopo l'installazione: in sei passi il programma è pronto.</p>
+        <ol>
+          <li><strong>Azienda</strong> — nome dell'azienda (obbligatorio), stabilimento, reparto, nome della macchina e fuso orario (per l'Italia <code>Europe/Rome</code>, l'ora legale è automatica).</li>
+          <li><strong>Macchina</strong> — scegli il tipo di collegamento: OPC UA, FANUC, Heidenhain, Modbus TCP oppure <em>Simulatore</em> (dati di prova, senza macchina). Inserisci l'indirizzo IP e premi <span class="tasto">Prova la connessione</span>: il riquadro verde "Macchina collegata" conferma che stato e pezzi arrivano. Se la macchina è spenta puoi proseguire e riprovare più tardi dalle Impostazioni.</li>
+          <li><strong>Turni</strong> — orari di inizio e fine di ogni turno (anche turni di notte).</li>
+          <li><strong>Licenza</strong> — inserisci la chiave (formato <code>XXXX-XXXX-XXXX-XXXX</code>) e premi <span class="tasto">Attiva licenza</span>. Senza chiave parte una <strong>prova gratuita di 30 giorni</strong>. Il riquadro mostra l'esito e i giorni rimanenti. Se l'azienda esce su internet tramite <strong>proxy</strong>, indicane indirizzo (e, se richiesti, utente e password) in <em>Opzioni avanzate</em>.</li>
+          <li><strong>Amministratore</strong> — nome utente e password (almeno 8 caratteri) del primo amministratore.</li>
+          <li><strong>Avvio</strong> — controlla il riepilogo e premi <span class="tasto">Avvia RTIndustry</span>.</li>
+        </ol>
+        <div class="nota">Puoi chiudere il browser a metà: riaprendolo, la configurazione riprende dal passo a cui eri arrivato. Con <span class="tasto">Indietro</span> torni ai passi già fatti.</div>
+      </section>
+
+      <section id="navigazione">
+        <h2><span class="num">4</span>Muoversi nel programma</h2>
+        <ul>
+          <li><strong>Barra in alto</strong>: nome della schermata, <em>stato della macchina</em> in tempo reale (colorato), indicatore <em>Live</em> (verde = dati in arrivo), pulsante <span class="tasto">? Guida</span> e menu utente.</li>
+          <li><strong>Pulsante rosso rotondo</strong> in basso a destra (<span class="tasto">+</span>): apre il menu con tutte le schermate.</li>
+          <li><strong>Banner sotto la barra</strong>: compare solo per avvisi sulla licenza (vedi <a href="#licenza">Licenza e messaggi</a>).</li>
+        </ul>
+        <div class="nota">L'indicatore <em>Live</em> diventa grigio ("Offline") se il browser perde il collegamento con il PC di RTIndustry: si ricollega da solo appena possibile e i dati non vanno persi.</div>
+      </section>
+
+      <section id="kanban">
+        <h2><span class="num">5</span>Work order</h2>
+        <p class="scopo">La bacheca delle commesse: cosa c'è da fare, cosa è in lavorazione, cosa è finito.</p>
+        <h3>Cosa vedi</h3>
+        <p>Tre colonne: <strong>Da fare</strong>, <strong>In corso</strong>, <strong>Completati</strong>. Ogni scheda mostra codice, descrizione, programma, pezzi fatti e, se indicata, la data di consegna (in rosso se scaduta). La scheda in lavorazione si aggiorna da sola mentre la macchina produce.</p>
+        <h3>Creare un work order</h3>
+        <ol>
+          <li>Premi <span class="tasto">+ Nuovo work order</span>.</li>
+          <li>Compila almeno la <strong>Descrizione</strong>. Utili: <em>Quantità richiesta</em> (per l'avanzamento), <em>Tempo target (s/pezzo)</em> (per l'efficienza), <em>Data di consegna</em>, cliente, ordine, codice articolo, programma, operatore, note.</li>
+          <li>Premi <span class="tasto">Salva</span>: il WO compare in "Da fare".</li>
+        </ol>
+        <h3>Avviare, mettere in pausa, completare</h3>
+        <ul>
+          <li><strong>Trascina</strong> la scheda nella colonna voluta: in "In corso" parte, in "Completati" si chiude. Su tablet tieni premuta la scheda un istante prima di trascinarla.</li>
+          <li>Sulla scheda in corso ci sono i pulsanti rapidi: <span class="tasto">Pausa</span>/<span class="tasto">Avvia</span>, <span class="tasto">Scarto +1</span>, <span class="tasto">Nota</span>, <span class="tasto">Completa</span>.</li>
+          <li>Le icone sulla scheda aprono l'HMI di quel WO, la modifica o l'eliminazione (con conferma).</li>
+        </ul>
+        <div class="attenzione"><strong>Un solo work order alla volta è in lavorazione.</strong> Avviandone un altro, quello precedente va in pausa da solo: i pezzi vengono sempre attribuiti al WO giusto.</div>
+      </section>
+
+      <section id="hmi">
+        <h2><span class="num">6</span>HMI macchina</h2>
+        <p class="scopo">La schermata dell'operatore a bordo macchina: grande, leggibile, da usare anche con i guanti su un tablet.</p>
+        <h3>Cosa vedi</h3>
+        <ul>
+          <li>Il <strong>work order</strong> in lavorazione (o quello scelto dall'elenco in alto), con consegna, turno e stato della macchina.</li>
+          <li>L'<strong>anello di avanzamento</strong>: pezzi buoni rispetto ai pezzi richiesti.</li>
+          <li>Lo <strong>scostamento del tempo ciclo</strong>: quanto il pezzo medio è più lento (rosso) o più veloce (verde) del tempo target.</li>
+          <li>L'eventuale <strong>allarme attivo</strong>, in evidenza.</li>
+        </ul>
+        <h3>Cosa puoi fare</h3>
+        <ul>
+          <li><strong>Scarti</strong> e <strong>Rilavorazioni</strong>: con <span class="tasto">+</span> e <span class="tasto">−</span> registri i pezzi non buoni. I pezzi buoni si aggiornano di conseguenza.</li>
+          <li><strong>Stato del work order</strong>: pulsanti <span class="tasto">Avvia</span>, <span class="tasto">Pausa</span>, <span class="tasto">Ferma</span>, <span class="tasto">Attrezzaggio</span>, <span class="tasto">Rilavorazione</span>, <span class="tasto">Manutenzione</span>, <span class="tasto">Pulizia</span>, <span class="tasto">Guasto</span>, <span class="tasto">Completa</span>. Indicare il motivo di una fermata rende più precisi i report.</li>
+          <li><strong>Note</strong>: scrivi un'annotazione per il turno successivo e salvala.</li>
+        </ul>
+      </section>
+
+      <section id="telemetry">
+        <h2><span class="num">7</span>Telemetria</h2>
+        <p class="scopo">Come sta andando il turno in corso, aggiornato ogni secondo.</p>
+        <ul>
+          <li><strong>Pezzi / ora</strong>: ritmo di produzione del turno.</li>
+          <li><strong>Ciclo medio</strong>: tempo in lavorazione diviso per i pezzi prodotti.</li>
+          <li><strong>OEE</strong>: efficienza complessiva del turno (vedi <a href="#oee">OEE</a>).</li>
+          <li><strong>Energia turno</strong>: consumo dall'inizio del turno (se c'è il contatore di energia).</li>
+          <li>Grafico della <strong>potenza</strong> dell'ultima ora, ripartizione dei <strong>tempi per stato</strong> del turno e <strong>dettagli CNC</strong> (programma, avanzamento, utensile…).</li>
+        </ul>
+      </section>
+
+      <section id="oee">
+        <h2><span class="num">8</span>OEE</h2>
+        <p class="scopo">L'indicatore internazionale dell'efficienza di una macchina: 100% significa produrre sempre, alla velocità prevista, senza scarti.</p>
+        <p><strong>OEE = Disponibilità × Efficienza × Qualità</strong></p>
+        <table>
+          <tr><th>Fattore</th><th>Domanda a cui risponde</th><th>Come si migliora</th></tr>
+          <tr><td>Disponibilità</td><td>Per quanto tempo del turno la macchina ha lavorato?</td><td>Ridurre fermi, attrezzaggi lunghi, attese.</td></tr>
+          <tr><td>Efficienza</td><td>Ha lavorato alla velocità prevista?</td><td>Impostare un tempo target realistico nel WO; ridurre micro-fermate.</td></tr>
+          <tr><td>Qualità</td><td>Quanti pezzi sono buoni?</td><td>Registrare e ridurre scarti e rilavorazioni.</td></tr>
+        </table>
+        <p>La pagina mostra l'OEE del turno (indicatore circolare), i tre fattori, l'<strong>andamento settimanale</strong> (lunedì → domenica) e il <strong>dettaglio per turno</strong> della giornata.</p>
+        <div class="nota">L'efficienza è calcolata solo se il work order ha un <em>tempo target</em>. Senza, vale 100%.</div>
+      </section>
+
+      <section id="report">
+        <h2><span class="num">9</span>Report</h2>
+        <p class="scopo">L'analisi di un periodo passato: una settimana, un mese, un turno specifico.</p>
+        <ol>
+          <li>Scegli <strong>periodo</strong> e, se vuoi, <strong>turno</strong> nei filtri in alto.</li>
+          <li>Leggi i riepiloghi: <em>OEE medio</em>, <em>Pezzi buoni</em>, <em>Scarti</em>, <em>Energia</em>.</li>
+          <li>Sotto trovi l'OEE giorno per giorno, la <strong>distribuzione dei tempi</strong> (produzione, pausa, inattivo, fermo, allarme, manutenzione, attrezzaggio), l'energia rispetto alla produzione e l'elenco dei work order completati.</li>
+          <li>Con <span class="tasto">Esporta CSV</span> scarichi i dati per Excel.</li>
+        </ol>
+      </section>
+
+      <section id="energy">
+        <h2><span class="num">10</span>Energia</h2>
+        <p class="scopo">Quanto consuma la macchina e quanto costa ogni pezzo. Disponibile se è collegato un contatore di energia.</p>
+        <ul>
+          <li><strong>In tempo reale</strong>: potenza assorbita, energia del turno, energia per pezzo (Wh/pezzo) e costo del turno.</li>
+          <li><strong>Storico del periodo</strong>: energia e costo totali, media giornaliera, consumo giorno per giorno e andamento dei Wh per pezzo.</li>
+        </ul>
+        <div class="nota">Il costo usa il prezzo dell'energia impostato in <a href="#settings">Impostazioni</a> › Servizi, energia e licenza (euro al kWh).</div>
+      </section>
+
+      <section id="alarms">
+        <h2><span class="num">11</span>Allarmi</h2>
+        <p class="scopo">Quanto tempo la macchina è rimasta in allarme e per quali cause.</p>
+        <ul>
+          <li>Filtri per <strong>periodo</strong> e <strong>turno</strong>.</li>
+          <li>Riepiloghi: <em>tempo in allarme</em>, <em>giorni con allarmi</em>, percentuale sul tempo macchina, media giornaliera.</li>
+          <li>Grafico giornaliero con la linea della media, ripartizione per turno e <strong>tabella degli eventi</strong>: gli allarmi più lunghi di 5 minuti sono evidenziati.</li>
+          <li><span class="tasto">Esporta CSV</span> per l'analisi in Excel.</li>
+        </ul>
+        <div class="nota">Vengono registrati solo gli allarmi che durano almeno 5 secondi: gli avvisi istantanei non sporcano le statistiche.</div>
+      </section>
+
+      <section id="table">
+        <h2><span class="num">12</span>Storico WO</h2>
+        <p class="scopo">L'archivio completo di tutti i work order, anche quelli vecchi.</p>
+        <ul>
+          <li><strong>Cerca</strong> per codice, descrizione, cliente, articolo…</li>
+          <li>Filtra per <strong>stato</strong> e ordina cliccando sull'intestazione di una colonna.</li>
+          <li><span class="tasto">Esporta CSV</span> scarica esattamente l'elenco che stai vedendo.</li>
+        </ul>
+      </section>
+
+      <section id="settings">
+        <h2><span class="num">13</span>Impostazioni</h2>
+        <p class="scopo">Tutta la configurazione del programma, riservata all'<strong>amministratore</strong>. Le modifiche si applicano subito, senza riavviare nulla.</p>
+        <p>In cima c'è lo <strong>stato della connessione</strong> con la macchina (<em>ONLINE</em> in verde) e il pulsante <span class="tasto">Testa connessione</span>. Con <span class="tasto">Prova le modifiche prima di salvare</span> verifichi un nuovo indirizzo o protocollo senza toccare quello in uso.</p>
+        <table>
+          <tr><th>Sezione</th><th>A cosa serve</th></tr>
+          <tr><td>Macchina e protocollo</td><td>Tipo di collegamento (OPC UA, FANUC, Heidenhain, Modbus, Simulatore), indirizzo IP, sicurezza. Cambiando protocollo, la configurazione precedente resta salvata.</td></tr>
+          <tr><td>Variabili macchina</td><td>Da dove leggere stato, pezzi, programma, allarmi… (di solito proposte in automatico dal profilo).</td></tr>
+          <tr><td>Mapping stati e modi · contapezzi</td><td>Come tradurre i valori della macchina negli stati di RTIndustry; come contare i pezzi.</td></tr>
+          <tr><td>Contatore di energia (Modbus)</td><td>Collegamento al contatore di energia, con prova di lettura.</td></tr>
+          <tr><td>Turni di lavoro</td><td>Orari dei turni.</td></tr>
+          <tr><td>Identità e accesso</td><td>Dati dell'azienda e della macchina.</td></tr>
+          <tr><td>Servizi, energia e licenza</td><td>Database e backup, prezzo dell'energia, fuso orario, licenza (attivazione e disattivazione), indirizzo del Site Manager e <strong>proxy aziendale</strong> (se il PC esce su internet tramite proxy).</td></tr>
+          <tr><td>Integrazione work order (ERP, MES)</td><td>Ricezione dei work order dal gestionale.</td></tr>
+          <tr><td>Cartelle e trasferimenti</td><td>Cartelle per allegati e programmi; invio programmi ai controlli Heidenhain.</td></tr>
+        </table>
+        <p>Dopo le modifiche premi <span class="tasto">Salva</span>: se hai cambiato il collegamento alla macchina, parte da solo un test di connessione.</p>
+        <div class="attenzione">Disattivare la licenza libera il posto per un altro PC, ma blocca la raccolta dati su questo finché non la riattivi.</div>
+      </section>
+
+      <section id="operatori">
+        <h2><span class="num">14</span>Operatori e registro</h2>
+        <p class="scopo">Solo per l'amministratore: account personali degli operatori e registro di tutte le operazioni (chi ha fatto cosa e quando).</p>
+        <h3>Creare l'account di un operatore</h3>
+        <ol>
+          <li>Menu <span class="tasto">+</span> → <span class="tasto">Operatori e registro</span>.</li>
+          <li>Scrivi <strong>Nome utente</strong> (es. <em>mario.rossi</em>: lettere, numeri, punto o trattino), <strong>Nome e cognome</strong> e una <strong>Password iniziale</strong> di almeno 8 caratteri.</li>
+          <li>Premi <span class="tasto">Crea operatore</span> e comunica la password all'operatore di persona: potrà cambiarla da <span class="tasto">La mia password</span>.</li>
+        </ol>
+        <h3>Gestire gli account</h3>
+        <table>
+          <tr><th>Pulsante</th><th>Effetto</th></tr>
+          <tr><td>Modifica</td><td>Cambia nome e cognome o imposta una nuova password (password dimenticata).</td></tr>
+          <tr><td>Disattiva / Riattiva</td><td>Sospende l'accesso: l'operatore viene scollegato subito, anche se aveva la pagina aperta. Le sue attività restano nel registro.</td></tr>
+          <tr><td>Elimina</td><td>Cancella l'account. Le attività restano nel registro. Per un'assenza temporanea è meglio <em>Disattiva</em>.</td></tr>
+        </table>
+        <h3>Registro attività</h3>
+        <p>Elenca, dalla più recente, ogni operazione fatta nell'interfaccia: accessi (anche quelli rifiutati per password errata), uscite, creazione, modifica, spostamento, cambio di stato, scarti ed eliminazione dei work order, gestione degli account, salvataggio delle impostazioni. Per ognuna: data e ora, utente, attività, work order e dettagli.</p>
+        <p>Filtra per periodo (<strong>Dal</strong> / <strong>Al</strong>), <strong>Utente</strong> e tipo di <strong>Attività</strong>, poi premi <span class="tasto">Filtra</span>. <span class="tasto">Esporta CSV</span> scarica le voci filtrate (fino a 1000) in un file che si apre con Excel.</p>
+        <div class="nota">Il registro non si modifica e non si cancella dall'interfaccia. Nel file CSV data e ora sono in UTC (ora solare italiana meno 1 ora, ora legale meno 2).</div>
+      </section>
+
+      <section id="stati">
+        <h2><span class="num">15</span>Stati macchina e work order</h2>
+        <table>
+          <tr><th>Stato</th><th>Significato</th></tr>
+          <tr><td><span class="stato" style="--c: var(--ok)">In lavorazione</span></td><td>La macchina produce.</td></tr>
+          <tr><td><span class="stato" style="--c: var(--warn)">In pausa</span></td><td>Pausa temporanea.</td></tr>
+          <tr><td><span class="stato" style="--c: var(--stop)">Fermo</span> · <span class="stato" style="--c: var(--stop)">Guasto</span></td><td>Macchina ferma; guasto se la causa è un malfunzionamento.</td></tr>
+          <tr><td><span class="stato" style="--c: #ff2d55">In allarme</span></td><td>Il controllo segnala un allarme.</td></tr>
+          <tr><td><span class="stato" style="--c: var(--idle)">Inattivo</span></td><td>Accesa ma senza lavorare.</td></tr>
+          <tr><td><span class="stato" style="--c: var(--info)">Attrezzaggio</span> · <span class="stato" style="--c: var(--info)">Rilavorazione</span></td><td>Preparazione della macchina; lavorazione di pezzi da rifare.</td></tr>
+          <tr><td><span class="stato" style="--c: var(--maint)">Manutenzione</span> · <span class="stato" style="--c: var(--maint)">Pulizia</span></td><td>Fermate programmate.</td></tr>
+          <tr><td><span class="stato" style="--c: var(--done)">Completato</span></td><td>Work order chiuso.</td></tr>
+          <tr><td><span class="stato" style="--c: #4b5563">Spenta o non raggiungibile</span></td><td>Nessun dato dalla macchina da oltre 15 secondi: spenta, cavo scollegato o rete assente.</td></tr>
+        </table>
+      </section>
+
+      <section id="tablet">
+        <h2><span class="num">16</span>Uso su tablet</h2>
+        <p>Dal menu con il tuo nome in alto a destra:</p>
+        <ul>
+          <li><strong>Modalità tablet (tasti grandi)</strong>: pulsanti più grandi, adatti al tocco e ai guanti.</li>
+          <li><strong>Testo grande</strong>: caratteri più leggibili a distanza.</li>
+          <li><strong>Schermo sempre acceso</strong> e <strong>Schermo intero</strong>, dove il dispositivo lo consente.</li>
+        </ul>
+        <div class="nota">Nel browser del tablet puoi usare "Aggiungi a schermata Home": RTIndustry si apre come un'app, a schermo intero.</div>
+      </section>
+
+      <section id="tray">
+        <h2><span class="num">17</span>Icona nell'area di notifica</h2>
+        <p>Vicino all'orologio di Windows c'è l'icona di RTIndustry. Il colore dice subito se è tutto a posto:</p>
+        <ul>
+          <li><span class="stato" style="--c: var(--ok)">Verde</span> — servizio attivo e licenza valida.</li>
+          <li><span class="stato" style="--c: var(--warn)">Gialla</span> — configurazione da completare o avviso (es. licenza in scadenza).</li>
+          <li><span class="stato" style="--c: var(--stop)">Rossa</span> — servizio fermo o licenza non attiva.</li>
+        </ul>
+        <p>Con il clic destro: versione installata, stato di servizio e licenza, <span class="tasto">Apri Dashboard</span>, <span class="tasto">Impostazioni</span>, <span class="tasto">Ferma</span>/<span class="tasto">Riavvia servizio</span>, <span class="tasto">Mostra log</span>.</p>
+      </section>
+
+      <section id="licenza">
+        <h2><span class="num">18</span>Licenza e messaggi</h2>
+        <p>La licenza si verifica via internet con il Site Manager e si gestisce da Impostazioni (solo amministratore). Se la licenza non è attiva, gli operatori vedono la pagina <em>Servizio sospeso</em> e devono rivolgersi all'amministratore.</p>
+        <p>Se la connessione manca, RTIndustry continua a lavorare normalmente e riprova da solo.</p>
+        <table>
+          <tr><th>Messaggio</th><th>Cosa fare</th></tr>
+          <tr><td>Periodo di prova: N giorni rimanenti</td><td>Nulla. Per continuare dopo la prova, l'amministratore inserisce una chiave in Impostazioni.</td></tr>
+          <tr><td>La licenza scade tra N giorni</td><td>Contatta il fornitore per il rinnovo.</td></tr>
+          <tr><td>Site Manager non raggiungibile: funzionamento offline temporaneo</td><td>Controlla la connessione a internet del PC. Se l'azienda usa un proxy, indicalo in Impostazioni › Servizi, energia e licenza. Il lavoro non si ferma.</td></tr>
+          <tr><td>Licenza scaduta: interfaccia in sola lettura</td><td>I dati si vedono ma non si modificano. Rinnova entro 30 giorni.</td></tr>
+          <tr><td>Posti della licenza esauriti</td><td>La chiave è già in uso su un altro PC: disattivala lì (Impostazioni › Licenza) o richiedi un posto aggiuntivo.</td></tr>
+          <tr><td>Installazione disattivata / Nessuna licenza attiva</td><td>Inserisci la chiave in Impostazioni › Servizi, energia e licenza.</td></tr>
+          <tr><td>Orologio di sistema incoerente</td><td>Correggi data e ora di Windows.</td></tr>
+        </table>
+      </section>
+
+      <section id="problemi">
+        <h2><span class="num">19</span>Problemi frequenti</h2>
+        <h3>La macchina risulta "Spenta o non raggiungibile"</h3>
+        <ul>
+          <li>Verifica che la macchina sia accesa e il cavo di rete collegato.</li>
+          <li>In Impostazioni premi <span class="tasto">Testa connessione</span>: il messaggio indica cosa non va (indirizzo, porta, credenziali).</li>
+        </ul>
+        <h3>I pezzi non aumentano</h3>
+        <ul>
+          <li>Controlla che ci sia un work order <em>In corso</em> e che la macchina sia <em>In lavorazione</em>.</li>
+          <li>In Impostazioni › Mapping stati e modi · contapezzi verifica la variabile del contapezzi.</li>
+        </ul>
+        <h3>La pagina non si apre</h3>
+        <ul>
+          <li>Guarda l'icona nell'area di notifica: se è rossa, clic destro → <span class="tasto">Riavvia servizio</span>.</li>
+          <li>Da un altro PC: verifica di usare l'indirizzo giusto e la porta <code>1880</code>.</li>
+        </ul>
+        <h3>Codici di errore</h3>
+        <table>
+          <tr><th>Codice</th><th>Significato e soluzione</th></tr>
+          <tr><td><code>RTI-E001</code></td><td>Il programma non si avvia su questo PC (cartella copiata da un altro PC, oppure nome del PC o Windows reinstallato). Reinstalla RTIndustry: i dati vengono conservati.</td></tr>
+          <tr><td><code>RTI-E011</code></td><td>La porta 1880 è occupata da un altro programma (per esempio la versione precedente). Chiudi l'altro programma o cambia porta.</td></tr>
+          <tr><td><code>RTI-E020</code> / <code>E021</code></td><td>Problema del database. Contatta l'assistenza: esistono backup automatici giornalieri.</td></tr>
+          <tr><td><code>RTI-E030</code></td><td>Identità dell'installazione non leggibile: va riattivata la licenza.</td></tr>
+        </table>
+      </section>
+
+      <section id="glossario">
+        <h2><span class="num">20</span>Glossario</h2>
+        <table>
+          <tr><td><strong>WO (work order)</strong></td><td>Commessa di lavoro: cosa produrre e in che quantità.</td></tr>
+          <tr><td><strong>OEE</strong></td><td>Overall Equipment Effectiveness, efficienza complessiva della macchina.</td></tr>
+          <tr><td><strong>HMI</strong></td><td>Human Machine Interface, la schermata dell'operatore.</td></tr>
+          <tr><td><strong>CNC</strong></td><td>Controllo numerico computerizzato della macchina utensile.</td></tr>
+          <tr><td><strong>PLC</strong></td><td>Controllore logico programmabile.</td></tr>
+          <tr><td><strong>Tempo ciclo</strong></td><td>Tempo per produrre un pezzo.</td></tr>
+          <tr><td><strong>Tempo target</strong></td><td>Tempo ciclo previsto, indicato nel work order.</td></tr>
+          <tr><td><strong>Site Manager</strong></td><td>Servizio online del fornitore che gestisce le licenze.</td></tr>
+          <tr><td><strong>ERP / MES</strong></td><td>Gestionale aziendale / sistema di gestione della produzione.</td></tr>
+          <tr><td><strong>CSV</strong></td><td>File di dati apribile con Excel.</td></tr>
+        </table>
+      </section>
+
+      <section id="assistenza">
+        <h2><span class="num">21</span>Assistenza</h2>
+        <p>Per dubbi o problemi contatta il tecnico o il rivenditore che ha installato RTIndustry, oppure scrivi a <a href="mailto:assistenza@rtindustry.it">assistenza@rtindustry.it</a>.</p>
+        <p>Quando chiedi assistenza, allega il file della <strong>diagnostica</strong>: <a href="#settings">Impostazioni</a> › pulsante <span class="tasto">Esporta diagnostica</span> in alto. Contiene versione, stato del programma e ultimi messaggi di funzionamento, <strong>senza password</strong>.</p>
+        <p>Se il programma non si apre, allega invece la pagella di <code>C:\RTIndustry\strumenti\Verifica-RTIndustry.bat</code> (doppio clic: controlla PC, rete e collegamento alla macchina).</p>
+      </section>
+    </main>
+  </div>
+
+  <footer class="piede">RTIndustry 2.0 · Manuale d'uso · © <span id="anno"></span> RTIndustry</footer>
+  <a class="btn su solo-schermo" href="#inizio" aria-label="Torna all'inizio">↑</a>
+
+  <script>
+    document.getElementById('anno').textContent = new Date().getFullYear();
+    // Sul sito rtindustry.it il pulsante riporta al sito invece che alla versione online.
+    if (/(^|\.)rtindustry\.it$/.test(location.hostname)) {
+      const b = document.getElementById('versioneOnline');
+      b.href = '/'; b.removeAttribute('target'); b.textContent = '← Sito';
+    }
+    // Indice su schermi piccoli.
+    const indice = document.getElementById('indice');
+    const bottone = document.getElementById('apriIndice');
+    bottone.addEventListener('click', () => { const a = indice.classList.toggle('aperto'); bottone.setAttribute('aria-expanded', a); });
+    indice.addEventListener('click', (e) => { if (e.target.tagName === 'A') { indice.classList.remove('aperto'); bottone.setAttribute('aria-expanded', 'false'); } });
+    // Voce attiva nell'indice (sezione aperta dal pulsante "?" o durante lo scorrimento).
+    const voci = [...indice.querySelectorAll('a')];
+    const evidenzia = (id) => voci.forEach((v) => v.classList.toggle('attivo', v.getAttribute('href') === '#' + id));
+    if (location.hash) evidenzia(location.hash.slice(1));
+    const osservatore = new IntersectionObserver((voce) => voce.forEach((x) => { if (x.isIntersecting) evidenzia(x.target.id); }), { rootMargin: '-40% 0px -55% 0px' });
+    document.querySelectorAll('main section').forEach((s) => osservatore.observe(s));
+  </script>
+</body>
+</html>

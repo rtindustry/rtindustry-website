@@ -1,0 +1,27 @@
+# RTIndustry
+
+> RTIndustry 2.0 è un software italiano per il monitoraggio in tempo reale di macchine CNC e PLC. Legge dalla macchina stato, contapezzi, allarmi e consumi di energia, calcola l'OEE (disponibilità × efficienza × qualità) e organizza la produzione in work order su una bacheca Kanban. Si installa come unico servizio Windows (Windows 10 1809+, Windows 11, Windows Server 2019+, 64 bit) con database integrato e si usa dal browser su PC, tablet e telefono.
+
+## Funzionalità principali
+
+- Work order (Kanban): colonne Da fare, In corso, Completati; un solo work order in lavorazione; work order automatico se la macchina parte senza commessa.
+- HMI macchina: avanzamento, scostamento del tempo ciclo, scarti e rilavorazioni, stati (attrezzaggio, manutenzione, pulizia, guasto…), note di turno.
+- Telemetria del turno, OEE per turno e settimanale, Report di periodo con esportazione CSV, Energia (potenza, Wh per pezzo, costo), Allarmi, Storico WO.
+- Operatori e registro attività: account personali, ruoli Operatore e Amministratore, registro di chi ha fatto cosa (utile per tracciabilità e certificazione del macchinario).
+- Impostazioni riservate all'amministratore, configurazione guidata in sei passi, modalità tablet, guida in linea.
+- Collegamento macchina: OPC UA (profili Siemens SINUMERIK 840D sl e umati), FANUC FOCAS, Heidenhain DNC, Modbus TCP; contatore di energia Modbus.
+- Integrazione ERP/MES: API REST, tabella di scambio su database (writewo/readwo, compatibile con la versione 1), MQTT con broker integrato.
+- Licenza verificata online con funzionamento anche offline, proxy aziendale, backup automatici giornalieri, prova gratuita di 30 giorni.
+
+## Pagine principali
+
+- [Prodotto](https://www.rtindustry.it/): panoramica, schermate, protocolli, integrazione e domande frequenti
+- [Manuale d'uso](https://www.rtindustry.it/manuale/): come usare ogni schermata (work order, HMI, telemetria, OEE, report, energia, allarmi, storico WO, impostazioni, operatori e registro)
+- [Documentazione tecnica](https://www.rtindustry.it/documentazione/): requisiti, installazione, collegamento alla macchina, licenza, rete, backup, problemi frequenti
+- [Integrazione ERP e MES](https://www.rtindustry.it/developers/): API REST, tabella di scambio e MQTT per i work order
+- [Site Manager](https://www.rtindustry.it/site-manager/): licenze, posti e installazioni per integratori e rivenditori
+
+## Contatti
+
+- Demo e informazioni commerciali: demo@rtindustry.it
+- Assistenza clienti: assistenza@rtindustry.it

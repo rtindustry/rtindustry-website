@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestione Sito - RTIndustry</title>
+  <link rel="icon" href="./favicon.ico" type="image/x-icon">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #2d2d2d; }
+
+    .admin-header {
+      background: linear-gradient(135deg, #1a3a5c, #2a5a8c);
+      color: #fff; padding: 1.5rem 2rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .admin-header h1 { font-size: 1.3rem; font-weight: 700; }
+    .admin-header h1 span { color: #e63946; }
+    .admin-header a { color: #fca5a5; text-decoration: none; font-size: 0.85rem; }
+
+    .admin-container { max-width: 900px; margin: 0 auto; padding: 0 1rem 2rem; }
+
+    .tab-nav {
+      display: flex; background: #fff; border-bottom: 2px solid #e0e0e0;
+      max-width: 900px; margin: 0 auto;
+    }
+    .tab-btn {
+      padding: 1rem 2rem; border: none; background: none;
+      font-family: inherit; font-size: 0.95rem; font-weight: 600;
+      color: #888; cursor: pointer; border-bottom: 3px solid transparent;
+      margin-bottom: -2px; transition: all 0.2s;
+    }
+    .tab-btn:hover { color: #1a3a5c; }
+    .tab-btn.active { color: #1a3a5c; border-bottom-color: #e63946; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    .admin-section {
+      background: #fff; border-radius: 12px; padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 1.5rem;
+    }
+    .admin-section h2 {
+      font-size: 1.1rem; color: #1a3a5c; margin-bottom: 1rem;
+      padding-bottom: 0.5rem; border-bottom: 2px solid #e63946;
+    }
+
+    .form-group { margin-bottom: 1rem; }
+    .form-group label {
+      display: block; font-weight: 600; font-size: 0.85rem;
+      color: #555; margin-bottom: 0.3rem;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 0.6rem 0.8rem; border: 1.5px solid #ddd;
+      border-radius: 8px; font-family: inherit; font-size: 0.9rem;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none; border-color: #1a3a5c;
+    }
+    .form-group textarea { resize: vertical; min-height: 60px; }
+
+    .link-row {
+      display: flex; gap: 0.5rem; align-items: end; margin-bottom: 0.5rem;
+    }
+    .link-row .form-group { flex: 1; margin-bottom: 0; }
+    .link-row .form-group:first-child { flex: 0.4; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.6rem 1.2rem; border: none; border-radius: 8px;
+      font-family: inherit; font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn-primary { background: #1a3a5c; color: #fff; }
+    .btn-primary:hover { background: #2a5a8c; }
+    .btn-success { background: #28a745; color: #fff; }
+    .btn-success:hover { background: #218838; }
+    .btn-danger { background: #e63946; color: #fff; padding: 0.4rem 0.7rem; font-size: 0.8rem; }
+    .btn-danger:hover { background: #c5303c; }
+    .btn-outline { background: transparent; border: 1.5px solid #1a3a5c; color: #1a3a5c; }
+    .btn-outline:hover { background: #1a3a5c; color: #fff; }
+    .btn-small { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
+
+    .actions { display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
+
+    .news-list { list-style: none; }
+    .news-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.8rem 1rem; border: 1px solid #eee; border-radius: 8px;
+      margin-bottom: 0.5rem; background: #fafafa; transition: background 0.2s;
+    }
+    .news-item:hover { background: #f0f4ff; }
+    .news-item-info { flex: 1; }
+    .news-item-title { font-weight: 600; font-size: 0.9rem; }
+    .news-item-meta { font-size: 0.75rem; color: #888; margin-top: 0.2rem; }
+    .news-item-tag {
+      display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px;
+      font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+      margin-right: 0.5rem;
+    }
+    .tag-aggiornamento { background: #dbeafe; color: #1e40af; }
+    .tag-prodotto { background: #fef3c7; color: #92400e; }
+    .tag-evento { background: #d1fae5; color: #065f46; }
+    .tag-novita { background: #ede9fe; color: #5b21b6; }
+    .news-item-actions { display: flex; gap: 0.3rem; flex-shrink: 0; }
+
+    .move-btn {
+      background: none; border: 1px solid #ccc; border-radius: 4px;
+      padding: 0.2rem 0.5rem; cursor: pointer; font-size: 0.8rem;
+    }
+    .move-btn:hover { background: #eee; }
+
+    .json-output {
+      background: #1e1e1e; color: #d4d4d4; padding: 1rem;
+      border-radius: 8px; font-family: 'Courier New', monospace;
+      font-size: 0.8rem; overflow-x: auto; white-space: pre;
+      max-height: 400px; overflow-y: auto; display: none;
+    }
+
+    .instructions {
+      background: #fef2f2; border-left: 4px solid #e63946; padding: 1rem;
+      border-radius: 0 8px 8px 0; margin-bottom: 1.5rem; font-size: 0.85rem;
+    }
+    .instructions strong { color: #1a3a5c; }
+    .instructions ol { padding-left: 1.2rem; margin-top: 0.5rem; }
+    .instructions li { margin-bottom: 0.3rem; }
+
+    .toast {
+      position: fixed; bottom: 2rem; right: 2rem; background: #28a745;
+      color: #fff; padding: 0.8rem 1.5rem; border-radius: 8px;
+      font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transform: translateY(100px); opacity: 0; transition: all 0.3s;
+      z-index: 1000;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    .modal-overlay {
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5); z-index: 900;
+      align-items: center; justify-content: center;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: #fff; border-radius: 12px; padding: 1.5rem;
+      width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+    .modal h3 {
+      font-size: 1rem; color: #1a3a5c; margin-bottom: 1rem;
+      padding-bottom: 0.5rem; border-bottom: 2px solid #e63946;
+    }
+    .modal .actions { justify-content: flex-end; }
+
+    .login-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(135deg, #0f2942 0%, #1a3a5c 50%, #2a5a8c 100%);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 2000;
+    }
+    .login-box {
+      background: #fff; border-radius: 16px; padding: 2.5rem;
+      width: 90%; max-width: 400px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+    .login-box h2 {
+      color: #1a3a5c; font-size: 1.3rem; margin-bottom: 0.3rem;
+      text-align: center;
+    }
+    .login-box h2 span { color: #e63946; }
+    .login-box .login-subtitle {
+      color: #888; font-size: 0.85rem; text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .login-box .btn-primary {
+      width: 100%; padding: 0.8rem; font-size: 1rem;
+      margin-top: 0.5rem;
+    }
+    .login-error {
+      color: #e63946; font-size: 0.85rem; text-align: center;
+      margin-top: 0.8rem; display: none;
+    }
+
+    .user-info {
+      margin-left: auto; display: flex; align-items: center; gap: 0.8rem;
+      font-size: 0.85rem;
+    }
+    .user-info .username { font-weight: 600; }
+    .user-info .badge-ruolo {
+      background: rgba(230,57,70,0.2); color: #fca5a5;
+      padding: 0.15rem 0.5rem; border-radius: 4px;
+      font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+    }
+    .user-info .btn-header {
+      background: rgba(255,255,255,0.15); color: #fff;
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 0.3rem 0.7rem; border-radius: 6px;
+      font-family: inherit; font-size: 0.78rem; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .user-info .btn-header:hover { background: rgba(255,255,255,0.25); }
+
+    .users-table {
+      width: 100%; border-collapse: collapse; font-size: 0.85rem;
+    }
+    .users-table th {
+      text-align: left; padding: 0.6rem 0.8rem; background: #f5f6fa;
+      color: #555; font-weight: 600; font-size: 0.78rem;
+      text-transform: uppercase; border-bottom: 2px solid #e0e0e0;
+    }
+    .users-table td {
+      padding: 0.6rem 0.8rem; border-bottom: 1px solid #eee;
+      vertical-align: middle;
+    }
+    .users-table tr:hover td { background: #f0f4ff; }
+    .users-table select {
+      padding: 0.3rem 0.5rem; border: 1.5px solid #ddd;
+      border-radius: 6px; font-family: inherit; font-size: 0.82rem;
+    }
+    .add-user-form {
+      display: flex; gap: 0.8rem; align-items: end; flex-wrap: wrap;
+      padding-top: 1rem; border-top: 1px solid #eee; margin-top: 1rem;
+    }
+    .add-user-form .form-group { flex: 1; min-width: 140px; margin-bottom: 0; }
+
+    @media (max-width: 600px) {
+      .link-row { flex-direction: column; }
+      .news-item { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+      .tab-btn { padding: 0.8rem 1rem; font-size: 0.85rem; }
+      .user-info { flex-wrap: wrap; gap: 0.4rem; }
+      .add-user-form { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="loginScreen" class="login-overlay">
+  <div class="login-box">
+    <h2>Gestione Sito</h2>
+    <p class="login-subtitle"><span style="color:#e63946;font-weight:700">RT</span>Industry IIoT</p>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="loginUsername">Username</label>
+        <input type="text" id="loginUsername" placeholder="Username" required autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" placeholder="Password" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn btn-primary" id="loginBtn">Accedi</button>
+    </form>
+    <p class="login-error" id="loginError"></p>
+  </div>
+</div>
+
+<div id="adminApp" style="display:none">
+
+<div class="admin-header">
+  <div>
+    <h1><span>RT</span>Industry - Gestione Sito</h1>
+    <a href="index.html">Torna al sito</a>
+  </div>
+  <div class="user-info">
+    <span class="username" id="headerUsername"></span>
+    <span class="badge-ruolo" id="headerRuolo"></span>
+    <button class="btn-header" id="btnCambiaPassword">Cambia password</button>
+    <button class="btn-header" id="btnLogout">Esci</button>
+  </div>
+</div>
+
+<div class="tab-nav">
+  <button class="tab-btn active" data-tab="tab-notizie">Notizie</button>
+  <button class="tab-btn" data-tab="tab-utenti" id="tabUtentiBtn" style="display:none">Utenti</button>
+  <button class="tab-btn" data-tab="tab-impostazioni" id="tabImpostazioniBtn" style="display:none">Impostazioni</button>
+</div>
+
+<div class="admin-container">
+
+<div id="tab-notizie" class="tab-content active" style="padding-top:1.5rem">
+
+  <div class="instructions">
+    <strong>Come funziona:</strong>
+    <ol>
+      <li>Usa il form qui sotto per aggiungere una nuova notizia</li>
+      <li>Puoi riordinare o eliminare le notizie esistenti dalla lista</li>
+      <li>Quando hai finito, clicca <strong>"Pubblica sul sito"</strong></li>
+      <li>Le modifiche saranno visibili immediatamente sul sito!</li>
+    </ol>
+  </div>
+
+  <div class="admin-section">
+    <h2>Aggiungi Nuova Notizia</h2>
+    <form id="newsForm">
+      <div class="form-group">
+        <label for="titolo">Titolo *</label>
+        <input type="text" id="titolo" placeholder="Es: Nuovo aggiornamento RTIndustry v2.5" required>
+      </div>
+      <div style="display:flex; gap:1rem; flex-wrap:wrap">
+        <div class="form-group" style="flex:1; min-width:200px">
+          <label for="categoria">Categoria *</label>
+          <select id="categoria" required>
+            <option value="aggiornamento">Aggiornamento</option>
+            <option value="prodotto">Prodotto</option>
+            <option value="evento">Evento</option>
+            <option value="novita">Novità</option>
+          </select>
+        </div>
+        <div class="form-group" style="flex:1; min-width:200px">
+          <label for="data">Data *</label>
+          <input type="text" id="data" placeholder="Es: Marzo 2026" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="descrizione">Descrizione *</label>
+        <textarea id="descrizione" placeholder="Breve descrizione della notizia..." required></textarea>
+      </div>
+      <div id="linksContainer">
+        <label style="font-weight:600; font-size:0.85rem; color:#555; margin-bottom:0.5rem; display:block">Link (opzionali)</label>
+        <div class="link-row" data-link-index="0">
+          <div class="form-group"><input type="text" placeholder="Testo link" class="link-text"></div>
+          <div class="form-group"><input type="url" placeholder="https://..." class="link-url"></div>
+          <button type="button" class="btn btn-danger remove-link" title="Rimuovi">&times;</button>
+        </div>
+      </div>
+      <button type="button" class="btn btn-outline btn-small" id="addLink">+ Aggiungi altro link</button>
+      <div class="actions">
+        <button type="submit" class="btn btn-primary">Aggiungi notizia in cima</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="admin-section">
+    <h2>Notizie Attuali (<span id="newsCount">0</span>)</h2>
+    <ul class="news-list" id="newsList"></ul>
+  </div>
+
+  <div class="admin-section">
+    <h2>Pubblica Modifiche</h2>
+    <p style="font-size:0.85rem; margin-bottom:1rem; color:#555">
+      Clicca il pulsante per pubblicare le modifiche. Le notizie saranno visibili immediatamente sul sito.
+    </p>
+    <div class="actions">
+      <button class="btn btn-success" id="saveBtn" style="font-size:1rem; padding:0.8rem 2rem">Pubblica sul sito</button>
+      <button class="btn btn-outline btn-small" id="downloadBtn">Scarica backup JSON</button>
+      <button class="btn btn-outline btn-small" id="showJsonBtn">Mostra JSON</button>
+    </div>
+    <div id="saveStatus" style="margin-top:0.8rem; font-size:0.85rem; display:none"></div>
+    <pre class="json-output" id="jsonOutput"></pre>
+  </div>
+
+</div>
+
+<div id="tab-utenti" class="tab-content" style="padding-top:1.5rem">
+  <div class="admin-section">
+    <h2>Gestione Utenti</h2>
+    <table class="users-table">
+      <thead><tr><th>Username</th><th>Ruolo</th><th>Data Creazione</th><th></th></tr></thead>
+      <tbody id="usersTableBody"></tbody>
+    </table>
+    <div class="add-user-form">
+      <div class="form-group"><label for="newUsername">Username</label><input type="text" id="newUsername" placeholder="nuovo.utente"></div>
+      <div class="form-group"><label for="newPassword">Password</label><input type="password" id="newPassword" placeholder="min. 6 caratteri"></div>
+      <div class="form-group"><label for="newRuolo">Ruolo</label><select id="newRuolo"><option value="editor">Editor</option><option value="admin">Admin</option></select></div>
+      <button class="btn btn-primary btn-small" id="btnCreaUtente">Aggiungi Utente</button>
+    </div>
+  </div>
+</div>
+
+<!-- TAB IMPOSTAZIONI -->
+<div id="tab-impostazioni" class="tab-content" style="padding-top:1.5rem">
+
+  <div class="admin-section">
+    <h2>Pubblicazione Online</h2>
+    <p style="font-size:0.85rem; margin-bottom:1rem; color:#555">
+      Scegli il metodo di sincronizzazione per pubblicare le modifiche online.
+    </p>
+
+    <div class="form-group">
+      <label style="margin-bottom:0.5rem">Metodo di sincronizzazione</label>
+      <div style="display:flex; gap:1.5rem; flex-wrap:wrap; margin-top:0.3rem">
+        <label style="display:flex;align-items:center;gap:0.4rem;font-weight:400;font-size:0.9rem;cursor:pointer">
+          <input type="radio" name="syncMetodo" value="nessuno" checked> Nessuno (solo locale)
+        </label>
+        <label style="display:flex;align-items:center;gap:0.4rem;font-weight:400;font-size:0.9rem;cursor:pointer">
+          <input type="radio" name="syncMetodo" value="github"> GitHub Pages (API)
+        </label>
+        <label style="display:flex;align-items:center;gap:0.4rem;font-weight:400;font-size:0.9rem;cursor:pointer">
+          <input type="radio" name="syncMetodo" value="ftp"> FTP / FTPS (hosting tradizionale)
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Campi GitHub -->
+  <div class="admin-section" id="syncGithubFields" style="display:none">
+    <h2>Configurazione GitHub</h2>
+    <div class="form-group">
+      <label for="syncGhToken">Token</label>
+      <input type="password" id="syncGhToken" placeholder="ghp_xxxxxxxxxxxxx">
+    </div>
+    <div style="display:flex; gap:1rem; flex-wrap:wrap">
+      <div class="form-group" style="flex:1; min-width:200px">
+        <label for="syncGhOwner">Owner</label>
+        <input type="text" id="syncGhOwner" placeholder="nome-utente o organizzazione">
+      </div>
+      <div class="form-group" style="flex:1; min-width:200px">
+        <label for="syncGhRepo">Repository</label>
+        <input type="text" id="syncGhRepo" placeholder="nome-repository">
+      </div>
+    </div>
+    <div class="form-group" style="max-width:250px">
+      <label for="syncGhBranch">Branch</label>
+      <input type="text" id="syncGhBranch" value="main" placeholder="main">
+    </div>
+  </div>
+
+  <!-- Campi FTP -->
+  <div class="admin-section" id="syncFtpFields" style="display:none">
+    <h2>Configurazione FTP</h2>
+    <div style="display:flex; gap:1rem; flex-wrap:wrap">
+      <div class="form-group" style="flex:2; min-width:250px">
+        <label for="syncFtpHost">Host</label>
+        <input type="text" id="syncFtpHost" placeholder="ftp.esempio.it">
+      </div>
+      <div class="form-group" style="flex:0 0 100px">
+        <label for="syncFtpPorta">Porta</label>
+        <input type="number" id="syncFtpPorta" value="21" min="1" max="65535">
+      </div>
+    </div>
+    <div style="display:flex; gap:1rem; flex-wrap:wrap">
+      <div class="form-group" style="flex:1; min-width:200px">
+        <label for="syncFtpUsername">Username</label>
+        <input type="text" id="syncFtpUsername" placeholder="utente@esempio.it">
+      </div>
+      <div class="form-group" style="flex:1; min-width:200px">
+        <label for="syncFtpPassword">Password</label>
+        <input type="password" id="syncFtpPassword" placeholder="Password FTP">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="syncFtpPercorso">Percorso remoto</label>
+      <input type="text" id="syncFtpPercorso" value="/public_html" placeholder="/public_html">
+      <small>Percorso assoluto della cartella del sito sul server</small>
+    </div>
+    <div class="form-group">
+      <label style="display:flex;align-items:center;gap:0.5rem;font-weight:400;cursor:pointer">
+        <input type="checkbox" id="syncFtpTls" checked>
+        Usa connessione sicura (TLS)
+      </label>
+    </div>
+  </div>
+
+  <!-- Azioni -->
+  <div class="admin-section">
+    <div class="actions">
+      <button class="btn btn-outline" id="syncTestBtn">Testa Connessione</button>
+      <button class="btn btn-primary" id="syncSaveBtn">Salva Impostazioni</button>
+    </div>
+    <div id="syncConfigStatus" style="margin-top:0.8rem; font-size:0.85rem; display:none"></div>
+  </div>
+
+</div>
+
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-overlay" id="passwordModalOverlay">
+  <div class="modal">
+    <h3>Cambia Password</h3>
+    <div class="form-group"><label for="pwdAttuale">Password attuale</label><input type="password" id="pwdAttuale" placeholder="Password attuale"></div>
+    <div class="form-group"><label for="pwdNuova">Nuova password</label><input type="password" id="pwdNuova" placeholder="Minimo 6 caratteri"></div>
+    <div class="form-group"><label for="pwdConferma">Conferma nuova password</label><input type="password" id="pwdConferma" placeholder="Ripeti nuova password"></div>
+    <p id="pwdError" style="color:#e63946;font-size:0.85rem;display:none"></p>
+    <div class="actions">
+      <button class="btn btn-outline btn-small" type="button" id="btnAnnullaPassword">Annulla</button>
+      <button class="btn btn-primary" type="button" id="btnConfermaPassword">Cambia Password</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentUser = null;
+
+async function apiFetch(url, options = {}) {
+  const res = await fetch(url, options);
+  if (res.status === 401) { currentUser = null; showLoginScreen(); throw new Error('Sessione scaduta'); }
+  return res;
+}
+
+async function checkAuth() {
+  try {
+    const res = await fetch('/api/utente-corrente');
+    if (res.ok) { const data = await res.json(); if (data.ok) { currentUser = { username: data.username, ruolo: data.ruolo }; showAdminApp(); return; } }
+  } catch (e) {}
+  showLoginScreen();
+}
+
+function showLoginScreen() {
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('adminApp').style.display = 'none';
+  document.getElementById('loginUsername').focus();
+}
+
+function showAdminApp() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('adminApp').style.display = 'block';
+  document.getElementById('headerUsername').textContent = currentUser.username;
+  document.getElementById('headerRuolo').textContent = currentUser.ruolo;
+  const isAdmin = currentUser.ruolo === 'admin';
+  document.getElementById('tabUtentiBtn').style.display = isAdmin ? '' : 'none';
+  document.getElementById('tabImpostazioniBtn').style.display = isAdmin ? '' : 'none';
+  caricaNotizie();
+  if (isAdmin) { caricaListaUtenti(); caricaSyncConfig(); }
+}
+
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const loginBtn = document.getElementById('loginBtn');
+  const errorEl = document.getElementById('loginError');
+  loginBtn.disabled = true; loginBtn.textContent = 'Accesso in corso...'; errorEl.style.display = 'none';
+  try {
+    const res = await fetch('/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: document.getElementById('loginUsername').value.trim(), password: document.getElementById('loginPassword').value }) });
+    const data = await res.json();
+    if (data.ok) { currentUser = { username: data.username, ruolo: data.ruolo }; document.getElementById('loginForm').reset(); showAdminApp(); }
+    else { errorEl.textContent = data.errore || 'Errore di login'; errorEl.style.display = 'block'; }
+  } catch (err) { errorEl.textContent = 'Errore di rete: ' + err.message; errorEl.style.display = 'block'; }
+  loginBtn.disabled = false; loginBtn.textContent = 'Accedi';
+});
+
+document.getElementById('btnLogout').addEventListener('click', async () => {
+  try { await fetch('/api/logout', { method: 'POST' }); } catch (e) {}
+  currentUser = null; showLoginScreen();
+});
+
+// Password change
+document.getElementById('btnCambiaPassword').addEventListener('click', () => { document.getElementById('passwordModalOverlay').classList.add('active'); document.getElementById('pwdAttuale').focus(); });
+document.getElementById('btnAnnullaPassword').addEventListener('click', () => { document.getElementById('passwordModalOverlay').classList.remove('active'); document.getElementById('pwdAttuale').value = ''; document.getElementById('pwdNuova').value = ''; document.getElementById('pwdConferma').value = ''; document.getElementById('pwdError').style.display = 'none'; });
+document.getElementById('btnConfermaPassword').addEventListener('click', async () => {
+  const attuale = document.getElementById('pwdAttuale').value, nuova = document.getElementById('pwdNuova').value, conferma = document.getElementById('pwdConferma').value, errorEl = document.getElementById('pwdError');
+  errorEl.style.display = 'none';
+  if (!attuale || !nuova || !conferma) { errorEl.textContent = 'Compila tutti i campi'; errorEl.style.display = 'block'; return; }
+  if (nuova !== conferma) { errorEl.textContent = 'Le due password non coincidono'; errorEl.style.display = 'block'; return; }
+  if (nuova.length < 6) { errorEl.textContent = 'La nuova password deve avere almeno 6 caratteri'; errorEl.style.display = 'block'; return; }
+  try {
+    const res = await apiFetch('/api/cambia-password', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password_attuale: attuale, password_nuova: nuova }) });
+    const data = await res.json();
+    if (data.ok) { document.getElementById('passwordModalOverlay').classList.remove('active'); document.getElementById('pwdAttuale').value = ''; document.getElementById('pwdNuova').value = ''; document.getElementById('pwdConferma').value = ''; showToast('Password cambiata con successo'); }
+    else { errorEl.textContent = data.errore; errorEl.style.display = 'block'; }
+  } catch (err) { errorEl.textContent = err.message; errorEl.style.display = 'block'; }
+});
+document.getElementById('passwordModalOverlay').addEventListener('click', (e) => { if (e.target === e.currentTarget) document.getElementById('btnAnnullaPassword').click(); });
+
+// Users
+async function caricaListaUtenti() {
+  try {
+    const res = await apiFetch('/api/lista-utenti'); const data = await res.json(); if (!data.ok) return;
+    document.getElementById('usersTableBody').innerHTML = data.utenti.map(u => `<tr><td><strong>${escapeHtml(u.username)}</strong></td><td><select onchange="cambiaRuolo('${escapeHtml(u.username)}', this.value)" ${u.username === currentUser.username ? 'disabled' : ''}><option value="editor" ${u.ruolo === 'editor' ? 'selected' : ''}>Editor</option><option value="admin" ${u.ruolo === 'admin' ? 'selected' : ''}>Admin</option></select></td><td style="font-size:0.8rem;color:#888">${u.creato ? new Date(u.creato).toLocaleDateString('it-IT') : '-'}</td><td>${u.username !== currentUser.username ? `<button class="btn btn-danger btn-small" onclick="eliminaUtente('${escapeHtml(u.username)}')">Elimina</button>` : '<span style="font-size:0.75rem;color:#888">Tu</span>'}</td></tr>`).join('');
+  } catch (err) { console.error(err); }
+}
+
+async function cambiaRuolo(username, nuovoRuolo) {
+  try { const res = await apiFetch('/api/cambia-ruolo', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username, ruolo: nuovoRuolo }) }); const data = await res.json(); showToast(data.ok ? data.messaggio : data.errore, !data.ok); } catch (err) { showToast(err.message, true); }
+  caricaListaUtenti();
+}
+
+async function eliminaUtente(username) {
+  if (!confirm(`Eliminare l'utente "${username}"?`)) return;
+  try { const res = await apiFetch('/api/elimina-utente', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username }) }); const data = await res.json(); if (data.ok) { showToast(data.messaggio); caricaListaUtenti(); } else showToast(data.errore, true); } catch (err) { showToast(err.message, true); }
+}
+
+document.getElementById('btnCreaUtente').addEventListener('click', async () => {
+  const username = document.getElementById('newUsername').value.trim(), password = document.getElementById('newPassword').value, ruolo = document.getElementById('newRuolo').value;
+  if (!username || !password) { showToast('Username e password obbligatori', true); return; }
+  try { const res = await apiFetch('/api/crea-utente', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username, password, ruolo }) }); const data = await res.json(); if (data.ok) { showToast(data.messaggio); document.getElementById('newUsername').value = ''; document.getElementById('newPassword').value = ''; caricaListaUtenti(); } else showToast(data.errore, true); } catch (err) { showToast(err.message, true); }
+});
+
+// Tabs
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+// Notizie
+let notizie = [];
+const categoryLabels = { aggiornamento: 'Aggiornamento', prodotto: 'Prodotto', evento: 'Evento', novita: 'Novità' };
+
+function caricaNotizie() {
+  fetch('data/notizie.json').then(r => r.json()).then(data => { notizie = data; renderList(); }).catch(() => { notizie = []; renderList(); });
+}
+
+function renderList() {
+  const list = document.getElementById('newsList');
+  document.getElementById('newsCount').textContent = notizie.length;
+  list.innerHTML = notizie.map((n, i) => `<li class="news-item"><div class="news-item-info"><div><span class="news-item-tag tag-${n.categoria}">${categoryLabels[n.categoria] || n.categoria}</span><span class="news-item-title">${escapeHtml(n.titolo)}</span></div><div class="news-item-meta">${escapeHtml(n.data)} · ${n.links ? n.links.length : 0} link</div></div><div class="news-item-actions"><button class="move-btn" onclick="moveNews(${i}, -1)" title="Sposta su" ${i === 0 ? 'disabled' : ''}>&#9650;</button><button class="move-btn" onclick="moveNews(${i}, 1)" title="Sposta giu" ${i === notizie.length - 1 ? 'disabled' : ''}>&#9660;</button><button class="btn btn-danger" onclick="deleteNews(${i})" title="Elimina">&#10005;</button></div></li>`).join('');
+}
+
+function escapeHtml(text) { const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
+
+document.getElementById('newsForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const links = [];
+  document.querySelectorAll('.link-row').forEach(row => { const t = row.querySelector('.link-text').value.trim(), u = row.querySelector('.link-url').value.trim(); if (t && u) links.push({ testo: t, url: u }); });
+  notizie.unshift({ titolo: document.getElementById('titolo').value.trim(), categoria: document.getElementById('categoria').value, data: document.getElementById('data').value.trim(), descrizione: document.getElementById('descrizione').value.trim(), links });
+  renderList(); e.target.reset();
+  const rows = document.getElementById('linksContainer').querySelectorAll('.link-row');
+  rows.forEach((row, i) => { if (i > 0) row.remove(); });
+  rows[0].querySelector('.link-text').value = ''; rows[0].querySelector('.link-url').value = '';
+  showToast('Notizia aggiunta in cima!');
+});
+
+document.getElementById('addLink').addEventListener('click', () => {
+  const container = document.getElementById('linksContainer');
+  const row = document.createElement('div'); row.className = 'link-row';
+  row.innerHTML = `<div class="form-group"><input type="text" placeholder="Testo link" class="link-text"></div><div class="form-group"><input type="url" placeholder="https://..." class="link-url"></div><button type="button" class="btn btn-danger remove-link" title="Rimuovi">&times;</button>`;
+  container.appendChild(row);
+});
+
+document.getElementById('linksContainer').addEventListener('click', (e) => {
+  if (e.target.classList.contains('remove-link')) { const rows = document.querySelectorAll('.link-row'); if (rows.length > 1) e.target.closest('.link-row').remove(); else { rows[0].querySelector('.link-text').value = ''; rows[0].querySelector('.link-url').value = ''; } }
+});
+
+function moveNews(i, d) { const n = i + d; if (n < 0 || n >= notizie.length) return; [notizie[i], notizie[n]] = [notizie[n], notizie[i]]; renderList(); }
+function deleteNews(i) { if (confirm(`Eliminare "${notizie[i].titolo}"?`)) { notizie.splice(i, 1); renderList(); showToast('Notizia eliminata'); } }
+
+const saveBtn = document.getElementById('saveBtn'), saveStatus = document.getElementById('saveStatus');
+saveBtn.addEventListener('click', async () => {
+  saveBtn.disabled = true; saveBtn.textContent = 'Salvataggio in corso...'; saveStatus.style.display = 'none';
+  try {
+    const res = await apiFetch('/api/salva-notizie', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(notizie) });
+    const data = await res.json();
+    if (data.ok) { saveStatus.style.display = 'block'; saveStatus.style.color = '#28a745'; saveStatus.innerHTML = '&#10003; ' + data.messaggio; showToast('Pubblicato con successo!'); }
+    else throw new Error(data.errore);
+  } catch (err) { saveStatus.style.display = 'block'; saveStatus.style.color = '#e63946'; saveStatus.innerHTML = '&#10007; Errore: ' + err.message; }
+  saveBtn.disabled = false; saveBtn.textContent = 'Pubblica sul sito';
+});
+
+document.getElementById('downloadBtn').addEventListener('click', () => { const b = new Blob([JSON.stringify(notizie, null, 2)], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'notizie_backup.json'; a.click(); URL.revokeObjectURL(a.href); showToast('Backup scaricato'); });
+document.getElementById('showJsonBtn').addEventListener('click', () => { const o = document.getElementById('jsonOutput'); o.textContent = JSON.stringify(notizie, null, 2); o.style.display = o.style.display === 'none' ? 'block' : 'none'; });
+document.addEventListener('keydown', (e) => { if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); saveBtn.click(); } });
+
+checkAuth();
+
+function showToast(msg, isError) { const t = document.getElementById('toast'); t.textContent = msg; t.style.background = isError ? '#e63946' : '#28a745'; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); }
+
+// --- Sync Config ---
+function aggiornaVisibilitaCampiSync() {
+  const metodo = document.querySelector('input[name="syncMetodo"]:checked').value;
+  document.getElementById('syncGithubFields').style.display = metodo === 'github' ? '' : 'none';
+  document.getElementById('syncFtpFields').style.display = metodo === 'ftp' ? '' : 'none';
+}
+
+document.querySelectorAll('input[name="syncMetodo"]').forEach(radio => {
+  radio.addEventListener('change', aggiornaVisibilitaCampiSync);
+});
+
+async function caricaSyncConfig() {
+  try {
+    const res = await apiFetch('/api/sync-config');
+    const data = await res.json();
+    if (!data.ok) return;
+
+    const radio = document.querySelector(`input[name="syncMetodo"][value="${data.metodo || 'nessuno'}"]`);
+    if (radio) radio.checked = true;
+
+    const gh = data.github || {};
+    document.getElementById('syncGhToken').value = gh.token || '';
+    document.getElementById('syncGhOwner').value = gh.owner || '';
+    document.getElementById('syncGhRepo').value = gh.repo || '';
+    document.getElementById('syncGhBranch').value = gh.branch || 'main';
+
+    const ftp = data.ftp || {};
+    document.getElementById('syncFtpHost').value = ftp.host || '';
+    document.getElementById('syncFtpPorta').value = ftp.porta || 21;
+    document.getElementById('syncFtpUsername').value = ftp.username || '';
+    document.getElementById('syncFtpPassword').value = ftp.password || '';
+    document.getElementById('syncFtpPercorso').value = ftp.percorso_remoto || '/public_html';
+    document.getElementById('syncFtpTls').checked = ftp.tls !== false;
+
+    aggiornaVisibilitaCampiSync();
+  } catch (err) {
+    console.error('Errore caricamento configurazione sync:', err);
+  }
+}
+
+function raccogliSyncConfig() {
+  const metodo = document.querySelector('input[name="syncMetodo"]:checked').value;
+  return {
+    metodo: metodo,
+    github: {
+      token: document.getElementById('syncGhToken').value,
+      owner: document.getElementById('syncGhOwner').value.trim(),
+      repo: document.getElementById('syncGhRepo').value.trim(),
+      branch: document.getElementById('syncGhBranch').value.trim() || 'main'
+    },
+    ftp: {
+      host: document.getElementById('syncFtpHost').value.trim(),
+      porta: parseInt(document.getElementById('syncFtpPorta').value) || 21,
+      username: document.getElementById('syncFtpUsername').value.trim(),
+      password: document.getElementById('syncFtpPassword').value,
+      percorso_remoto: document.getElementById('syncFtpPercorso').value.trim() || '/public_html',
+      tls: document.getElementById('syncFtpTls').checked
+    }
+  };
+}
+
+document.getElementById('syncSaveBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('syncSaveBtn');
+  const status = document.getElementById('syncConfigStatus');
+  btn.disabled = true;
+  btn.textContent = 'Salvataggio...';
+  status.style.display = 'none';
+
+  try {
+    const config = raccogliSyncConfig();
+    const res = await apiFetch('/api/sync-config', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(config)
+    });
+    const data = await res.json();
+    if (data.ok) {
+      status.style.display = 'block';
+      status.style.color = '#28a745';
+      status.innerHTML = '&#10003; ' + data.messaggio;
+      showToast('Impostazioni salvate');
+      caricaSyncConfig();
+    } else {
+      throw new Error(data.errore || 'Errore sconosciuto');
+    }
+  } catch (err) {
+    status.style.display = 'block';
+    status.style.color = '#dc3545';
+    status.innerHTML = '&#10007; Errore: ' + err.message;
+    showToast('Errore nel salvataggio', true);
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Salva Impostazioni';
+});
+
+document.getElementById('syncTestBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('syncTestBtn');
+  const status = document.getElementById('syncConfigStatus');
+  const metodo = document.querySelector('input[name="syncMetodo"]:checked').value;
+
+  if (metodo === 'nessuno') {
+    showToast('Seleziona un metodo di sincronizzazione', true);
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Test in corso...';
+  status.style.display = 'none';
+
+  try {
+    const config = raccogliSyncConfig();
+    const res = await apiFetch('/api/sync-test', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(config)
+    });
+    const data = await res.json();
+    if (data.ok) {
+      status.style.display = 'block';
+      status.style.color = '#28a745';
+      status.innerHTML = '&#10003; ' + data.messaggio;
+      showToast('Connessione riuscita!');
+    } else {
+      status.style.display = 'block';
+      status.style.color = '#dc3545';
+      status.innerHTML = '&#10007; ' + (data.errore || 'Test fallito');
+      showToast('Test connessione fallito', true);
+    }
+  } catch (err) {
+    status.style.display = 'block';
+    status.style.color = '#dc3545';
+    status.innerHTML = '&#10007; Errore: ' + err.message;
+    showToast('Errore nel test', true);
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Testa Connessione';
+});
+</script>
+
+</body>
+</html>

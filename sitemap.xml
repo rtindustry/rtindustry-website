@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sezione prezzi temporaneamente nascosta: /pricing/ non è elencata. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://www.rtindustry.it/</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://www.rtindustry.it/manuale/</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://www.rtindustry.it/documentazione/</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://www.rtindustry.it/developers/</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://www.rtindustry.it/site-manager/</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://www.rtindustry.it/privacy/</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://www.rtindustry.it/cookie-policy/</loc><lastmod>2026-09-30</lastmod></url>
+</urlset>

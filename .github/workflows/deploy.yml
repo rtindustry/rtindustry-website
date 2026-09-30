@@ -1,0 +1,52 @@
+# Pubblica il sito su GitHub Pages (dominio rtindustry.it, file CNAME).
+# Si pubblicano SOLO i file del sito: restano fuori gli strumenti locali di
+# gestione (server.py, admin.html, collegamenti) e le configurazioni.
+name: Pubblica sito
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  pubblica:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepara i file del sito
+        run: |
+          mkdir _site
+          rsync -a ./ _site/ \
+            --exclude '.git*' --exclude '_site' --exclude '__pycache__' \
+            --exclude 'server.py' --exclude 'admin.html' \
+            --exclude '*.bat' --exclude '*.lnk' \
+            --exclude 'data/sync_config.json' --exclude 'data/users.json' \
+            --exclude '/pricing/'
+          # Sezione prezzi temporaneamente nascosta: al posto della pagina si
+          # pubblica un rimando alla home (noindex). Per ripristinarla togliere
+          # l'esclusione qui sopra e questo blocco.
+          mkdir -p _site/pricing
+          printf '%s\n' '<!DOCTYPE html>' '<html lang="it"><head><meta charset="UTF-8">' \
+            '<meta name="robots" content="noindex, follow">' \
+            '<link rel="canonical" href="https://www.rtindustry.it/">' \
+            '<meta http-equiv="refresh" content="0; url=/">' \
+            '<title>RTIndustry</title></head>' \
+            '<body><p><a href="/">RTIndustry</a></p></body></html>' > _site/pricing/index.html
+          test -f _site/index.html && test -f _site/CNAME && test -f _site/manuale/index.html
+          ! test -e _site/server.py
+          ! test -e _site/admin.html
+          ! grep -q 'btn-plan' _site/pricing/index.html
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deploy
+        uses: actions/deploy-pages@v4
