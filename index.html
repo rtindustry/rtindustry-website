@@ -93,6 +93,8 @@
             { "@type": "Question", "name": "Serve un server o un database esterno?", "acceptedAnswer": { "@type": "Answer", "text": "No. RTIndustry 2.0 è un unico servizio Windows con database integrato e backup automatici giornalieri: basta un PC Windows a 64 bit collegato in rete alla macchina." } },
             { "@type": "Question", "name": "Come si calcola l'OEE in RTIndustry?", "acceptedAnswer": { "@type": "Answer", "text": "L'OEE è il prodotto di disponibilità, efficienza e qualità. RTIndustry lo calcola da solo dai dati della macchina: tempo in lavorazione rispetto al tempo disponibile, pezzi prodotti rispetto al tempo ciclo target del work order e pezzi buoni rispetto ai pezzi totali." } },
             { "@type": "Question", "name": "RTIndustry si integra con il gestionale ERP o con un MES?", "acceptedAnswer": { "@type": "Answer", "text": "Sì, con tre canali equivalenti: API REST con chiave, tabella di scambio su database compatibile con la versione 1 e MQTT tramite il broker integrato. Il gestionale crea e modifica i work order e legge l'avanzamento." } },
+            { "@type": "Question", "name": "Posso seguire più macchine dallo stesso PC?", "acceptedAnswer": { "@type": "Answer", "text": "Sì. Su un PC o un server si installa un'istanza di RTIndustry per ogni macchina (per esempio 8 istanze per 8 macchine): ognuna ha servizio, porta, dati e backup propri e occupa un posto della licenza. L'installer propone da solo nome, cartella e porte libere." } },
+            { "@type": "Question", "name": "La mia macchina non ha il contapezzi: posso contare i pezzi?", "acceptedAnswer": { "@type": "Answer", "text": "Sì. Se il controllo non ha un contapezzi (capita spesso con Heidenhain), RTIndustry conta un pezzo a ogni fine programma (M30, M2 o END PGM). In alternativa legge un contatore dal PLC della macchina." } },
             { "@type": "Question", "name": "Funziona anche senza connessione a internet?", "acceptedAnswer": { "@type": "Answer", "text": "Sì. La licenza si verifica online, ma se la connessione manca RTIndustry continua a raccogliere i dati e riprova da solo. Se l'azienda esce su internet tramite proxy, lo si indica nelle impostazioni." } },
             { "@type": "Question", "name": "Si può provare RTIndustry?", "acceptedAnswer": { "@type": "Answer", "text": "Sì: senza chiave di licenza parte una prova gratuita di 30 giorni. Per una dimostrazione sulla propria macchina si può scrivere a demo@rtindustry.it." } }
           ]
@@ -540,13 +542,13 @@
         <div class="container">
             <span class="section-tag white">Connettività</span>
             <h2 class="section-title" style="color:white">Un software, tante macchine</h2>
-            <p class="section-subtitle" style="color:rgba(255,255,255,0.8)">RTIndustry parla direttamente con il controllo della macchina: niente schede aggiuntive se il CNC o il PLC è già in rete.</p>
+            <p class="section-subtitle" style="color:rgba(255,255,255,0.8)">RTIndustry parla direttamente con il controllo della macchina: niente schede aggiuntive se il CNC o il PLC è già in rete. Da un solo PC o server si seguono anche più macchine insieme, un'istanza per macchina.</p>
             <div class="row g-4">
                 <div class="col-md-6 col-lg-3">
                     <div class="protocol-card">
                         <div class="icon-circle"><i class="bi bi-hdd-network" aria-hidden="true"></i></div>
                         <h3>OPC UA</h3>
-                        <p>PLC e CNC con server OPC UA: profili pronti per Siemens SINUMERIK 840D sl e macchine umati (OPC 40501), sicurezza con firma e cifratura.</p>
+                        <p>PLC e CNC con server OPC UA: profili pronti per Siemens SINUMERIK 840D sl (nodi nativi verificati sul campo) e macchine umati (OPC 40501), sicurezza con firma e cifratura.</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-3">
@@ -560,14 +562,14 @@
                     <div class="protocol-card">
                         <div class="icon-circle"><i class="bi bi-cpu" aria-hidden="true"></i></div>
                         <h3>Heidenhain DNC</h3>
-                        <p>TNC 640 e serie TNC 6xx, TNC 320, TNC 128, iTNC 530, CNC PILOT, MANUALplus e MillPlus. Invio dei programmi al controllo.</p>
+                        <p>TNC 640 e serie TNC 6xx, TNC 320, TNC 128, iTNC 530, CNC PILOT, MANUALplus e MillPlus. Pezzi contati anche senza contapezzi del controllo, a fine programma. Invio dei programmi al controllo.</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-3">
                     <div class="protocol-card">
                         <div class="icon-circle"><i class="bi bi-ethernet" aria-hidden="true"></i></div>
                         <h3>Modbus TCP</h3>
-                        <p>PLC e moduli di I/O: registri holding, input, coil e ingressi, con mappa pronta o registri personalizzati. Anche per i contatori di energia.</p>
+                        <p>PLC e moduli di I/O: registri holding, input, coil e ingressi, con mappa pronta o registri personalizzati. Anche per i contatori di energia, con profilo pronto per IME CE4DT (Conto D4).</p>
                     </div>
                 </div>
             </div>
@@ -675,6 +677,8 @@
             <details><summary>Serve un server o un database esterno?</summary><p>No. RTIndustry 2.0 è un unico servizio Windows con database integrato e backup automatici giornalieri: basta un PC Windows a 64 bit collegato in rete alla macchina.</p></details>
             <details><summary>Come si calcola l'OEE?</summary><p>L'OEE è il prodotto di disponibilità, efficienza e qualità. RTIndustry lo calcola da solo: tempo in lavorazione rispetto al tempo disponibile, pezzi prodotti rispetto al tempo ciclo target del work order e pezzi buoni rispetto ai pezzi totali.</p></details>
             <details><summary>Si integra con il gestionale ERP o con un MES?</summary><p>Sì, con tre canali equivalenti: API REST con chiave, tabella di scambio su database compatibile con la versione 1 e MQTT tramite il broker integrato. Dettagli nella <a href="developers/">guida all'integrazione</a>.</p></details>
+            <details><summary>Posso seguire più macchine dallo stesso PC?</summary><p>Sì. Su un PC o un server si installa un'istanza di RTIndustry per ogni macchina (per esempio 8 istanze per 8 macchine): ognuna ha servizio, porta, dati e backup propri e occupa un posto della licenza. L'installer propone da solo nome, cartella e porte libere.</p></details>
+            <details><summary>La mia macchina non ha il contapezzi: posso contare i pezzi?</summary><p>Sì. Se il controllo non ha un contapezzi (capita spesso con Heidenhain), RTIndustry conta un pezzo a ogni fine programma (M30, M2 o END PGM). In alternativa legge un contatore dal PLC della macchina.</p></details>
             <details><summary>Funziona anche senza connessione a internet?</summary><p>Sì. La licenza si verifica online, ma se la connessione manca RTIndustry continua a raccogliere i dati e riprova da solo. Se l'azienda esce su internet tramite proxy, lo si indica nelle impostazioni.</p></details>
             <details><summary>Si può provare?</summary><p>Sì: senza chiave di licenza parte una prova gratuita di 30 giorni. Per una dimostrazione sulla tua macchina scrivi a <a href="mailto:demo@rtindustry.it?subject=Richiesta%20demo%20RTIndustry&amp;body=Buongiorno%2C%0D%0Avorrei%20richiedere%20una%20demo%20di%20RTIndustry.%0D%0A%0D%0AAzienda%3A%0D%0ASede%20%28citt%C3%A0%29%3A%0D%0AMacchine%20da%20collegare%20%28marca%2C%20modello%20e%20controllo%20CNC/PLC%29%3A%0D%0ANumero%20di%20macchine%3A%0D%0AReferente%20%28nome%20e%20ruolo%29%3A%0D%0ATelefono%3A%0D%0ANote%3A%0D%0A%0D%0AGrazie.">demo@rtindustry.it</a>.</p></details>
         </div>

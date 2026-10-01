@@ -114,6 +114,7 @@
       <a href="#tablet">Uso su tablet</a>
       <a href="#tray">Icona nell'area di notifica</a>
       <a href="#licenza">Licenza e messaggi</a>
+      <a href="#requisiti">Requisiti, rete e antivirus</a>
       <a href="#problemi">Problemi frequenti</a>
       <a href="#glossario">Glossario</a>
       <a href="#assistenza">Assistenza</a>
@@ -138,6 +139,15 @@
           <li>Doppio clic sull'icona <strong>RTIndustry</strong> sul desktop, oppure</li>
           <li>clic destro sull'icona di RTIndustry vicino all'orologio di Windows → <span class="tasto">Apri Dashboard</span>, oppure</li>
           <li>da un altro PC o tablet della rete: indirizzo <code>http://NOME-O-IP-DEL-PC:1880</code>.</li>
+        </ul>
+        <h3 id="istanze">Più macchine sullo stesso PC</h3>
+        <p>Ogni installazione di RTIndustry segue <strong>una macchina</strong>. Per collegarne altre dallo stesso PC o server si installano più <strong>istanze</strong>: avviando di nuovo l'installer, scegli <span class="tasto">Installare una nuova istanza</span> e dai un nome (per esempio <code>Fresa2</code>).</p>
+        <ul>
+          <li>Ogni istanza ha cartella (<code>C:\RTIndustry-Fresa2</code>), servizio di Windows (<code>RTIndustry-Fresa2</code>), icona, dati, backup e licenza propri.</li>
+          <li>L'installer propone porte libere: la prima istanza aggiuntiva risponde su <code>http://NOME-O-IP-DEL-PC:1890</code>, la seconda su <code>:1900</code> e così via (le vedi nella pagina <em>Avanzate</em> dell'installer).</li>
+          <li>Il nome dell'istanza compare in alto accanto al logo, nella pagina di accesso e nel titolo della scheda del browser.</li>
+          <li>Ogni istanza occupa un posto della licenza: con una licenza da più macchine puoi usare la stessa chiave in tutte.</li>
+          <li>Per aggiornarle, avvia l'installer e scegli quale istanza aggiornare; la disinstallazione di un'istanza non tocca le altre.</li>
         </ul>
       </section>
 
@@ -268,6 +278,10 @@
           <li><strong>Storico del periodo</strong>: energia e costo totali, media giornaliera, consumo giorno per giorno e andamento dei Wh per pezzo.</li>
         </ul>
         <div class="nota">Il costo usa il prezzo dell'energia impostato in <a href="#settings">Impostazioni</a> › Servizi, energia e licenza (euro al kWh).</div>
+        <h3 id="energy-meter">Collegare il contatore di energia</h3>
+        <p>In <a href="#settings">Impostazioni</a> › <em>Contatore di energia (Modbus)</em> scegli il <strong>modello del contatore</strong>: i campi si compilano da soli e restano modificabili. Per l'<strong>IME CE4DT MID (Conto D4)</strong> il profilo imposta funzione FC4 (input register), unit ID 5, registro 20592, tipo uint32, ordine ABCD e fattore di scala 100: devi indicare solo l'indirizzo IP. Per altri modelli scegli <em>Personalizzato</em> e copia registro, tipo di dato e ordine dei registri dal manuale del contatore.</p>
+        <p>Il <strong>fattore di scala</strong> trasforma il valore letto in <strong>Wh</strong> (wattora), l'unità con cui RTIndustry fa tutti i calcoli: contatore che conta in kWh → fattore 1000; in 0,1 kWh (come l'IME) → 100; già in Wh → 1. Premi <span class="tasto">Testa lettura</span>: il risultato compare in Wh e in kWh e deve coincidere con il totale mostrato sul display del contatore.</p>
+        <div class="attenzione">Se copi il fattore 0,1 dalle note del contatore (che ragionano in kWh), i consumi risultano 1000 volte più bassi: con l'IME il fattore giusto è 100.</div>
       </section>
 
       <section id="alarms">
@@ -301,7 +315,7 @@
           <tr><td>Macchina e protocollo</td><td>Tipo di collegamento (OPC UA, FANUC, Heidenhain, Modbus, Simulatore), indirizzo IP, sicurezza. Cambiando protocollo, la configurazione precedente resta salvata.</td></tr>
           <tr><td>Variabili macchina</td><td>Da dove leggere stato, pezzi, programma, allarmi… (di solito proposte in automatico dal profilo).</td></tr>
           <tr><td>Mapping stati e modi · contapezzi</td><td>Come tradurre i valori della macchina negli stati di RTIndustry; come contare i pezzi.</td></tr>
-          <tr><td>Contatore di energia (Modbus)</td><td>Collegamento al contatore di energia, con prova di lettura.</td></tr>
+          <tr><td>Contatore di energia (Modbus)</td><td>Collegamento al contatore di energia (modello, registro, tipo e ordine, fattore di scala in Wh), con prova di lettura: vedi <a href="#energy-meter">Collegare il contatore di energia</a>.</td></tr>
           <tr><td>Turni di lavoro</td><td>Orari dei turni.</td></tr>
           <tr><td>Identità e accesso</td><td>Dati dell'azienda e della macchina.</td></tr>
           <tr><td>Servizi, energia e licenza</td><td>Database e backup, prezzo dell'energia, fuso orario, licenza (attivazione e disattivazione), indirizzo del Site Manager e <strong>proxy aziendale</strong> (se il PC esce su internet tramite proxy).</td></tr>
@@ -309,6 +323,15 @@
           <tr><td>Cartelle e trasferimenti</td><td>Cartelle per allegati e programmi; invio programmi ai controlli Heidenhain.</td></tr>
         </table>
         <p>Dopo le modifiche premi <span class="tasto">Salva</span>: se hai cambiato il collegamento alla macchina, parte da solo un test di connessione.</p>
+        <h3 id="contapezzi">Come si contano i pezzi</h3>
+        <p>RTIndustry conta i pezzi in uno di questi modi, scelti in Impostazioni › Mapping stati e modi · contapezzi:</p>
+        <ul>
+          <li><strong>Contapezzi della macchina</strong> (consigliato): il programma legge il contatore del controllo (FANUC, SINUMERIK <code>actParts</code>, variabile OPC UA o registro Modbus).</li>
+          <li><strong>A fine programma</strong> (contapezzi calcolato dal programma): quando la macchina non fornisce un contapezzi, ogni passaggio diretto da <em>In lavorazione</em> a <em>Fine programma</em> vale un pezzo. È il modo predefinito per Heidenhain (fine programma riconosciuta con <code>M30</code>, <code>M2</code>/<code>M02</code> o <code>END PGM</code>) e si può attivare su SINUMERIK con il profilo <em>acProg</em> se <code>actParts</code> resta a 0. Un reset dopo un arresto (programma annullato) non conta.</li>
+          <li><strong>Contatore nel PLC</strong> (Heidenhain): se il programma NC o il PLC tiene un contatore, indica il suo percorso e la password di accesso ai dati; vale come il contapezzi della macchina.</li>
+        </ul>
+        <div class="attenzione">Il conteggio a fine programma legge la macchina a intervalli (di solito ogni 5 secondi): se l'operatore riavvia il ciclo prima della lettura successiva, quel pezzo non si vede. Con cicli molto brevi o a ciclo continuo usa il contapezzi della macchina o il contatore nel PLC. Quando il programma misura cicli più brevi di tre letture, in Impostazioni compare l'avviso <strong>Cicli brevi</strong>.</div>
+        <p><strong>SINUMERIK</strong>: il profilo <em>acProg (verificato sul campo)</em> usa i nodi nativi del controllo; il profilo <em>progStatus</em> resta per i controlli che espongono solo quello. Con <span class="tasto">Riconosci</span> il programma propone da solo il profilo che risponde.</p>
         <p><strong>Backup</strong>: ogni giorno RTIndustry salva una copia del database nella propria cartella (ultimi 7 giorni più le ultime 4 domeniche). In <em>Servizi, energia e licenza</em> → <strong>Copia dei backup su un altro disco o in rete</strong> puoi indicare una seconda cartella (per esempio <code>D:\Backup RTIndustry</code> o <code>\\NAS\backup</code>): così, se il disco del PC si guasta, lo storico non si perde. Premi <span class="tasto">Salva</span>, poi <span class="tasto">Backup ora</span>: il messaggio conferma se la copia è riuscita.</p>
         <div class="nota">Per una cartella di rete: il servizio RTIndustry lavora con l'account di sistema del PC, quindi la condivisione deve dare il permesso di scrittura al computer (in dominio: <code>NOME-PC$</code>) oppure il servizio va installato con un account che vi abbia accesso. Se il dubbio resta, usa un secondo disco o una chiavetta sempre collegata.</div>
         <div class="attenzione">Disattivare la licenza libera il posto per un altro PC, ma blocca la raccolta dati su questo finché non la riattivi.</div>
@@ -344,7 +367,7 @@
           <tr><td><span class="stato" style="--c: var(--warn)">In pausa</span></td><td>Pausa temporanea.</td></tr>
           <tr><td><span class="stato" style="--c: var(--stop)">Fermo</span> · <span class="stato" style="--c: var(--stop)">Guasto</span></td><td>Macchina ferma; guasto se la causa è un malfunzionamento.</td></tr>
           <tr><td><span class="stato" style="--c: #ff2d55">In allarme</span></td><td>Il controllo segnala un allarme.</td></tr>
-          <tr><td><span class="stato" style="--c: var(--idle)">Inattivo</span></td><td>Accesa ma senza lavorare.</td></tr>
+          <tr><td><span class="stato" style="--c: var(--idle)">Inattivo</span> · <span class="stato" style="--c: var(--done)">Finito</span></td><td>Accesa ma senza lavorare; <em>Finito</em> quando il programma è arrivato alla fine (il tempo conta come inattivo).</td></tr>
           <tr><td><span class="stato" style="--c: var(--info)">Attrezzaggio</span> · <span class="stato" style="--c: var(--info)">Rilavorazione</span></td><td>Preparazione della macchina; lavorazione di pezzi da rifare.</td></tr>
           <tr><td><span class="stato" style="--c: var(--maint)">Manutenzione</span> · <span class="stato" style="--c: var(--maint)">Pulizia</span></td><td>Fermate programmate.</td></tr>
           <tr><td><span class="stato" style="--c: var(--done)">Completato</span></td><td>Work order chiuso.</td></tr>
@@ -372,12 +395,17 @@
           <li><span class="stato" style="--c: var(--stop)">Rossa</span> — servizio fermo o licenza non attiva.</li>
         </ul>
         <p>Con il clic destro: versione installata, stato di servizio e licenza, <span class="tasto">Apri Dashboard</span>, <span class="tasto">Impostazioni</span>, <span class="tasto">Ferma</span>/<span class="tasto">Riavvia servizio</span>, <span class="tasto">Mostra log</span>.</p>
+        <p>Con più <a href="#istanze">istanze</a> sullo stesso PC ci sono più icone, una per istanza: il nome dell'istanza compare nel menu e nel suggerimento al passaggio del mouse (per esempio <em>RTIndustry Fresa2</em>). L'icona serve anche ad aprire le cartelle di allegati e programmi dalle Impostazioni: se è chiusa, la riapre il prossimo accesso a Windows.</p>
       </section>
 
       <section id="licenza">
         <h2><span class="num">18</span>Licenza e messaggi</h2>
         <p>La licenza si verifica via internet con il Site Manager e si gestisce da Impostazioni (solo amministratore). Se la licenza non è attiva, gli operatori vedono la pagina <em>Servizio sospeso</em> e devono rivolgersi all'amministratore.</p>
-        <p>Se la connessione manca, RTIndustry continua a lavorare normalmente e riprova da solo.</p>
+        <p>Se la connessione manca, RTIndustry continua a lavorare normalmente e riprova da solo: la licenza resta valida per alcuni giorni anche senza internet (avviso <em>funzionamento offline temporaneo</em>), poi serve di nuovo il collegamento.</p>
+        <h3>Più macchine</h3>
+        <p>Ogni installazione (<a href="#istanze">istanza</a>) occupa un <strong>posto</strong> della licenza. Con 8 macchine servono 8 posti: di solito una sola chiave con 8 posti, inserita in tutte le istanze. Il Site Manager mostra quanti posti sono usati.</p>
+        <h3>Spostare la licenza su un altro PC</h3>
+        <p>Sul PC vecchio: Impostazioni › Servizi, energia e licenza › <span class="tasto">Disattiva</span> (libera il posto). Sul PC nuovo: installa RTIndustry e inserisci la stessa chiave nella configurazione guidata. Se il PC vecchio non funziona più, chiedi all'assistenza di liberare il posto.</p>
         <table>
           <tr><th>Messaggio</th><th>Cosa fare</th></tr>
           <tr><td>Periodo di prova: N giorni rimanenti</td><td>Nulla. Per continuare dopo la prova, l'amministratore inserisce una chiave in Impostazioni.</td></tr>
@@ -390,8 +418,36 @@
         </table>
       </section>
 
+      <section id="requisiti">
+        <h2><span class="num">19</span>Requisiti, rete e antivirus</h2>
+        <h3>Il PC di RTIndustry</h3>
+        <ul>
+          <li>Windows 10 (1809 o successivo) o Windows 11 a 64 bit, 4 GB di RAM, 10 GB liberi; per più istanze sullo stesso PC conta circa 100 MB di RAM in più per ogni macchina (da 6 macchine in su consigliati 8 GB).</li>
+          <li>Sempre acceso: <strong>sospensione = Mai</strong> (con il PC sospeso i dati non si raccolgono); aggiornamenti di Windows fuori dai turni.</li>
+          <li>Data e ora corrette (turni, report e licenza dipendono dall'orologio).</li>
+          <li>Collegato in rete sia alle macchine sia ai tablet o PC da cui si consulta la dashboard; internet (HTTPS verso <code>licenze.rtindustry.it</code>) per la licenza.</li>
+        </ul>
+        <h3>Porte di rete</h3>
+        <table>
+          <tr><th>Porta</th><th>Uso</th></tr>
+          <tr><td><code>1880</code></td><td>Dashboard (browser dei tablet e dei PC). Le istanze aggiuntive usano <code>1890</code>, <code>1900</code>… (vedi <a href="#istanze">Più macchine sullo stesso PC</a>).</td></tr>
+          <tr><td><code>1883</code></td><td>MQTT per i sistemi aziendali (ERP, MES); istanze aggiuntive <code>1893</code>, <code>1903</code>…</td></tr>
+          <tr><td>verso le macchine</td><td>FANUC <code>8193</code>, OPC UA <code>4840</code>, Heidenhain <code>19000</code>, Modbus <code>502</code> (contatore di energia compreso).</td></tr>
+        </table>
+        <p>L'installazione apre da sola queste porte nel <strong>firewall di Windows</strong>.</p>
+        <h3 id="antivirus">Antivirus con firewall proprio (Avast, AVG, Kaspersky, ESET, Bitdefender, Norton…)</h3>
+        <p>Molti antivirus a pagamento (e le versioni di prova) sostituiscono il firewall di Windows: le regole aperte dall'installazione non valgono e <strong>i tablet non raggiungono la dashboard</strong>, anche se sul PC si apre normalmente. Alcuni segnalano per errore l'icona <code>RTIndustryTray.exe</code> come sospetta (falso positivo: è un programma nuovo e non ancora conosciuto dall'antivirus).</p>
+        <p>Nelle impostazioni dell'antivirus:</p>
+        <ul>
+          <li><strong>Eccezioni / esclusioni</strong>: aggiungi la cartella <code>C:\RTIndustry</code> (e <code>C:\RTIndustry-…</code> di ogni istanza).</li>
+          <li><strong>Firewall</strong>: consenti le connessioni in ingresso al programma <code>C:\RTIndustry\node\node.exe</code> (uno per istanza), oppure imposta la rete dell'officina come <em>privata/attendibile</em>.</li>
+          <li>Se l'icona è stata messa in quarantena, ripristinala dalla quarantena dell'antivirus e riavvia il PC.</li>
+        </ul>
+        <div class="nota">Prova sempre dal tablet: apri <code>http://NOME-O-IP-DEL-PC:1880</code>. Lo strumento <code>C:\RTIndustry\strumenti\Verifica-RTIndustry.bat</code> segnala se sul PC c'è un firewall di terze parti.</div>
+      </section>
+
       <section id="problemi">
-        <h2><span class="num">19</span>Problemi frequenti</h2>
+        <h2><span class="num">20</span>Problemi frequenti</h2>
         <h3>La macchina risulta "Spenta o non raggiungibile"</h3>
         <ul>
           <li>Verifica che la macchina sia accesa e il cavo di rete collegato.</li>
@@ -401,11 +457,29 @@
         <ul>
           <li>Controlla che ci sia un work order <em>In corso</em> e che la macchina sia <em>In lavorazione</em>.</li>
           <li>In Impostazioni › Mapping stati e modi · contapezzi verifica la variabile del contapezzi.</li>
+          <li>Se il contapezzi della macchina resta fermo (per esempio a 0), attiva il conteggio a fine programma: vedi <a href="#contapezzi">Come si contano i pezzi</a>.</li>
         </ul>
         <h3>La pagina non si apre</h3>
         <ul>
           <li>Guarda l'icona nell'area di notifica: se è rossa, clic destro → <span class="tasto">Riavvia servizio</span>.</li>
-          <li>Da un altro PC: verifica di usare l'indirizzo giusto e la porta <code>1880</code>.</li>
+          <li>Da un altro PC: verifica di usare l'indirizzo giusto e la porta <code>1880</code> (istanze aggiuntive: <code>1890</code>, <code>1900</code>…).</li>
+        </ul>
+        <h3>Dal PC la dashboard si apre, dai tablet no</h3>
+        <ul>
+          <li>Quasi sempre è il firewall dell'antivirus: vedi <a href="#antivirus">Antivirus con firewall proprio</a>.</li>
+          <li>Verifica che tablet e PC siano sulla stessa rete (o che la rete aziendale permetta il collegamento).</li>
+        </ul>
+        <h3>L'antivirus segnala RTIndustry</h3>
+        <ul>
+          <li>È un falso positivo: aggiungi le eccezioni descritte in <a href="#antivirus">Antivirus con firewall proprio</a> e ripristina il file dalla quarantena. La raccolta dati (servizio) continua anche senza l'icona.</li>
+        </ul>
+        <h3>In Impostazioni compare l'avviso "Cicli brevi"</h3>
+        <ul>
+          <li>Con il conteggio a fine programma alcuni pezzi possono sfuggire perché il ciclo è più breve di tre letture: usa il contapezzi della macchina o un contatore nel PLC (vedi <a href="#contapezzi">Come si contano i pezzi</a>).</li>
+        </ul>
+        <h3>I consumi sembrano 10, 100 o 1000 volte sbagliati</h3>
+        <ul>
+          <li>Il fattore di scala del contatore di energia non è giusto: il valore deve risultare in Wh. Vedi <a href="#energy-meter">Collegare il contatore di energia</a> e confronta la lettura con il display del contatore.</li>
         </ul>
         <h3>Codici di errore</h3>
         <table>
@@ -418,7 +492,7 @@
       </section>
 
       <section id="glossario">
-        <h2><span class="num">20</span>Glossario</h2>
+        <h2><span class="num">21</span>Glossario</h2>
         <table>
           <tr><td><strong>WO (work order)</strong></td><td>Commessa di lavoro: cosa produrre e in che quantità.</td></tr>
           <tr><td><strong>OEE</strong></td><td>Overall Equipment Effectiveness, efficienza complessiva della macchina.</td></tr>
@@ -430,11 +504,16 @@
           <tr><td><strong>Site Manager</strong></td><td>Servizio online del fornitore che gestisce le licenze.</td></tr>
           <tr><td><strong>ERP / MES</strong></td><td>Gestionale aziendale / sistema di gestione della produzione.</td></tr>
           <tr><td><strong>CSV</strong></td><td>File di dati apribile con Excel.</td></tr>
+          <tr><td><strong>Istanza</strong></td><td>Una installazione di RTIndustry dedicata a una macchina; su un PC possono convivere più istanze.</td></tr>
+          <tr><td><strong>Contapezzi</strong></td><td>Contatore dei pezzi: quello del controllo della macchina, oppure calcolato da RTIndustry a fine programma.</td></tr>
+          <tr><td><strong>Contatore di energia</strong></td><td>Strumento elettrico che misura i consumi della macchina, letto via Modbus TCP.</td></tr>
+          <tr><td><strong>Wh / kWh</strong></td><td>Wattora / chilowattora (1 kWh = 1000 Wh), unità dell'energia consumata.</td></tr>
+          <tr><td><strong>Part program</strong></td><td>Programma di lavorazione eseguito dalla macchina utensile.</td></tr>
         </table>
       </section>
 
       <section id="assistenza">
-        <h2><span class="num">21</span>Assistenza</h2>
+        <h2><span class="num">22</span>Assistenza</h2>
         <p>Per dubbi o problemi contatta il tecnico o il rivenditore che ha installato RTIndustry, oppure scrivi a <a href="mailto:assistenza@rtindustry.it">assistenza@rtindustry.it</a>.</p>
         <p>Quando chiedi assistenza, allega il file della <strong>diagnostica</strong>: <a href="#settings">Impostazioni</a> › pulsante <span class="tasto">Esporta diagnostica</span> in alto. Contiene versione, stato del programma e ultimi messaggi di funzionamento, <strong>senza password</strong>.</p>
         <p>Se il programma non si apre, allega invece la pagella di <code>C:\RTIndustry\strumenti\Verifica-RTIndustry.bat</code> (doppio clic: controlla PC, rete e collegamento alla macchina).</p>

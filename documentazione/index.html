@@ -104,6 +104,7 @@
                 <a href="#requisiti">Requisiti</a>
                 <a href="#verifica">Verifica prima dell'installazione</a>
                 <a href="#installazione">Installazione</a>
+                <a href="#istanze">Più macchine sullo stesso PC</a>
                 <a href="#configurazione-guidata">Configurazione guidata</a>
                 <a href="#macchina">Collegamento alla macchina</a>
                 <a href="#energia">Contatore di energia</a>
@@ -112,6 +113,7 @@
                 <a href="#utenti">Utenti e registro</a>
                 <a href="#licenza">Licenza</a>
                 <a href="#rete">Rete e sicurezza</a>
+                <a href="#antivirus">Antivirus e firewall</a>
                 <a href="#dati">Dati e backup</a>
                 <a href="#servizio">Servizio e icona</a>
                 <a href="#aggiornamenti">Aggiornamenti e versione 1</a>
@@ -138,10 +140,10 @@
                 <thead><tr><th>Voce</th><th>Requisito</th></tr></thead>
                 <tbody>
                     <tr><td>Sistema operativo</td><td>Windows 10 versione 1809 o successiva, Windows 11, Windows Server 2019 o successivo. Solo <strong>64 bit</strong>.</td></tr>
-                    <tr><td>Memoria</td><td>Almeno 4 GB consigliati (il servizio usa circa 100 MB; il resto serve a Windows e al browser).</td></tr>
+                    <tr><td>Memoria</td><td>Almeno 4 GB consigliati (il servizio usa circa 100 MB; il resto serve a Windows e al browser). Con più macchine sullo stesso PC conta circa 100 MB in più per ogni <a href="#istanze">istanza</a>; da 6 macchine in su consigliati 8 GB (prova con 8 istanze attive: circa 60 MB ciascuna a riposo).</td></tr>
                     <tr><td>Disco</td><td>Almeno 2 GB liberi; consigliati 10 GB per conservare anni di storico e i backup.</td></tr>
                     <tr><td>Rete verso la macchina</td><td>Collegamento Ethernet al CNC o al PLC (vedi <a href="#macchina">porte per protocollo</a>).</td></tr>
-                    <tr><td>Porte locali</td><td>1880 (interfaccia web e API) e 1883 (MQTT), aperte nel firewall di Windows dall'installer.</td></tr>
+                    <tr><td>Porte locali</td><td>1880 (interfaccia web e API) e 1883 (MQTT), aperte nel firewall di Windows dall'installer. Ogni istanza aggiuntiva usa la coppia successiva: 1890/1893, 1900/1903… Se l'antivirus ha un firewall proprio vedi <a href="#antivirus">Antivirus e firewall</a>.</td></tr>
                     <tr><td>Internet</td><td>Per la verifica della licenza, anche tramite proxy aziendale. Senza connessione il programma continua a lavorare.</td></tr>
                     <tr><td>Alimentazione</td><td>Il PC non deve andare in sospensione: con il PC sospeso i dati non vengono raccolti.</td></tr>
                     <tr><td>Browser</td><td>Un browser aggiornato (Chrome, Edge, Firefox, Safari) su PC, tablet o telefono.</td></tr>
@@ -151,7 +153,7 @@
 
             <h2 id="verifica">Verifica prima dell'installazione</h2>
             <p>Lo strumento <code>Verifica-RTIndustry.bat</code> si copia su una chiavetta e si lancia sul PC del cliente <strong>prima</strong> di installare. Non modifica nulla: legge soltanto e crea una pagella sul Desktop (verde = pronto, giallo = avvisi da valutare, rosso = da risolvere prima).</p>
-            <p>Controlla versione di Windows, memoria e disco, permessi, porte 1880 e 1883, schede di rete, sospensione del PC, antivirus, proxy, raggiungibilità del servizio licenze, ora e fuso orario, raggiungibilità della macchina (ping e porta del protocollo). Dopo l'installazione lo stesso strumento si trova in <code>C:\RTIndustry\strumenti</code>.</p>
+            <p>Controlla versione di Windows, memoria e disco, permessi, porte 1880 e 1883, schede di rete, sospensione del PC, antivirus e firewall di terze parti, installazioni e istanze già presenti, proxy, raggiungibilità del servizio licenze, ora e fuso orario, raggiungibilità della macchina (ping e porta del protocollo). Dopo l'installazione lo stesso strumento si trova in <code>C:\RTIndustry\strumenti</code>.</p>
 
             <h2 id="installazione">Installazione</h2>
             <ol>
@@ -170,6 +172,25 @@
             </table></div>
             <div class="box-attenzione">Il programma è legato al PC su cui è installato: non copiare la cartella su un altro computer. Per spostare RTIndustry su un nuovo PC si reinstalla e si trasferisce la licenza (vedi <a href="#licenza">Licenza</a>).</div>
 
+            <h2 id="istanze">Più macchine sullo stesso PC</h2>
+            <p>Ogni installazione di RTIndustry segue <strong>una macchina</strong>. Per monitorare più macchine da un solo PC o server (per esempio 8 macchine in un reparto) si installano più <strong>istanze</strong>, una per macchina, tutte attive insieme.</p>
+            <ol>
+                <li>Installa RTIndustry la prima volta: è l'istanza principale (<code>C:\RTIndustry</code>, porta 1880).</li>
+                <li>Avvia di nuovo l'installer: scegli <em>Installare una nuova istanza</em> e dai un nome (lettere, cifre e trattini, per esempio <code>Fresa2</code> o <code>TORNIO-01</code>).</li>
+                <li>Completa la configurazione guidata della nuova istanza all'indirizzo proposto (per esempio <code>http://NOME-O-IP-DEL-PC:1890</code>) con la macchina da collegare e la stessa chiave di licenza.</li>
+            </ol>
+            <div class="tabella"><table>
+                <thead><tr><th></th><th>Istanza principale</th><th>Istanza «Fresa2»</th></tr></thead>
+                <tbody>
+                    <tr><td>Cartella</td><td><code>C:\RTIndustry</code></td><td><code>C:\RTIndustry-Fresa2</code></td></tr>
+                    <tr><td>Servizio Windows</td><td><code>RTIndustry</code></td><td><code>RTIndustry-Fresa2</code></td></tr>
+                    <tr><td>Porte (dashboard / MQTT)</td><td>1880 / 1883</td><td>prime libere: 1890 / 1893, poi 1900 / 1903…</td></tr>
+                    <tr><td>Icona, dati, backup, licenza</td><td colspan="2">propri di ogni istanza</td></tr>
+                </tbody>
+            </table></div>
+            <p>Il nome dell'istanza compare accanto al logo, nella pagina di accesso e nel titolo della scheda del browser. Per aggiornare si avvia l'installer e si sceglie quale istanza aggiornare; disinstallarne una non tocca le altre. Installazione silenziosa: <code>RTIndustry-Setup-x.y.z.exe /VERYSILENT /ISTANZA=Fresa2</code>.</p>
+            <div class="box-attenzione">Ogni istanza occupa un posto della licenza: per 8 macchine serve una chiave con 8 posti (vedi <a href="#licenza">Licenza</a>).</div>
+
             <h2 id="configurazione-guidata">Configurazione guidata</h2>
             <p>Compare solo la prima volta, subito dopo l'installazione. Se si chiude il browser a metà, riaprendolo si riprende dal passo a cui si era arrivati.</p>
             <ol>
@@ -187,9 +208,9 @@
             <div class="tabella"><table>
                 <thead><tr><th>Protocollo</th><th>Macchine</th><th>Note</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>OPC UA</strong></td><td>PLC e CNC con server OPC UA</td><td>Indirizzo <code>opc.tcp://IP:porta</code> (spesso 4840). Profili pronti per Siemens SINUMERIK 840D sl, macchine umati (OPC 40501) e gateway già usati con la versione 1. Sicurezza: nessuna, firma, firma e cifratura (Basic256Sha256, Aes128_Sha256_RsaOaep, Aes256_Sha256_RsaPss), con utente e password. Pulsanti per cercare i nodi della macchina e riconoscere il tipo di controllo.</td></tr>
+                    <tr><td><strong>OPC UA</strong></td><td>PLC e CNC con server OPC UA</td><td>Indirizzo <code>opc.tcp://IP:porta</code> (spesso 4840). Profili pronti per Siemens SINUMERIK 840D sl (nodi nativi <code>acProg</code>, verificati sul campo, oppure <code>progStatus</code>), macchine umati (OPC 40501) e gateway già usati con la versione 1. Sicurezza: nessuna, firma, firma e cifratura (Basic256Sha256, Aes128_Sha256_RsaOaep, Aes256_Sha256_RsaPss), con utente e password. Pulsanti per cercare i nodi della macchina e riconoscere il tipo di controllo.</td></tr>
                     <tr><td><strong>FANUC FOCAS</strong></td><td>CNC FANUC con Ethernet integrata</td><td>Porta 8193 del CNC. Serie: 0i-D / 0i-F, 30i / 31i / 32i / 35i, 16i / 18i / 21i, 15 / 15i. La serie decide come si leggono gli stati.</td></tr>
-                    <tr><td><strong>Heidenhain DNC</strong></td><td>TNC 640, TNC 6xx, TNC 320, TNC 128, iTNC 530, CNC PILOT 6xx, MANUALplus 620, MillPlus IT</td><td>Porta DNC del controllo. Lettura facoltativa del contapezzi da un percorso dati del PLC (con password di accesso). Invio dei programmi al controllo da <em>Impostazioni › Cartelle e trasferimenti</em>.</td></tr>
+                    <tr><td><strong>Heidenhain DNC</strong></td><td>TNC 640, TNC 6xx, TNC 320, TNC 128, iTNC 530, CNC PILOT 6xx, MANUALplus 620, MillPlus IT</td><td>Porta DNC del controllo. Se il controllo non ha un contapezzi, i pezzi si contano <strong>a fine programma</strong> (<code>M30</code>, <code>M2</code>/<code>M02</code> o <code>END PGM</code>); in alternativa si legge un contatore da un percorso dati del PLC (con password di accesso). Invio dei programmi al controllo da <em>Impostazioni › Cartelle e trasferimenti</em>.</td></tr>
                     <tr><td><strong>Modbus TCP</strong></td><td>PLC e moduli di I/O</td><td>Indirizzo IP, porta (di solito 502) e Unit ID. Mappa pronta oppure registri personalizzati: holding (FC3), input (FC4), coil (FC1), ingressi (FC2); tipi da 16 e 32 bit, float e stringhe, con ordine dei byte configurabile e pulsante <em>Prova</em> per ogni registro.</td></tr>
                     <tr><td><strong>Simulatore</strong></td><td>Nessuna macchina</td><td>Dati realistici per demo e prove in ufficio.</td></tr>
                 </tbody>
@@ -197,10 +218,12 @@
             <h3>Variabili, stati e contapezzi</h3>
             <p>Da ogni macchina RTIndustry legge fino a 11 variabili: stato, modo operativo, contapezzi, programma, stato e messaggio di allarme, avanzamento, override mandrino e rapido, utensile, contatore di energia. Di solito sono proposte in automatico dal profilo del protocollo; si possono cambiare in <em>Impostazioni › Variabili macchina</em>.</p>
             <p>In <em>Mapping stati e modi · contapezzi</em> si indica come tradurre i valori della macchina negli stati di RTIndustry (In lavorazione, In pausa, Fermo, In allarme, Inattivo…) e come contare i pezzi. Il conteggio è protetto da azzeramenti e salti del contatore della macchina, anche dopo un riavvio del PC.</p>
+            <p>Se la macchina non ha un contapezzi (spesso Heidenhain, oppure SINUMERIK con <code>actParts</code> non configurato) si attiva il <strong>conteggio a fine programma</strong>: vale un pezzo ogni passaggio diretto da <em>In lavorazione</em> a <em>Fine programma</em>; un reset dopo un arresto (programma annullato) non conta. Poiché la macchina si legge a intervalli (di norma ogni 5 secondi), un ciclo intero più breve dell'intervallo non si vede: quando i cicli misurati sono più brevi di tre letture le Impostazioni mostrano l'avviso <em>Cicli brevi</em> e conviene usare il contapezzi della macchina o un contatore nel PLC.</p>
+            <p>L'opzione <em>Con l'allarme attivo la macchina è «In allarme»</em> fa diventare la macchina In allarme quando la variabile di allarme è attiva (anche un numero d'allarme diverso da 0, mostrato come «Allarme N»).</p>
             <p>Se non arrivano dati per oltre 15 secondi la macchina risulta «Spenta o non raggiungibile».</p>
 
             <h2 id="energia">Contatore di energia</h2>
-            <p>Oltre al contatore letto dalla macchina, si può collegare un <strong>contatore di energia Modbus TCP</strong> separato (<em>Impostazioni › Contatore di energia</em>), con prova di lettura. Il prezzo dell'energia in euro al kWh, usato per il costo del turno e dei periodi, si imposta in <em>Impostazioni › Servizi, energia e licenza</em>.</p>
+            <p>Oltre al contatore letto dalla macchina, si può collegare un <strong>contatore di energia Modbus TCP</strong> separato (<em>Impostazioni › Contatore di energia</em>), con prova di lettura in Wh e kWh. Per l'<strong>IME CE4DT MID (Conto D4)</strong> c'è un profilo pronto (input register 20592, unit ID 5, fattore 100): basta l'indirizzo IP. Per gli altri modelli si indicano registro, funzione (FC3/FC4), tipo di dato (uint32, int32, float32, uint64), ordine dei registri (ABCD, CDAB, BADC, DCBA) e fattore di scala: <strong>il valore moltiplicato per il fattore deve risultare in Wh</strong> (contatore in kWh → 1000; in 0,1 kWh → 100). Correggere il fattore non crea salti di energia nei work order. Il prezzo dell'energia in euro al kWh, usato per il costo del turno e dei periodi, si imposta in <em>Impostazioni › Servizi, energia e licenza</em>.</p>
 
             <h2 id="turni">Turni</h2>
             <p>I turni si definiscono con numero, ora di inizio e ora di fine, anche a cavallo della mezzanotte. Il cambio turno usa il fuso orario impostato (non l'ora del PC): all'inizio di ogni turno si azzerano i contatori del turno, mentre i work order conservano i loro totali. L'OEE e i report si possono leggere per turno.</p>
@@ -226,7 +249,7 @@
                 <li>Se la connessione manca, RTIndustry continua a lavorare normalmente e riprova da solo.</li>
                 <li>Se l'azienda esce su internet tramite <strong>proxy</strong>, se ne indicano indirizzo ed eventuali utente e password.</li>
                 <li>Una licenza scaduta porta l'interfaccia in <strong>sola lettura</strong>: i dati si vedono ma non si modificano. Va rinnovata entro 30 giorni.</li>
-                <li>Ogni chiave ha un numero di posti (PC). <em>Disattiva licenza</em> libera il posto per un altro PC, ma ferma la raccolta dati su quello attuale finché non la si riattiva.</li>
+                <li>Ogni chiave ha un numero di <strong>posti</strong>: ogni installazione o <a href="#istanze">istanza</a> ne occupa uno. Per più macchine si usa di solito una sola chiave con tanti posti quante sono le macchine. <em>Disattiva licenza</em> libera il posto per un altro PC, ma ferma la raccolta dati su quello attuale finché non la si riattiva.</li>
             </ul>
             <p>I messaggi della licenza e cosa fare sono spiegati nel <a href="../manuale/#licenza">manuale</a>.</p>
 
@@ -239,6 +262,15 @@
                 <li>MQTT: la telemetria è leggibile, ma i comandi sui work order sono accettati solo da client autenticati.</li>
                 <li>Password della macchina, del proxy e dei database esterni conservate cifrate sul PC.</li>
                 <li>Il file di diagnostica per l'assistenza non contiene password.</li>
+            </ul>
+
+            <h2 id="antivirus">Antivirus e firewall</h2>
+            <p>Con il solo antivirus di Windows (Defender) l'installer configura tutto da solo. Molti antivirus di terze parti, soprattutto nelle versioni a pagamento o di prova (Avast, AVG, Kaspersky, ESET, Bitdefender, Norton…), installano invece un <strong>firewall proprio</strong> che sostituisce quello di Windows: le regole create dall'installer non valgono e <strong>tablet e PC dell'officina non raggiungono la dashboard</strong>, anche se sul PC di RTIndustry si apre normalmente. Alcuni segnalano per errore l'icona <code>RTIndustryTray.exe</code> (falso positivo per un programma nuovo).</p>
+            <ul>
+                <li>Aggiungi alle eccezioni dell'antivirus la cartella <code>C:\RTIndustry</code> e quelle delle istanze (<code>C:\RTIndustry-…</code>).</li>
+                <li>Nel firewall dell'antivirus consenti le connessioni in ingresso a <code>C:\RTIndustry\node\node.exe</code> (uno per istanza), oppure imposta la rete dell'officina come privata o attendibile.</li>
+                <li>Se l'icona è finita in quarantena, ripristinala e riavvia il PC: la raccolta dati (servizio) continua comunque.</li>
+                <li>Prova sempre l'accesso da un tablet. Lo strumento di verifica segnala la presenza di un firewall di terze parti.</li>
             </ul>
 
             <h2 id="dati">Dati e backup</h2>
@@ -273,11 +305,24 @@
             <ul>
                 <li>Controlla che ci sia un work order In corso e che la macchina sia In lavorazione.</li>
                 <li>In <em>Impostazioni › Mapping stati e modi · contapezzi</em> verifica la variabile del contapezzi.</li>
+                <li>Se il contapezzi della macchina resta a 0, attiva il conteggio a fine programma; con Heidenhain verifica che il programma finisca con M30, M2 o END PGM.</li>
             </ul>
             <h3>La pagina non si apre</h3>
             <ul>
                 <li>Guarda l'icona nell'area di notifica: se è rossa, clic destro › <em>Riavvia servizio</em>.</li>
-                <li>Da un altro PC usa l'indirizzo <code>http://NOME-O-IP-DEL-PC:1880</code> e verifica che il firewall non blocchi la porta.</li>
+                <li>Da un altro PC usa l'indirizzo <code>http://NOME-O-IP-DEL-PC:1880</code> (istanze aggiuntive: 1890, 1900…) e verifica che il firewall non blocchi la porta.</li>
+            </ul>
+            <h3>Dal PC la dashboard si apre, dai tablet no</h3>
+            <ul>
+                <li>Quasi sempre è il firewall dell'antivirus: vedi <a href="#antivirus">Antivirus e firewall</a>.</li>
+            </ul>
+            <h3>Avviso «Cicli brevi» nelle Impostazioni</h3>
+            <ul>
+                <li>Con il conteggio a fine programma alcuni pezzi possono sfuggire: usa il contapezzi della macchina o un contatore nel PLC (vedi <a href="#macchina">Variabili, stati e contapezzi</a>).</li>
+            </ul>
+            <h3>I consumi sembrano 10, 100 o 1000 volte sbagliati</h3>
+            <ul>
+                <li>Il fattore di scala del contatore di energia non è giusto: il valore deve risultare in Wh (vedi <a href="#energia">Contatore di energia</a>). Confronta la prova di lettura con il display del contatore.</li>
             </ul>
             <h3>Codici di errore</h3>
             <div class="tabella"><table>

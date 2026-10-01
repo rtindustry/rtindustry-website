@@ -9,7 +9,10 @@
 - Telemetria del turno, OEE per turno e settimanale, Report di periodo con esportazione CSV, Energia (potenza, Wh per pezzo, costo), Allarmi, Storico WO.
 - Operatori e registro attività: account personali, ruoli Operatore e Amministratore, registro di chi ha fatto cosa (utile per tracciabilità e certificazione del macchinario).
 - Impostazioni riservate all'amministratore, configurazione guidata in sei passi, modalità tablet, guida in linea.
-- Collegamento macchina: OPC UA (profili Siemens SINUMERIK 840D sl e umati), FANUC FOCAS, Heidenhain DNC, Modbus TCP; contatore di energia Modbus.
+- Collegamento macchina: OPC UA (profili Siemens SINUMERIK 840D sl con nodi nativi acProg o progStatus, e umati), FANUC FOCAS, Heidenhain DNC, Modbus TCP; contatore di energia Modbus con profilo pronto per IME CE4DT (Conto D4), valori in Wh.
+- Contapezzi: dal controllo della macchina oppure, se manca (spesso Heidenhain), calcolato a fine programma (M30, M2, END PGM), con avviso quando i cicli sono più brevi di tre letture.
+- Più macchine dallo stesso PC o server: un'istanza di RTIndustry per macchina (servizio, porta, dati e licenza propri), installabile dall'installer o con il parametro /ISTANZA=<nome>; ogni istanza occupa un posto della licenza.
+- Antivirus con firewall proprio (Avast, AVG, Kaspersky, ESET, Bitdefender…): servono un'eccezione per C:\RTIndustry e il permesso in ingresso per node.exe, altrimenti i tablet non raggiungono la dashboard.
 - Integrazione ERP/MES: API REST, tabella di scambio su database (writewo/readwo, compatibile con la versione 1), MQTT con broker integrato.
 - Licenza verificata online con funzionamento anche offline, proxy aziendale, backup automatici giornalieri, prova gratuita di 30 giorni.
 
