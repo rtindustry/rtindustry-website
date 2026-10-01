@@ -156,6 +156,7 @@
           <tr><td>Amministratore</td><td>Tutto, più <a href="#settings">Impostazioni</a>, licenza e <a href="#operatori">Operatori e registro</a>. Il suo account si crea nella <a href="#wizard">configurazione guidata</a>.</td></tr>
         </table>
         <p><strong>Cambiare la propria password</strong>: menu con il tuo nome in alto a destra → <span class="tasto">La mia password</span>. Scrivi la password attuale, poi due volte quella nuova (almeno 8 caratteri).</p>
+        <p><strong>Troppi tentativi errati</strong>: dopo 5 password sbagliate di fila per lo stesso nome utente, l'accesso da quel dispositivo si blocca per 30 secondi; ogni ulteriore errore raddoppia l'attesa, fino a 15 minuti. Gli altri utenti possono continuare ad accedere. Il messaggio sulla pagina indica quanto attendere.</p>
         <div class="nota">Password dimenticata? L'amministratore può impostarne una nuova da <a href="#operatori">Operatori e registro</a>. Se l'ha dimenticata l'amministratore, contatta l'<a href="#assistenza">assistenza</a>.</div>
         <div class="attenzione">Non usare l'account di un collega e non comunicare la tua password: il registro attribuisce ogni operazione all'account con cui è stata fatta.</div>
       </section>
@@ -308,6 +309,8 @@
           <tr><td>Cartelle e trasferimenti</td><td>Cartelle per allegati e programmi; invio programmi ai controlli Heidenhain.</td></tr>
         </table>
         <p>Dopo le modifiche premi <span class="tasto">Salva</span>: se hai cambiato il collegamento alla macchina, parte da solo un test di connessione.</p>
+        <p><strong>Backup</strong>: ogni giorno RTIndustry salva una copia del database nella propria cartella (ultimi 7 giorni più le ultime 4 domeniche). In <em>Servizi, energia e licenza</em> → <strong>Copia dei backup su un altro disco o in rete</strong> puoi indicare una seconda cartella (per esempio <code>D:\Backup RTIndustry</code> o <code>\\NAS\backup</code>): così, se il disco del PC si guasta, lo storico non si perde. Premi <span class="tasto">Salva</span>, poi <span class="tasto">Backup ora</span>: il messaggio conferma se la copia è riuscita.</p>
+        <div class="nota">Per una cartella di rete: il servizio RTIndustry lavora con l'account di sistema del PC, quindi la condivisione deve dare il permesso di scrittura al computer (in dominio: <code>NOME-PC$</code>) oppure il servizio va installato con un account che vi abbia accesso. Se il dubbio resta, usa un secondo disco o una chiavetta sempre collegata.</div>
         <div class="attenzione">Disattivare la licenza libera il posto per un altro PC, ma blocca la raccolta dati su questo finché non la riattivi.</div>
       </section>
 
