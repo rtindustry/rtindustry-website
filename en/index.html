@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTIndustry 2.0 — Real-time CNC machine monitoring, OEE and work orders</title>
+    <meta name="description" content="RTIndustry 2.0 monitors CNC machines and PLCs in real time: parts, cycle times, OEE, energy, alarms and work orders. OPC UA, FANUC, Heidenhain, Modbus. A Windows service with a web interface that also works on tablets.">
+    <link rel="canonical" href="https://www.rtindustry.it/en/">
+    <link rel="alternate" hreflang="it" href="https://www.rtindustry.it/">
+    <link rel="alternate" hreflang="en" href="https://www.rtindustry.it/en/">
+    <link rel="alternate" hreflang="x-default" href="https://www.rtindustry.it/">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="theme-color" content="#0d1b2a">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_GB">
+    <meta property="og:locale:alternate" content="it_IT">
+    <meta property="og:site_name" content="RTIndustry">
+    <meta property="og:title" content="RTIndustry 2.0 — Real-time CNC machine monitoring">
+    <meta property="og:description" content="Parts, cycle times, OEE, energy, alarms and work orders of your machine shop in real time. OPC UA, FANUC, Heidenhain, Modbus TCP.">
+    <meta property="og:url" content="https://www.rtindustry.it/en/">
+    <meta property="og:image" content="https://www.rtindustry.it/img/rtindustry-anteprima.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="RTIndustry 2.0 Work orders screen with the To do, In progress and Completed columns">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="RTIndustry 2.0 — Real-time CNC machine monitoring">
+    <meta name="twitter:description" content="Parts, cycle times, OEE, energy, alarms and work orders of your machine shop in real time.">
+    <meta name="twitter:image" content="https://www.rtindustry.it/img/rtindustry-anteprima.jpg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link href="../css/common.css" rel="stylesheet">
+    <!-- Dati strutturati in inglese: nessun prezzo (sezione prezzi temporaneamente nascosta). -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://www.rtindustry.it/#organizzazione",
+          "name": "RTIndustry",
+          "url": "https://www.rtindustry.it/",
+          "email": "assistenza@rtindustry.it",
+          "contactPoint": [
+            { "@type": "ContactPoint", "contactType": "sales", "email": "demo@rtindustry.it", "availableLanguage": ["it"], "areaServed": "IT" },
+            { "@type": "ContactPoint", "contactType": "customer support", "email": "assistenza@rtindustry.it", "availableLanguage": ["it"], "areaServed": "IT" }
+          ]
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://www.rtindustry.it/en/#pagina",
+          "url": "https://www.rtindustry.it/en/",
+          "name": "RTIndustry 2.0 — Real-time CNC machine monitoring, OEE and work orders",
+          "inLanguage": "en",
+          "isPartOf": { "@id": "https://www.rtindustry.it/#sito" },
+          "about": { "@id": "https://www.rtindustry.it/en/#software" },
+          "publisher": { "@id": "https://www.rtindustry.it/#organizzazione" }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://www.rtindustry.it/en/#software",
+          "name": "RTIndustry",
+          "softwareVersion": "2.0",
+          "applicationCategory": "BusinessApplication",
+          "applicationSubCategory": "Production monitoring (IIoT, MES)",
+          "operatingSystem": "Windows 10 (1809 or later), Windows 11, Windows Server 2019 or later, 64-bit",
+          "inLanguage": "en",
+          "url": "https://www.rtindustry.it/en/",
+          "description": "Software for real-time monitoring of CNC machines and PLCs: it counts parts, measures times and consumption, calculates OEE and manages work orders. It is installed as a Windows service and used from the browser on PCs, tablets and phones.",
+          "featureList": [
+            "Work orders on a Kanban board (To do, In progress, Completed)",
+            "Machine HMI for the operator, also on tablets",
+            "Real-time shift telemetry",
+            "Automatic OEE calculation (availability, performance, quality)",
+            "Period reports with CSV export",
+            "Energy monitoring: power, Wh per part, shift cost",
+            "Alarm history with analysis by shift",
+            "Work order history with search and export",
+            "Personal operator accounts and activity log",
+            "Six-step setup wizard",
+            "OPC UA, FANUC FOCAS, Heidenhain DNC and Modbus TCP connection",
+            "ERP/MES integration through REST API, database exchange table and MQTT",
+            "License verified online, offline operation, company proxy support"
+          ],
+          "screenshot": [
+            "https://www.rtindustry.it/img/work-order.webp",
+            "https://www.rtindustry.it/img/hmi.webp",
+            "https://www.rtindustry.it/img/telemetria.webp",
+            "https://www.rtindustry.it/img/oee.webp"
+          ],
+          "publisher": { "@id": "https://www.rtindustry.it/#organizzazione" }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://www.rtindustry.it/en/#faq",
+          "inLanguage": "en",
+          "mainEntity": [
+            { "@type": "Question", "name": "What is RTIndustry?", "acceptedAnswer": { "@type": "Answer", "text": "RTIndustry is Italian software for real-time monitoring of CNC machines and PLCs. It reads state, part counter, alarms and consumption from the machine, calculates OEE and organizes production in work orders. It is installed as a Windows service and used from the browser on PCs, tablets and phones." } },
+            { "@type": "Question", "name": "Which machines does RTIndustry work with?", "acceptedAnswer": { "@type": "Answer", "text": "With CNCs and PLCs reachable over the network through OPC UA (for example Siemens SINUMERIK 840D sl or umati machines), FANUC FOCAS over Ethernet, Heidenhain DNC (TNC 640, TNC 320, iTNC 530 and others) and Modbus TCP. A Modbus energy meter can be connected separately." } },
+            { "@type": "Question", "name": "Is an external server or database needed?", "acceptedAnswer": { "@type": "Answer", "text": "No. RTIndustry 2.0 is a single Windows service with a built-in database and automatic daily backups: all you need is a 64-bit Windows PC connected to the machine over the network." } },
+            { "@type": "Question", "name": "How does RTIndustry calculate OEE?", "acceptedAnswer": { "@type": "Answer", "text": "OEE is the product of availability, performance and quality. RTIndustry calculates it automatically from the machine data: running time compared with available time, parts produced compared with the work order's target cycle time, and good parts compared with total parts." } },
+            { "@type": "Question", "name": "Does RTIndustry integrate with an ERP or a MES?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, through three equivalent channels: REST API with a key, a database exchange table compatible with version 1, and MQTT through the built-in broker. The management system creates and edits work orders and reads their progress." } },
+            { "@type": "Question", "name": "Can I monitor several machines from the same PC?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. One RTIndustry instance per machine is installed on a PC or server (for example 8 instances for 8 machines): each one has its own service, port, data and backups and takes one license seat. The installer suggests the name, folder and free ports by itself." } },
+            { "@type": "Question", "name": "My machine has no part counter: can I count parts?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. If the control has no part counter (often the case with Heidenhain), RTIndustry counts one part at every program end (M30, M2 or END PGM). Alternatively it reads a counter from the machine's PLC." } },
+            { "@type": "Question", "name": "Does it work without an internet connection?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The license is verified online, but if the connection is missing RTIndustry keeps collecting data and retries by itself. If the company reaches the internet through a proxy, it can be entered in the settings." } },
+            { "@type": "Question", "name": "Can I try RTIndustry?", "acceptedAnswer": { "@type": "Answer", "text": "Yes: without a license key a 30-day free trial starts. For a demonstration on your own machine, write to demo@rtindustry.it." } }
+          ]
+        }
+      ]
+    }
+    </script>
+    <style>
+        .hero { background: var(--gradient-primary); color: white; padding: 72px 0 64px; position: relative; overflow: hidden; }
+        .hero h1 { font-size: 3rem; font-weight: 800; line-height: 1.15; margin-bottom: 24px; }
+        .hero h1 span { color: var(--accent-light); }
+        .hero p.lead { font-size: 1.2rem; opacity: 0.9; margin-bottom: 32px; max-width: 560px; }
+        .badge-protocol { display: inline-block; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 4px 14px; font-size: 0.8rem; margin: 3px; color: rgba(255,255,255,0.9); }
+        .badge-versione { background: rgba(230,57,70,.25); border-color: rgba(255,107,107,.5); }
+        .hero-img { margin-top: 8px; }
+
+        .trust-bar { background: var(--light-bg); padding: 40px 0; text-align: center; border-bottom: 1px solid #e9ecef; }
+        .trust-bar p { color: #6c757d; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+        .trust-icons { display: flex; justify-content: center; align-items: center; gap: 44px; flex-wrap: wrap; }
+        .trust-icon { text-align: center; color: #5b6570; }
+        .trust-icon i { font-size: 2rem; display: block; margin-bottom: 6px; }
+        .trust-icon span { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+        .problem-section { padding: 80px 0; text-align: center; }
+        .solution-section { background: var(--light-bg); padding: 80px 0; }
+        .feature-block { padding: 44px 0; }
+        .feature-block h3 { font-size: 1.6rem; font-weight: 800; color: var(--primary); margin-bottom: 16px; }
+        .feature-block p { color: #555; font-size: 1.05rem; margin-bottom: 20px; }
+        .feature-block .etichetta { display: inline-block; font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+
+        .tablet-section { padding: 80px 0; }
+        .device-row { display: flex; gap: 20px; align-items: flex-end; justify-content: center; flex-wrap: wrap; }
+        .device-row .tablet { flex: 1 1 420px; max-width: 620px; }
+        .device-row .telefono { flex: 0 0 auto; width: 200px; }
+        .device-row img { border-radius: 18px; box-shadow: 0 12px 36px rgba(0,0,0,.18); border: 6px solid #111; background: #111; }
+
+        .protocols-section { background: var(--gradient-primary); color: white; padding: 80px 0; text-align: center; }
+        .protocol-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 32px 20px; text-align: center; transition: all 0.2s; height: 100%; }
+        .protocol-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-4px); }
+        .protocol-card .icon-circle { width: 72px; height: 72px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 20px; }
+        .protocol-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+        .protocol-card p { font-size: 0.88rem; opacity: 0.85; margin-bottom: 0; }
+
+        .integration-section { padding: 80px 0; }
+        .integr-card { background: white; border: 1px solid #e9ecef; border-radius: 16px; padding: 28px 24px; height: 100%; }
+        .integr-card i { font-size: 1.6rem; color: var(--accent); }
+        .integr-card h3 { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin: 12px 0 8px; }
+        .integr-card p { font-size: .93rem; color: #555; margin: 0; }
+
+        .how-it-works { padding: 80px 0; text-align: center; background: var(--light-bg); }
+        .step-number { width: 56px; height: 56px; border-radius: 50%; background: var(--gradient-accent); color: white; font-size: 1.5rem; font-weight: 800; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+        .step-card h3 { font-size: 1.15rem; font-weight: 700; color: var(--primary); margin-bottom: 10px; }
+        .step-card p { color: #5b6570; font-size: 0.95rem; }
+
+        .it-section { padding: 80px 0; }
+        .sm-feature { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 22px; }
+        .sm-feature .icon-box { width: 48px; height: 48px; min-width: 48px; border-radius: 12px; background: rgba(42, 157, 143, 0.1); color: var(--success); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+        .sm-feature h3 { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+        .sm-feature p { font-size: 0.92rem; color: #5b6570; margin-bottom: 0; }
+
+        .stats-section { background: var(--gradient-accent); color: white; padding: 56px 0; text-align: center; }
+        .stat-item .numero { font-size: 2.6rem; font-weight: 800; margin-bottom: 4px; line-height: 1.2; }
+        .stat-item p { font-size: 0.9rem; opacity: 0.95; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
+
+        .faq-section { padding: 80px 0; background: var(--light-bg); }
+        .faq-section details { background: white; border: 1px solid #e9ecef; border-radius: 12px; padding: 16px 20px; margin-bottom: 12px; }
+        .faq-section summary { font-weight: 700; color: var(--primary); cursor: pointer; }
+        .faq-section details p { margin: 10px 0 0; color: #555; }
+
+        .cta-section { background: var(--dark); color: white; padding: 80px 0; text-align: center; }
+        .cta-section h2 { font-size: 2.4rem; font-weight: 800; margin-bottom: 16px; }
+        .cta-section p { font-size: 1.15rem; opacity: 0.85; max-width: 600px; margin: 0 auto 32px; }
+        .cta-section .contatti-cta { margin-top: 24px; font-size: .95rem; opacity: .75; }
+        .cta-section .contatti-cta a { color: white; }
+
+        @media (max-width: 768px) {
+            .hero { padding: 48px 0 40px; }
+            .hero h1 { font-size: 2rem; }
+            .trust-icons { gap: 24px; }
+            .cta-section h2 { font-size: 1.8rem; }
+            .device-row .telefono { width: 160px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="site-nav" aria-label="Main menu">
+        <div class="container">
+            <a href="./" class="nav-brand" aria-label="RTIndustry, home page"><span class="brand-accent">RT</span>Industry</a>
+            <div class="nav-lang" role="group" aria-label="Language"><a href="../" hreflang="it" lang="it" title="Versione italiana">IT</a><span aria-current="true">EN</span></div>
+            <button class="nav-toggle" type="button" aria-label="Open the menu" aria-expanded="false" aria-controls="menu-principale" onclick="var m=document.getElementById('menu-principale');this.setAttribute('aria-expanded',m.classList.toggle('open'))">
+                <i class="bi bi-list" aria-hidden="true"></i>
+            </button>
+            <!-- Sezione prezzi temporaneamente nascosta: la voce "Pricing" tornerà qui. -->
+            <ul class="nav-links" id="menu-principale">
+                <li><a href="./" class="active" aria-current="page">Product</a></li>
+                <li><a href="./site-manager/">Site Manager</a></li>
+                <li><a href="./documentation/">Documentation</a></li>
+                <li><a href="../manuale/en/">Manual</a></li>
+                <li><a href="./developers/">ERP integration</a></li>
+                <li><a href="mailto:demo@rtindustry.it?subject=RTIndustry%20demo%20request&amp;body=Hello%2C%0D%0AI%20would%20like%20to%20request%20a%20demo%20of%20RTIndustry.%0D%0A%0D%0ACompany%3A%0D%0ALocation%20%28city%29%3A%0D%0AMachines%20to%20connect%20%28make%2C%20model%20and%20CNC/PLC%20control%29%3A%0D%0ANumber%20of%20machines%3A%0D%0AContact%20person%20%28name%20and%20role%29%3A%0D%0APhone%3A%0D%0ANotes%3A%0D%0A%0D%0AThank%20you." class="nav-cta">Request a demo</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <span class="badge-protocol badge-versione">Version 2.0</span>
+                        <span class="badge-protocol">OPC UA</span>
+                        <span class="badge-protocol">FANUC</span>
+                        <span class="badge-protocol">Heidenhain</span>
+                        <span class="badge-protocol">Modbus TCP</span>
+                    </div>
+                    <h1>Monitor your CNC machines<br><span>in real time.</span></h1>
+                    <p class="lead">
+                        RTIndustry connects CNCs and PLCs to the shop-floor network: it counts parts, measures times and consumption, calculates OEE and organizes work orders.
+                        A single Windows service, used in the browser on PCs, tablets and phones.
+                    </p>
+                    <a href="mailto:demo@rtindustry.it?subject=RTIndustry%20demo%20request&amp;body=Hello%2C%0D%0AI%20would%20like%20to%20request%20a%20demo%20of%20RTIndustry.%0D%0A%0D%0ACompany%3A%0D%0ALocation%20%28city%29%3A%0D%0AMachines%20to%20connect%20%28make%2C%20model%20and%20CNC/PLC%20control%29%3A%0D%0ANumber%20of%20machines%3A%0D%0AContact%20person%20%28name%20and%20role%29%3A%0D%0APhone%3A%0D%0ANotes%3A%0D%0A%0D%0AThank%20you." class="btn-cta-primary">Request a demo</a>
+                    <a href="#come-funziona" class="btn-cta-secondary">See how it works</a>
+                </div>
+                <div class="col-lg-6">
+                    <img src="../img/telemetria.webp" width="1440" height="900" alt="RTIndustry Telemetry screen: parts per hour, average cycle, OEE and shift energy with power chart" class="img-screenshot hero-img" fetchpriority="high">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRUST BAR -->
+    <section class="trust-bar" aria-label="Protocols and integrations">
+        <div class="container">
+            <p>Connects to the main controls and business systems</p>
+            <div class="trust-icons">
+                <div class="trust-icon"><i class="bi bi-hdd-network" aria-hidden="true"></i><span>OPC UA</span></div>
+                <div class="trust-icon"><i class="bi bi-gear-wide-connected" aria-hidden="true"></i><span>FANUC FOCAS</span></div>
+                <div class="trust-icon"><i class="bi bi-cpu" aria-hidden="true"></i><span>Heidenhain DNC</span></div>
+                <div class="trust-icon"><i class="bi bi-ethernet" aria-hidden="true"></i><span>Modbus TCP</span></div>
+                <div class="trust-icon"><i class="bi bi-broadcast" aria-hidden="true"></i><span>MQTT</span></div>
+                <div class="trust-icon"><i class="bi bi-braces" aria-hidden="true"></i><span>REST API</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- THE PROBLEM -->
+    <section class="problem-section">
+        <div class="container">
+            <span class="section-tag accent">The problem</span>
+            <h2 class="section-title">Your machines produce data.<br>But are you using it?</h2>
+            <p class="section-subtitle">
+                Many machine shops still work without really knowing how much their machines produce, how long they stand still and why.
+            </p>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card-hover">
+                        <div class="card-icon accent"><i class="bi bi-eye-slash" aria-hidden="true"></i></div>
+                        <h3 class="h4" style="font-weight:700;color:var(--primary)">Zero visibility</h3>
+                        <p style="color:#5b6570;font-size:.95rem;margin:0">You do not know whether the machine is running, in alarm or stopped until someone goes and checks.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-hover">
+                        <div class="card-icon orange"><i class="bi bi-clipboard-x" aria-hidden="true"></i></div>
+                        <h3 class="h4" style="font-weight:700;color:var(--primary)">Data on paper</h3>
+                        <p style="color:#5b6570;font-size:.95rem;margin:0">Parts, scrap and times are written down by hand: the data arrives late, incomplete or wrong.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-hover">
+                        <div class="card-icon gray"><i class="bi bi-graph-down-arrow" aria-hidden="true"></i></div>
+                        <h3 class="h4" style="font-weight:700;color:var(--primary)">Unknown OEE</h3>
+                        <p style="color:#5b6570;font-size:.95rem;margin:0">Without reliable data you cannot measure real efficiency: decisions are based on gut feeling, not on numbers.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- THE SOLUTION -->
+    <section class="solution-section" id="funzionalita">
+        <div class="container">
+            <div class="text-center mb-4">
+                <span class="section-tag success">The solution</span>
+                <h2 class="section-title">RTIndustry 2.0</h2>
+                <p class="section-subtitle">A single program, installed on a shop-floor PC: it collects data from the machine even with the browser closed and shows it to whoever needs it, from the operator to the production manager.</p>
+            </div>
+
+            <!-- Work orders -->
+            <div class="feature-block" id="work-order">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6">
+                        <img src="../img/work-order.webp" width="1440" height="900" loading="lazy" alt="RTIndustry Work orders board with the To do, In progress and Completed columns" class="img-screenshot">
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="etichetta">Work orders</span>
+                        <h3>Jobs on a Kanban board</h3>
+                        <p>Each work order says what to produce and how many parts. You drag it from one column to another to start, pause or complete it, even with a finger on a tablet.</p>
+                        <ul class="feature-check">
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> To do, In progress and Completed columns</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Parts, customer, part number, program and due date (in red if overdue)</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Only one work order in progress at a time: parts always go to the right job</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> If the machine starts without a job, RTIndustry creates one automatically and loses no parts</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Quick buttons: Pause/Start, Scrap +1, Note, Complete</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HMI -->
+            <div class="feature-block" id="hmi">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6 order-lg-2">
+                        <img src="../img/hmi.webp" width="1440" height="900" loading="lazy" alt="RTIndustry Machine HMI with progress ring, cycle time deviation and status buttons" class="img-screenshot">
+                    </div>
+                    <div class="col-lg-6 order-lg-1">
+                        <span class="etichetta">Machine HMI</span>
+                        <h3>The operator's screen at the machine</h3>
+                        <p>Large, readable and designed for touch: at a glance the operator sees how far the job has got and records scrap, stops and notes without paper.</p>
+                        <ul class="feature-check">
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Progress ring: good parts compared with required parts</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Cycle time deviation from the target time (slower in red, faster in green)</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Scrap and rework with + and −</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> States: Start, Pause, Stop, Set-up, Rework, Maintenance, Cleaning, Fault, Complete</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Active alarm highlighted and notes for the next shift</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Telemetry -->
+            <div class="feature-block" id="telemetria">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6">
+                        <img src="../img/telemetria.webp" width="1440" height="900" loading="lazy" alt="Shift telemetry in RTIndustry: KPIs, power over the last hour and breakdown by state" class="img-screenshot">
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="etichetta">Telemetry</span>
+                        <h3>The current shift, updated every second</h3>
+                        <p>How the machine is doing right now: production rate, cycle time, efficiency and consumption, with the details read from the numerical control.</p>
+                        <ul class="feature-check">
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Parts per hour, average cycle, OEE and shift energy</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Chart of the power drawn over the last hour</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Breakdown of shift time by state</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> CNC details: program, feed rate, override, tool</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OEE -->
+            <div class="feature-block" id="oee">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6 order-lg-2">
+                        <img src="../img/oee.webp" width="1440" height="900" loading="lazy" alt="RTIndustry OEE page with shift gauge, availability, performance, quality and weekly trend" class="img-screenshot">
+                    </div>
+                    <div class="col-lg-6 order-lg-1">
+                        <span class="etichetta">OEE</span>
+                        <h3>OEE calculated automatically, shift by shift</h3>
+                        <p>OEE (Overall Equipment Effectiveness) is the product of three factors. RTIndustry calculates them from the machine data, with no manual input.</p>
+                        <ul class="feature-check">
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Availability: for how much of the shift the machine worked</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Performance: whether it worked at the speed set by the target time</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Quality: how many parts are good</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Weekly trend and breakdown by shift for the day</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports -->
+            <div class="feature-block" id="report">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6">
+                        <img src="../img/report.webp" width="1440" height="900" loading="lazy" alt="RTIndustry period report with average OEE, good parts, scrap, energy and daily charts" class="img-screenshot">
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="etichetta">Reports</span>
+                        <h3>The analysis of a week, a month, a shift</h3>
+                        <p>Choose the period and the shift and the numbers are ready for the production meeting, to export to Excel.</p>
+                        <ul class="feature-check">
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Summaries: average OEE, good parts, scrap, energy</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> OEE day by day and distribution of machine time</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Energy compared with production</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> List of completed work orders and CSV export</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Energy -->
+            <div class="feature-block" id="energia">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6 order-lg-2">
+                        <img src="../img/energia.webp" width="1440" height="900" loading="lazy" alt="RTIndustry Energy page with power, shift energy, Wh per part and cost" class="img-screenshot">
+                    </div>
+                    <div class="col-lg-6 order-lg-1">
+                        <span class="etichetta">Energy</span>
+                        <h3>How much the machine consumes, how much each part costs</h3>
+                        <p>With an energy meter connected (Modbus too, separate from the machine) RTIndustry measures consumption and links it to production.</p>
+                        <ul class="feature-check">
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Real time: power, shift energy, Wh per part and shift cost</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> History: total energy and cost, average and day-by-day consumption</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Trend of Wh per part</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Configurable energy price (euros per kWh)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alarms -->
+            <div class="feature-block" id="allarmi">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6">
+                        <img src="../img/allarmi.webp" width="1440" height="900" loading="lazy" alt="RTIndustry Alarms page with time in alarm, daily chart and event table" class="img-screenshot">
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="etichetta">Alarms</span>
+                        <h3>How long in alarm, and for what causes</h3>
+                        <p>Every alarm is recorded with start, end and duration. Momentary warnings (under 5 seconds) do not distort the statistics.</p>
+                        <ul class="feature-check">
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Time in alarm, days with alarms, percentage of machine time</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Daily chart with the average line and breakdown by shift</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Event table with alarms longer than 5 minutes highlighted</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> CSV export</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WO history -->
+            <div class="feature-block" id="storico-wo">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6 order-lg-2">
+                        <img src="../img/storico-wo.webp" width="1440" height="900" loading="lazy" alt="RTIndustry WO history: table of all work orders with search and filters" class="img-screenshot">
+                    </div>
+                    <div class="col-lg-6 order-lg-1">
+                        <span class="etichetta">WO history</span>
+                        <h3>The complete archive of jobs</h3>
+                        <p>All work orders, including old ones, with the parts, scrap, times and consumption of each.</p>
+                        <ul class="feature-check">
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Search by code, description, customer, part number</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Filter by status and sorting on every column</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> CSV export of the list you are looking at</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Operators and activity log -->
+            <div class="feature-block" id="operatori">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6">
+                        <img src="../img/operatori-registro.webp" width="1440" height="900" loading="lazy" alt="RTIndustry Operators and activity log page with operator accounts and the activity log" class="img-screenshot">
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="etichetta">Operators and activity log</span>
+                        <h3>Everyone with their own account, every operation tracked</h3>
+                        <p>Each operator signs in with their own username and password. The activity log keeps track of who did what and when: useful for production traceability and as documentation for machinery certification.</p>
+                        <ul class="feature-check">
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Operator and Administrator roles (only the administrator sees Settings)</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Accounts can be created, edited, deactivated or deleted: activities remain in the log</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Log of sign-ins (including rejected ones), work orders, scrap, accounts and settings</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Filters by period, user and activity, CSV export</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> The log cannot be edited or deleted from the interface</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings -->
+            <div class="feature-block" id="impostazioni">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6 order-lg-2">
+                        <img src="../img/impostazioni.webp" width="1440" height="900" loading="lazy" alt="RTIndustry Settings with the machine connection status and the configuration sections" class="img-screenshot">
+                    </div>
+                    <div class="col-lg-6 order-lg-1">
+                        <span class="etichetta">Settings</span>
+                        <h3>The whole configuration, reserved for the administrator</h3>
+                        <p>Changes apply immediately, without restarting anything. A new address or protocol is tested before saving it, without touching the connection in use.</p>
+                        <ul class="feature-check">
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Live connection status and Test connection button</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Machine and protocol, variables, state mapping and part counter</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Energy meter, shifts, company details, backup, license and proxy</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Work order integration with ERP and MES, folders and sending programs to Heidenhain</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Export diagnostics for support, without passwords</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Setup wizard -->
+            <div class="feature-block" id="configurazione-guidata">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6">
+                        <img src="../img/configurazione-guidata.webp" width="1440" height="900" loading="lazy" alt="RTIndustry setup wizard: choosing the machine connection among OPC UA, FANUC, Heidenhain, Modbus TCP and Simulator" class="img-screenshot">
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="etichetta">Setup wizard</span>
+                        <h3>Ready in six steps</h3>
+                        <p>Right after installation a wizard prepares everything: if the browser is closed halfway through, it resumes from the step that had been reached.</p>
+                        <ul class="feature-check">
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Company: name, plant, department, machine and time zone</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Machine: protocol, address and Test the connection</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Shifts, night shifts included</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> License (or 30-day free trial), with company proxy if needed</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Administrator and start</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TABLET -->
+    <section class="tablet-section" id="tablet">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-5">
+                    <span class="section-tag accent">Tablet and phone</span>
+                    <h2 class="section-title">Made for the shop floor, not just the office</h2>
+                    <p style="font-size:1.05rem;color:#555">The interface adapts to the screen: from the office monitor to the tablet mounted next to the machine, all the way to the supervisor's phone. It opens from any device on the company network.</p>
+                    <ul class="feature-check">
+                        <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Tablet mode with large buttons, usable even with gloves</li>
+                        <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Large text, readable from a distance</li>
+                        <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Keep screen on and full screen, where the device allows it</li>
+                        <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> “Add to Home screen”: it opens like an app</li>
+                        <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Online help: the “?” button on every screen opens the <a href="../manuale/en/">manual</a> at the right place</li>
+                    </ul>
+                </div>
+                <div class="col-lg-7">
+                    <div class="device-row">
+                        <div class="tablet"><img src="../img/tablet-hmi.webp" width="1180" height="820" loading="lazy" alt="RTIndustry Machine HMI on a tablet in tablet mode with large buttons"></div>
+                        <div class="telefono"><img src="../img/telefono-work-order.webp" width="390" height="844" loading="lazy" alt="RTIndustry work orders on a phone"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROTOCOLS -->
+    <section class="protocols-section" id="protocolli">
+        <div class="container">
+            <span class="section-tag white">Connectivity</span>
+            <h2 class="section-title" style="color:white">One software, many machines</h2>
+            <p class="section-subtitle" style="color:rgba(255,255,255,0.8)">RTIndustry talks directly to the machine's control: no add-on boards if the CNC or PLC is already on the network. From a single PC or server you can also monitor several machines together, one instance per machine.</p>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="protocol-card">
+                        <div class="icon-circle"><i class="bi bi-hdd-network" aria-hidden="true"></i></div>
+                        <h3>OPC UA</h3>
+                        <p>PLCs and CNCs with an OPC UA server: ready-made profiles for Siemens SINUMERIK 840D sl (native nodes verified in the field) and umati machines (OPC 40501), security with signing and encryption.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="protocol-card">
+                        <div class="icon-circle"><i class="bi bi-gear-wide-connected" aria-hidden="true"></i></div>
+                        <h3>FANUC FOCAS</h3>
+                        <p>FANUC CNCs with built-in Ethernet (port 8193): series 0i-D/0i-F, 30i/31i/32i/35i, 16i/18i/21i, 15/15i.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="protocol-card">
+                        <div class="icon-circle"><i class="bi bi-cpu" aria-hidden="true"></i></div>
+                        <h3>Heidenhain DNC</h3>
+                        <p>TNC 640 and TNC 6xx series, TNC 320, TNC 128, iTNC 530, CNC PILOT, MANUALplus and MillPlus. Parts counted at program end even without the control's part counter. Programs sent to the control.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="protocol-card">
+                        <div class="icon-circle"><i class="bi bi-ethernet" aria-hidden="true"></i></div>
+                        <h3>Modbus TCP</h3>
+                        <p>PLCs and I/O modules: holding and input registers, coils and discrete inputs, with a ready-made map or custom registers. Also for energy meters, with a ready-made profile for the IME CE4DT (Conto D4).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTEGRATION -->
+    <section class="integration-section" id="integrazione">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-tag accent">ERP and MES integration</span>
+                <h2 class="section-title">Work orders come from the management system</h2>
+                <p class="section-subtitle">The management system (ERP) or the manufacturing execution system (MES) creates, edits and starts work orders and reads their progress. Three equivalent channels, with the same rules and a log of every operation.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4"><div class="integr-card"><i class="bi bi-braces" aria-hidden="true"></i><h3>REST API</h3><p>JSON over HTTP with a dedicated key: create, read, edit, change status and delete work orders.</p></div></div>
+                <div class="col-md-4"><div class="integr-card"><i class="bi bi-database" aria-hidden="true"></i><h3>Exchange table</h3><p><code>writewo</code>/<code>readwo</code> tables in the RTIndustry database or in a company MySQL database, compatible with version 1.</p></div></div>
+                <div class="col-md-4"><div class="integr-card"><i class="bi bi-broadcast" aria-hidden="true"></i><h3>MQTT</h3><p>Built-in broker: outgoing telemetry, work order commands only from authenticated clients, events at every change.</p></div></div>
+            </div>
+            <p class="text-center mt-4 mb-0"><a href="./developers/" class="fw-semibold">Read the integration guide <i class="bi bi-arrow-right" aria-hidden="true"></i></a></p>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="how-it-works" id="come-funziona">
+        <div class="container">
+            <span class="section-tag accent">How it works</span>
+            <h2 class="section-title">From installation to production in a few minutes</h2>
+            <p class="section-subtitle">No server to prepare and no external database: all you need is a Windows PC connected to the machine over the network.</p>
+            <div class="row g-4 mt-2">
+                <div class="col-md-4">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3>Install</h3>
+                        <p>The installer creates the RTIndustry Windows service, which starts with the PC and collects data even with the browser closed. Database and daily backups are included.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3>Configure</h3>
+                        <p>The setup wizard asks for company, machine, shifts, license and administrator. “Test the connection” confirms that state and parts are coming in.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3>Produce</h3>
+                        <p>Operators work on the work orders, OEE is calculated automatically and the manager has the numbers to make decisions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IT AND LICENSE -->
+    <section class="it-section" id="affidabilita">
+        <div class="container">
+            <div class="row g-5 align-items-start">
+                <div class="col-lg-5">
+                    <span class="section-tag success">For the IT department</span>
+                    <h2 class="section-title">Easy to manage, robust on the shop floor</h2>
+                    <p style="font-size:1.05rem;color:#555">RTIndustry runs locally on the shop-floor PC. Work orders, history and activity log stay in the company's database.</p>
+                    <p style="color:#555">Those who manage several installations (system integrators and resellers) can use the <a href="./site-manager/">Site Manager</a> for licenses and centralized monitoring.</p>
+                </div>
+                <div class="col-lg-7">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="sm-feature"><div class="icon-box"><i class="bi bi-windows" aria-hidden="true"></i></div><div><h3>A single Windows service</h3><p>Windows 10/11 or Server 2019 and later, 64-bit. An icon next to the clock tells you at once whether everything is fine.</p></div></div>
+                            <div class="sm-feature"><div class="icon-box"><i class="bi bi-shield-check" aria-hidden="true"></i></div><div><h3>License verified online</h3><p>If the connection is missing, RTIndustry keeps working and retries by itself. Company proxy supported.</p></div></div>
+                            <div class="sm-feature"><div class="icon-box"><i class="bi bi-arrow-repeat" aria-hidden="true"></i></div><div><h3>Automatic backups</h3><p>Daily copy of the database, plus a backup before every update.</p></div></div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="sm-feature"><div class="icon-box"><i class="bi bi-person-lock" aria-hidden="true"></i></div><div><h3>Personal sign-in</h3><p>An account for each operator, separate roles and a log of operations.</p></div></div>
+                            <div class="sm-feature"><div class="icon-box"><i class="bi bi-clipboard2-pulse" aria-hidden="true"></i></div><div><h3>Diagnostics ready</h3><p>One click exports version, status and latest messages for support, without passwords. A tool checks PC, network and machine before installation.</p></div></div>
+                            <div class="sm-feature"><div class="icon-box"><i class="bi bi-book" aria-hidden="true"></i></div><div><h3>Online help</h3><p>The <a href="../manuale/en/">user manual</a> is included in the program and works even without internet.</p></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NUMBERS -->
+    <section class="stats-section" aria-label="RTIndustry in numbers">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3 col-6"><div class="stat-item"><div class="numero">4</div><p>Machine protocols</p></div></div>
+                <div class="col-md-3 col-6"><div class="stat-item"><div class="numero">6</div><p>Setup steps</p></div></div>
+                <div class="col-md-3 col-6"><div class="stat-item"><div class="numero">3</div><p>Integration channels</p></div></div>
+                <div class="col-md-3 col-6"><div class="stat-item"><div class="numero">30</div><p>Days of free trial</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section" id="domande">
+        <div class="container" style="max-width:860px">
+            <div class="text-center">
+                <span class="section-tag accent">Frequently asked questions</span>
+                <h2 class="section-title">The answers in brief</h2>
+            </div>
+            <details><summary>What is RTIndustry?</summary><p>RTIndustry is Italian software for real-time monitoring of CNC machines and PLCs. It reads state, part counter, alarms and consumption from the machine, calculates OEE and organizes production in work orders. It is installed as a Windows service and used from the browser on PCs, tablets and phones.</p></details>
+            <details><summary>Which machines does it work with?</summary><p>With CNCs and PLCs reachable over the network through OPC UA (for example Siemens SINUMERIK 840D sl or umati machines), FANUC FOCAS over Ethernet, Heidenhain DNC (TNC 640, TNC 320, iTNC 530 and others) and Modbus TCP. A Modbus energy meter can be connected separately.</p></details>
+            <details><summary>Is an external server or database needed?</summary><p>No. RTIndustry 2.0 is a single Windows service with a built-in database and automatic daily backups: all you need is a 64-bit Windows PC connected to the machine over the network.</p></details>
+            <details><summary>How is OEE calculated?</summary><p>OEE is the product of availability, performance and quality. RTIndustry calculates it automatically: running time compared with available time, parts produced compared with the work order's target cycle time, and good parts compared with total parts.</p></details>
+            <details><summary>Does it integrate with an ERP or a MES?</summary><p>Yes, through three equivalent channels: REST API with a key, a database exchange table compatible with version 1, and MQTT through the built-in broker. Details in the <a href="./developers/">integration guide</a>.</p></details>
+            <details><summary>Can I monitor several machines from the same PC?</summary><p>Yes. One RTIndustry instance per machine is installed on a PC or server (for example 8 instances for 8 machines): each one has its own service, port, data and backups and takes one license seat. The installer suggests the name, folder and free ports by itself.</p></details>
+            <details><summary>My machine has no part counter: can I count parts?</summary><p>Yes. If the control has no part counter (often the case with Heidenhain), RTIndustry counts one part at every program end (M30, M2 or END PGM). Alternatively it reads a counter from the machine's PLC.</p></details>
+            <details><summary>Does it work without an internet connection?</summary><p>Yes. The license is verified online, but if the connection is missing RTIndustry keeps collecting data and retries by itself. If the company reaches the internet through a proxy, it can be entered in the settings.</p></details>
+            <details><summary>Can I try it?</summary><p>Yes: without a license key a 30-day free trial starts. For a demonstration on your machine, write to <a href="mailto:demo@rtindustry.it?subject=RTIndustry%20demo%20request&amp;body=Hello%2C%0D%0AI%20would%20like%20to%20request%20a%20demo%20of%20RTIndustry.%0D%0A%0D%0ACompany%3A%0D%0ALocation%20%28city%29%3A%0D%0AMachines%20to%20connect%20%28make%2C%20model%20and%20CNC/PLC%20control%29%3A%0D%0ANumber%20of%20machines%3A%0D%0AContact%20person%20%28name%20and%20role%29%3A%0D%0APhone%3A%0D%0ANotes%3A%0D%0A%0D%0AThank%20you.">demo@rtindustry.it</a>.</p></details>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="cta-section" id="contatti">
+        <div class="container">
+            <h2>Ready to digitize your machine shop?</h2>
+            <p>Request a free demo: we will show you RTIndustry in action on your machine, with your data.</p>
+            <a href="mailto:demo@rtindustry.it?subject=RTIndustry%20demo%20request&amp;body=Hello%2C%0D%0AI%20would%20like%20to%20request%20a%20demo%20of%20RTIndustry.%0D%0A%0D%0ACompany%3A%0D%0ALocation%20%28city%29%3A%0D%0AMachines%20to%20connect%20%28make%2C%20model%20and%20CNC/PLC%20control%29%3A%0D%0ANumber%20of%20machines%3A%0D%0AContact%20person%20%28name%20and%20role%29%3A%0D%0APhone%3A%0D%0ANotes%3A%0D%0A%0D%0AThank%20you." class="btn-cta-primary" style="font-size:1.2rem;padding:16px 48px">Request a demo</a>
+            <p class="contatti-cta">Demo and information: <a href="mailto:demo@rtindustry.it?subject=RTIndustry%20demo%20request&amp;body=Hello%2C%0D%0AI%20would%20like%20to%20request%20a%20demo%20of%20RTIndustry.%0D%0A%0D%0ACompany%3A%0D%0ALocation%20%28city%29%3A%0D%0AMachines%20to%20connect%20%28make%2C%20model%20and%20CNC/PLC%20control%29%3A%0D%0ANumber%20of%20machines%3A%0D%0AContact%20person%20%28name%20and%20role%29%3A%0D%0APhone%3A%0D%0ANotes%3A%0D%0A%0D%0AThank%20you.">demo@rtindustry.it</a> · Customer support: <a href="mailto:assistenza@rtindustry.it">assistenza@rtindustry.it</a></p>
+        </div>
+    </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h2 class="h6"><span style="color:var(--accent)">RT</span>Industry</h2>
+                    <p>Software for real-time monitoring of CNC machines and PLCs: work orders, OEE, energy, alarms and reports.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h2 class="h6">Navigation</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="./">Product</a></li>
+                        <li><a href="./site-manager/">Site Manager</a></li>
+                        <li><a href="./documentation/">Technical documentation</a></li>
+                        <li><a href="../manuale/en/">User manual</a></li>
+                        <li><a href="./developers/">ERP and MES integration</a></li>
+                        <!-- Sezione prezzi temporaneamente nascosta. -->
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h2 class="h6">Contact</h2>
+                    <ul class="list-unstyled contact-line">
+                        <li><i class="bi bi-calendar-check me-2" aria-hidden="true"></i>Demo and information: <a href="mailto:demo@rtindustry.it?subject=RTIndustry%20demo%20request&amp;body=Hello%2C%0D%0AI%20would%20like%20to%20request%20a%20demo%20of%20RTIndustry.%0D%0A%0D%0ACompany%3A%0D%0ALocation%20%28city%29%3A%0D%0AMachines%20to%20connect%20%28make%2C%20model%20and%20CNC/PLC%20control%29%3A%0D%0ANumber%20of%20machines%3A%0D%0AContact%20person%20%28name%20and%20role%29%3A%0D%0APhone%3A%0D%0ANotes%3A%0D%0A%0D%0AThank%20you.">demo@rtindustry.it</a></li>
+                        <li><i class="bi bi-life-preserver me-2" aria-hidden="true"></i>Customer support: <a href="mailto:assistenza@rtindustry.it">assistenza@rtindustry.it</a></li>
+                    </ul>
+                    <h2 class="h6 mt-3">Legal</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="./privacy/">Privacy Policy</a></li>
+                        <li><a href="./cookie-policy/">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <p class="text-center mb-0">&copy; <span class="anno-corrente"></span> RTIndustry. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>document.querySelectorAll('.anno-corrente').forEach(function (e) { e.textContent = new Date().getFullYear(); });</script>
+</body>
+</html>

@@ -41,6 +41,8 @@ jobs:
             '<title>RTIndustry</title></head>' \
             '<body><p><a href="/">RTIndustry</a></p></body></html>' > _site/pricing/index.html
           test -f _site/index.html && test -f _site/CNAME && test -f _site/manuale/index.html
+          # Versione inglese del sito e del manuale.
+          test -f _site/en/index.html && test -f _site/en/documentation/index.html && test -f _site/manuale/en/index.html
           ! test -e _site/server.py
           ! test -e _site/admin.html
           ! grep -q 'btn-plan' _site/pricing/index.html

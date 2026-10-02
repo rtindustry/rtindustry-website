@@ -6,8 +6,12 @@
   <meta name="theme-color" content="#0d1117">
   <title>Manuale RTIndustry</title>
   <link rel="canonical" href="https://www.rtindustry.it/manuale/">
+  <link rel="alternate" hreflang="it" href="https://www.rtindustry.it/manuale/">
+  <link rel="alternate" hreflang="en" href="https://www.rtindustry.it/manuale/en/">
+  <link rel="alternate" hreflang="x-default" href="https://www.rtindustry.it/manuale/">
   <meta name="description" content="Manuale d'uso di RTIndustry 2.0: come usare ogni schermata del monitoraggio della produzione (work order, HMI, telemetria, OEE, report, energia, allarmi, impostazioni).">
-  <!-- Manuale AUTOSUFFICIENTE: nessuna risorsa esterna, funziona anche sui PC d'officina senza internet.
+  <!-- Versione inglese in en/index.html (stesse ancore: l'app apre manuale/en/#<ancora> con l'interfaccia in inglese).
+       Manuale AUTOSUFFICIENTE: nessuna risorsa esterna, funziona anche sui PC d'officina senza internet.
        La stessa pagina è pubblicata su https://www.rtindustry.it/manuale/ (versione online). Le ancore coincidono con le
        schermate dell'app (#kanban, #hmi, ...): il pulsante "?" apre direttamente la sezione giusta. -->
   <style>
@@ -32,6 +36,11 @@
       border: 1px solid var(--border); background: var(--surface); color: var(--text); text-decoration: none; font: inherit; font-size: .9rem; cursor: pointer; }
     .btn:hover { border-color: var(--brand); }
     .btn-menu { display: none; }
+    .lingue { display: inline-flex; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; font-size: .85rem; }
+    .lingue > a, .lingue > span { display: inline-flex; align-items: center; min-height: 38px; padding: 4px 10px; color: var(--muted); text-decoration: none; }
+    .lingue > * + * { border-left: 1px solid var(--border); }
+    .lingue > a:hover { color: var(--text); background: var(--surface); }
+    .lingue [aria-current] { color: var(--text); background: var(--surface); font-weight: 600; }
     .layout { display: grid; grid-template-columns: 270px minmax(0, 1fr); max-width: 1180px; margin: 0 auto; }
     nav.indice { position: sticky; top: 65px; align-self: start; max-height: calc(100vh - 65px); overflow-y: auto; padding: 20px 12px 40px 20px; }
     nav.indice .gruppo { color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; margin: 16px 0 6px 10px; }
@@ -70,6 +79,7 @@
       header .sotto, .solo-largo { display: none; }
       header.testa { gap: 8px; padding: 10px 12px; }
       .btn { padding: 6px 10px; }
+      .lingue > a, .lingue > span { padding: 4px 10px; }
       table { display: block; overflow-x: auto; }
     }
     @media print {
@@ -87,6 +97,10 @@
     <a class="logo" href="#inizio"><span class="rt">RT</span><span class="ind">industry</span></a>
     <span class="sotto">Manuale d'uso</span>
     <span class="spazio"></span>
+    <nav class="lingue solo-schermo" aria-label="Lingua">
+      <span aria-current="true">IT<span class="solo-largo">&nbsp;Italiano</span></span>
+      <a href="en/" hreflang="en" lang="en" data-lingua title="User manual in English">EN<span class="solo-largo">&nbsp;English</span></a>
+    </nav>
     <a class="btn solo-schermo" id="versioneOnline" href="https://www.rtindustry.it/manuale/" target="_blank" rel="noopener"><span class="solo-largo">Versione</span>online&nbsp;↗</a>
     <button class="btn solo-schermo solo-largo" type="button" onclick="window.print()">Stampa</button>
   </header>
@@ -531,6 +545,10 @@
       const b = document.getElementById('versioneOnline');
       b.href = '/'; b.removeAttribute('target'); b.textContent = '← Sito';
     }
+    // Cambio lingua: conserva la sezione aperta (stesse ancore nei due manuali).
+    document.querySelectorAll('[data-lingua]').forEach((a) => a.addEventListener('click', () => {
+      a.href = a.getAttribute('href').split('#')[0] + location.hash;
+    }));
     // Indice su schermi piccoli.
     const indice = document.getElementById('indice');
     const bottone = document.getElementById('apriIndice');

@@ -366,3 +366,44 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--accent-light); 
 @media (max-width: 767px) {
     .row.g-5 { --bs-gutter-x: 1.5rem; }
 }
+
+/* ============================================================
+   SELETTORE DI LINGUA (IT | EN) nella barra di navigazione
+   ============================================================ */
+.site-nav .nav-links { order: 1; margin-left: auto; }
+.site-nav .nav-lang {
+    order: 2;
+    margin-left: 12px;
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 6px;
+    overflow: hidden;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    flex: 0 0 auto;
+}
+.site-nav .nav-lang a,
+.site-nav .nav-lang span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 4px 10px;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+}
+.site-nav .nav-lang a + span,
+.site-nav .nav-lang span + a { border-left: 1px solid rgba(255,255,255,0.2); }
+.site-nav .nav-lang a:hover { color: white; background: rgba(255,255,255,0.08); }
+.site-nav .nav-lang [aria-current] { color: white; background: rgba(42, 157, 143, 0.35); }
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .site-nav .nav-links { gap: 4px; }
+    .site-nav .nav-links a { padding: 8px 10px; }
+}
+@media (max-width: 991px) {
+    .site-nav .nav-lang { order: 1; margin-left: auto; }
+    .site-nav .nav-toggle { order: 2; margin-left: 8px; }
+    .site-nav .nav-lang a, .site-nav .nav-lang span { min-height: 38px; padding: 4px 12px; }
+}

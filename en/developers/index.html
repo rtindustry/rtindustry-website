@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERP and MES integration — REST API, exchange table and MQTT | RTIndustry 2.0</title>
+    <meta name="description" content="Developer guide: how an ERP or a MES creates, edits, starts and deletes RTIndustry 2.0 work orders and reads their progress through the REST API, a database exchange table (writewo/readwo) or MQTT.">
+    <link rel="canonical" href="https://www.rtindustry.it/en/developers/">
+    <link rel="alternate" hreflang="it" href="https://www.rtindustry.it/developers/">
+    <link rel="alternate" hreflang="en" href="https://www.rtindustry.it/en/developers/">
+    <link rel="alternate" hreflang="x-default" href="https://www.rtindustry.it/developers/">
+    <meta name="theme-color" content="#0d1b2a">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="en_GB">
+    <meta property="og:locale:alternate" content="it_IT">
+    <meta property="og:site_name" content="RTIndustry">
+    <meta property="og:title" content="ERP and MES integration with RTIndustry 2.0">
+    <meta property="og:description" content="REST API, database exchange table and MQTT for RTIndustry work orders.">
+    <meta property="og:url" content="https://www.rtindustry.it/en/developers/">
+    <meta property="og:image" content="https://www.rtindustry.it/img/rtindustry-anteprima.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="icon" href="../../favicon.ico" type="image/x-icon">
+    <link href="../../css/common.css" rel="stylesheet">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "TechArticle",
+          "headline": "ERP and MES integration with RTIndustry 2.0",
+          "description": "REST API, database exchange table (writewo/readwo) and MQTT to create, edit, start and delete RTIndustry work orders and read their progress.",
+          "inLanguage": "en",
+          "url": "https://www.rtindustry.it/en/developers/",
+          "proficiencyLevel": "Expert",
+          "about": { "@type": "SoftwareApplication", "name": "RTIndustry", "softwareVersion": "2.0" },
+          "author": { "@type": "Organization", "name": "RTIndustry", "url": "https://www.rtindustry.it/" },
+          "publisher": { "@type": "Organization", "name": "RTIndustry", "url": "https://www.rtindustry.it/" }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "RTIndustry", "item": "https://www.rtindustry.it/en/" },
+            { "@type": "ListItem", "position": 2, "name": "ERP and MES integration", "item": "https://www.rtindustry.it/en/developers/" }
+          ]
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+
+    <nav class="site-nav" aria-label="Main menu">
+        <div class="container">
+            <a href="../" class="nav-brand" aria-label="RTIndustry, home page"><span class="brand-accent">RT</span>Industry</a>
+            <div class="nav-lang" role="group" aria-label="Language"><a href="../../developers/" hreflang="it" lang="it" title="Versione italiana">IT</a><span aria-current="true">EN</span></div>
+            <button class="nav-toggle" type="button" aria-label="Open the menu" aria-expanded="false" aria-controls="menu-principale" onclick="var m=document.getElementById('menu-principale');this.setAttribute('aria-expanded',m.classList.toggle('open'))">
+                <i class="bi bi-list" aria-hidden="true"></i>
+            </button>
+            <!-- Sezione prezzi temporaneamente nascosta: la voce "Pricing" tornerà qui. -->
+            <ul class="nav-links" id="menu-principale">
+                <li><a href="../">Product</a></li>
+                <li><a href="../site-manager/">Site Manager</a></li>
+                <li><a href="../documentation/">Documentation</a></li>
+                <li><a href="../../manuale/en/">Manual</a></li>
+                <li><a href="../developers/" class="active" aria-current="page">ERP integration</a></li>
+                <li><a href="mailto:demo@rtindustry.it?subject=RTIndustry%20demo%20request&amp;body=Hello%2C%0D%0AI%20would%20like%20to%20request%20a%20demo%20of%20RTIndustry.%0D%0A%0D%0ACompany%3A%0D%0ALocation%20%28city%29%3A%0D%0AMachines%20to%20connect%20%28make%2C%20model%20and%20CNC/PLC%20control%29%3A%0D%0ANumber%20of%20machines%3A%0D%0AContact%20person%20%28name%20and%20role%29%3A%0D%0APhone%3A%0D%0ANotes%3A%0D%0A%0D%0AThank%20you." class="nav-cta">Request a demo</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="docs-header">
+        <div class="container">
+            <div class="docs-breadcrumb"><a href="../">RTIndustry</a><span>/</span><a href="./">ERP and MES integration</a></div>
+            <h1>ERP and MES integration</h1>
+            <p>How a management system (ERP), a manufacturing execution system (MES) or a line PLC creates, edits, starts and deletes the work orders of an RTIndustry 2.0 workstation and reads their progress.</p>
+        </div>
+    </header>
+
+    <div class="docs-layout">
+        <nav class="docs-sidebar" aria-label="Guide contents">
+            <div class="gruppo">Introduction</div>
+            <a href="#canali">Three channels</a>
+            <a href="#attivazione">Activation</a>
+            <div class="gruppo">REST API</div>
+            <a href="#autenticazione">Authentication</a>
+            <a href="#creare">Creating a work order</a>
+            <a href="#leggere">Reading progress</a>
+            <a href="#modificare">Editing</a>
+            <a href="#stato">Changing status</a>
+            <a href="#eliminare">Deleting</a>
+            <a href="#risposta">The returned work order</a>
+            <a href="#errori">Errors</a>
+            <a href="#esempi">Examples</a>
+            <div class="gruppo">Other channels</div>
+            <a href="#tabella">Exchange table</a>
+            <a href="#mqtt">MQTT</a>
+            <a href="#versione1">From version 1</a>
+        </nav>
+
+        <main class="docs-content">
+            <details class="docs-indice-mobile">
+                <summary>Contents</summary>
+                <a href="#canali">Three channels</a>
+                <a href="#attivazione">Activation</a>
+                <a href="#autenticazione">Authentication</a>
+                <a href="#creare">Creating a work order</a>
+                <a href="#leggere">Reading progress</a>
+                <a href="#modificare">Editing</a>
+                <a href="#stato">Changing status</a>
+                <a href="#eliminare">Deleting</a>
+                <a href="#risposta">The returned work order</a>
+                <a href="#errori">Errors</a>
+                <a href="#esempi">Examples</a>
+                <a href="#tabella">Exchange table</a>
+                <a href="#mqtt">MQTT</a>
+                <a href="#versione1">From version 1</a>
+            </details>
+
+            <h2 id="canali">Three equivalent channels</h2>
+            <div class="tabella"><table>
+                <thead><tr><th>Channel</th><th>When to use it</th></tr></thead>
+                <tbody>
+                    <tr><td><a href="#autenticazione"><strong>REST API</strong></a></td><td>New integrations, from any language.</td></tr>
+                    <tr><td><a href="#tabella"><strong>Database exchange table</strong></a> (<code>writewo</code> / <code>readwo</code>)</td><td>ERPs that already wrote to the version 1 database, or software that prefers to write to a table.</td></tr>
+                    <tr><td><a href="#mqtt"><strong>MQTT</strong></a></td><td>Messaging systems, SCADA, IoT gateways.</td></tr>
+                </tbody>
+            </table></div>
+            <p>All channels apply the <strong>same rules</strong>: data validation, a maximum queue of 15 work orders to do, only one work order in progress, license status. Every operation, even a rejected one, is logged on the workstation together with the channel it came from, which helps support.</p>
+
+            <h2 id="attivazione">Activation</h2>
+            <p>The channels are enabled in <em>Settings › Work order integration</em>, reserved for the administrator. The key for REST and MQTT is generated in the same section.</p>
+
+            <h2 id="autenticazione">REST API: authentication</h2>
+            <ul>
+                <li><strong>Base URL</strong>: <code>http://&lt;machine-pc&gt;:1880/api/erp</code> (or <code>https://</code> if a certificate is installed on the PC).</li>
+                <li><strong>Format</strong>: UTF-8 JSON for input and output.</li>
+                <li><strong>Dates</strong>: <code>YYYY-MM-DD</code> for the due date; dates and times returned as <code>YYYY-MM-DD HH:mm:ss</code> in the machine's time zone.</li>
+            </ul>
+            <p>Every request must include the header:</p>
+            <pre><code>X-Api-Key: rti_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</code></pre>
+            <p>The key is shown <strong>only once</strong>: RTIndustry keeps only its fingerprint, so a lost key cannot be recovered but must be regenerated. Regenerating or revoking it invalidates it immediately.</p>
+            <div class="tabella"><table>
+                <thead><tr><th>Situation</th><th>Response</th></tr></thead>
+                <tbody>
+                    <tr><td>No key generated</td><td><code>503</code> API not active</td></tr>
+                    <tr><td>Header missing or wrong key</td><td><code>401</code></td></tr>
+                    <tr><td>Initial setup not completed</td><td><code>409</code></td></tr>
+                    <tr><td>License read-only or blocked</td><td><code>403</code> on writes (reads work)</td></tr>
+                </tbody>
+            </table></div>
+
+            <h2 id="creare">Creating a work order — <code>POST /workorders</code></h2>
+<pre><code>{
+  "erp_id": "MO-2026/0001",
+  "description": "DN80 steel flange",
+  "qty_requested": 50,
+  "item_code": "FL-DN80",
+  "program_name": "O1001",
+  "program_number": "1001",
+  "customer_code": "C-0042",
+  "customer_name": "Sample customer",
+  "order_number": "ORD-778",
+  "operator_name": "Operator 1",
+  "target_time": 30,
+  "target_energy": 150,
+  "due_date": "2026-10-15",
+  "notes": "High priority",
+  "extra": { "receipt": "DN-77", "wo_value": 1250.50, "spare1": "batch A" }
+}</code></pre>
+            <div class="tabella"><table>
+                <thead><tr><th>Field</th><th>Required</th><th>Type</th><th>Notes</th></tr></thead>
+                <tbody>
+                    <tr><td><code>erp_id</code></td><td>Yes</td><td>text (max 100: letters, numbers, <code>. _ / -</code>)</td><td>Unique identifier of the work order in the management system</td></tr>
+                    <tr><td><code>description</code></td><td>Yes</td><td>text</td><td></td></tr>
+                    <tr><td><code>qty_requested</code></td><td>Yes</td><td>integer ≥ 1</td><td>Required parts</td></tr>
+                    <tr><td><code>item_code</code>, <code>program_name</code>, <code>program_number</code>, <code>customer_code</code>, <code>customer_name</code>, <code>order_number</code>, <code>operator_name</code>, <code>notes</code></td><td>No</td><td>text (max 500)</td><td></td></tr>
+                    <tr><td><code>target_time</code></td><td>No</td><td>integer ≥ 0</td><td>Target cycle time (seconds per part)</td></tr>
+                    <tr><td><code>target_energy</code></td><td>No</td><td>integer ≥ 0</td><td>Target energy (Wh per part)</td></tr>
+                    <tr><td><code>due_date</code></td><td>No</td><td><code>YYYY-MM-DD</code></td><td>Due date</td></tr>
+                    <tr><td><code>extra</code></td><td>No</td><td>object</td><td>Only <code>receipt</code>, <code>wo_value</code>, <code>spare1</code>…<code>spare5</code>, returned unchanged</td></tr>
+                </tbody>
+            </table></div>
+            <p>Response <code>201</code> with the complete work order (see <a href="#risposta">below</a>). The work order goes into the <strong>To do</strong> column (<code>status: "REQUESTED"</code>); the operator starts it from the Kanban board, or the management system starts it with a <a href="#stato">status change</a>.</p>
+
+            <h2 id="leggere">Reading progress — <code>GET /workorders</code></h2>
+            <div class="tabella"><table>
+                <thead><tr><th>Parameter</th><th>Example</th><th>Meaning</th></tr></thead>
+                <tbody>
+                    <tr><td><code>status</code></td><td><code>RUNNING</code></td><td>Work order status</td></tr>
+                    <tr><td><code>column</code></td><td><code>in_progress</code></td><td><code>requested</code>, <code>in_progress</code>, <code>done</code></td></tr>
+                    <tr><td><code>source</code></td><td><code>erp</code></td><td><code>erp</code>, <code>manual</code> (from the Kanban board), <code>machine</code> (created by the machine)</td></tr>
+                    <tr><td><code>updatedSince</code></td><td><code>2026-09-27 08:00:00</code></td><td>Only work orders updated since this moment (machine local time)</td></tr>
+                    <tr><td><code>limit</code>, <code>offset</code></td><td><code>100</code>, <code>0</code></td><td>Pagination (maximum 500 per page)</td></tr>
+                </tbody>
+            </table></div>
+            <p>Response: <code>{ "workorders": [ ... ], "total": 42, "limit": 100, "offset": 0 }</code>. For incremental updates, poll every 1–5 minutes with <code>updatedSince</code> equal to the most recent <code>last_update</code> received.</p>
+            <p><strong>Detail</strong>: <code>GET /workorders/{erp_id}</code>, with the <code>erp_id</code> URL-encoded (for example <code>MO-2026%2F0001</code>). <code>404</code> if it does not exist.</p>
+
+            <h2 id="modificare">Editing — <code>PUT /workorders/{erp_id}</code></h2>
+            <p>Same fields as for creation, all optional (<code>erp_id</code> cannot be changed). The <code>extra</code> fields are merged with the existing ones. A work order in progress can be edited too, for example to increase the quantity: its status does not change.</p>
+
+            <h2 id="stato">Changing status — <code>POST /workorders/{erp_id}/status</code></h2>
+            <pre><code>{ "status": "RUNNING" }</code></pre>
+            <ul>
+                <li><code>status</code>: <code>RUNNING</code>, <code>PAUSED</code>, <code>STOPPED</code>, <code>COMPLETED</code>, <code>SET-UP</code>, <code>REWORK</code>, <code>MAINTENANCE</code>, <code>CLEANING</code>, <code>FAULT</code>, or <code>REQUESTED</code> (back to “To do”);</li>
+                <li>alternatively <code>column</code>: <code>requested</code>, <code>in_progress</code> (= <code>RUNNING</code>), <code>done</code> (= <code>COMPLETED</code>).</li>
+            </ul>
+            <p><code>RUNNING</code> pauses any other work order in progress (only one at a time); <code>COMPLETED</code> sets the end date. Response: the updated work order.</p>
+
+            <h2 id="eliminare">Deleting — <code>DELETE /workorders/{erp_id}</code></h2>
+            <p>Logical deletion: the work order remains in the internal history. <code>400</code> if it is in progress.</p>
+
+            <h2 id="risposta">The returned work order</h2>
+<pre><code>{
+  "erp_id": "MO-2026/0001", "id": "ERP-MO-2026_0001", "source": "erp",
+  "status": "RUNNING", "column": "in_progress",
+  "description": "DN80 steel flange", "item_code": "FL-DN80",
+  "qty_requested": 50, "qty_done": 18, "qty_scrap": 1, "qty_good": 17, "qty_rework": 0,
+  "target_time": 30, "cycletime_avg": 28.4, "production_time": 511,
+  "mwt_total": 640, "mwt_running": 540, "mwt_paused": 60, "mwt_stopped": 0, "mwt_alarm": 0,
+  "mwt_maintenance": 0, "mwt_cleaning": 0, "mwt_reworked": 0, "mwt_setup": 40,
+  "energy_quantity": 2150.5, "energy_pieces": 119.5, "energy_saving": 20.3,
+  "due_date": "2026-10-15", "start_date": "2026-09-27 08:02:11", "end_date": null,
+  "creation_date": "2026-09-27 07:55:00", "last_update": "2026-09-27 08:13:40",
+  "extra": { "receipt": "DN-77", "wo_value": 1250.5, "spare1": "batch A" }
+}</code></pre>
+            <div class="tabella"><table>
+                <thead><tr><th>Field</th><th>Meaning</th></tr></thead>
+                <tbody>
+                    <tr><td><code>qty_done</code> / <code>qty_scrap</code> / <code>qty_good</code></td><td>Parts produced / scrapped by the operator / good</td></tr>
+                    <tr><td><code>mwt_*</code></td><td>Seconds the work order has spent in each state set by the operator (running, paused, stopped, fault, maintenance, cleaning, rework, set-up); <code>mwt_total</code> is the sum</td></tr>
+                    <tr><td><code>production_time</code></td><td>Seconds of machine running time for the work order</td></tr>
+                    <tr><td><code>cycletime_avg</code></td><td>Average cycle time (seconds per part)</td></tr>
+                    <tr><td><code>energy_*</code></td><td>Energy consumed (Wh), Wh per part, % saving compared with <code>target_energy</code></td></tr>
+                </tbody>
+            </table></div>
+            <p>Counters are saved every 5 seconds: a reading can be at most 5 seconds behind.</p>
+
+            <h2 id="errori">Errors</h2>
+            <p>All errors have the form <code>{ "error": "message", ... }</code>, with the message text in Italian.</p>
+            <div class="tabella"><table>
+                <thead><tr><th>Code</th><th>When</th><th>Details</th></tr></thead>
+                <tbody>
+                    <tr><td><code>400</code></td><td>Invalid data</td><td><code>dettagli: [{ "campo": "qty_requested", "messaggio": "..." }]</code>: all the invalid fields are listed</td></tr>
+                    <tr><td><code>400</code></td><td>Deleting a work order in progress</td><td><code>codice: "in_lavorazione"</code></td></tr>
+                    <tr><td><code>401</code></td><td>Key missing or wrong</td><td></td></tr>
+                    <tr><td><code>403</code></td><td>License expired or blocked (writes)</td><td></td></tr>
+                    <tr><td><code>404</code></td><td>Work order not found or unknown endpoint</td><td></td></tr>
+                    <tr><td><code>409</code></td><td><code>erp_id</code> already exists</td><td><code>codice: "erp_id_duplicato"</code></td></tr>
+                    <tr><td><code>409</code></td><td>More than 15 work orders in “To do” on the workstation</td><td><code>codice: "coda_piena"</code></td></tr>
+                    <tr><td><code>503</code></td><td>API not active (no key)</td><td></td></tr>
+                </tbody>
+            </table></div>
+            <p>The keys <code>dettagli</code>, <code>campo</code>, <code>messaggio</code> and <code>codice</code> and the values of <code>codice</code> are fixed identifiers of the API (details, field, message, code): test them as they are.</p>
+
+            <h2 id="esempi">Examples</h2>
+<pre><code>curl -X POST http://machine-pc:1880/api/erp/workorders \
+  -H "X-Api-Key: $RTI_KEY" -H "Content-Type: application/json" \
+  -d '{"erp_id":"MO-1001","description":"Drive shaft","qty_requested":200}'
+
+curl "http://machine-pc:1880/api/erp/workorders?source=erp&amp;updatedSince=2026-09-27%2008:00:00" \
+  -H "X-Api-Key: $RTI_KEY"</code></pre>
+<pre><code>$h = @{ "X-Api-Key" = $env:RTI_KEY }
+Invoke-RestMethod -Uri "http://machine-pc:1880/api/erp/workorders/MO-1001" -Headers $h</code></pre>
+
+            <h2 id="tabella">Database exchange table</h2>
+            <p>Same contract as version 1: the external system writes to <code>writewo</code>, RTIndustry processes the rows and updates <code>readed</code>; progress is read from <code>readwo</code>. The tables can live:</p>
+            <ul>
+                <li><strong>in the RTIndustry database</strong>, for software installed on the same PC (<code>readwo</code> is an always up-to-date view);</li>
+                <li><strong>in a company MySQL database</strong>: RTIndustry connects to the given database, reads <code>writewo</code> and writes progress back to <code>readwo</code>. The “Create missing tables” button creates the two tables with the version 1 schema. The password is stored encrypted on the workstation.</li>
+            </ul>
+            <p>The check runs every 10 seconds (configurable).</p>
+            <h3>Life cycle of a row</h3>
+            <div class="tabella"><table>
+                <thead><tr><th><code>readed</code> written by the ERP</th><th>Meaning</th><th>Result written by RTIndustry</th></tr></thead>
+                <tbody>
+                    <tr><td><code>0</code></td><td>New work order</td><td><code>1</code> and <code>kanbanwoid</code> = id of the work order in RTIndustry</td></tr>
+                    <tr><td><code>2</code></td><td>Work order edited (even if in progress)</td><td><code>1</code></td></tr>
+                    <tr><td><code>5</code> (new in 2.0)</td><td>Delete the work order</td><td><code>1</code></td></tr>
+                </tbody>
+            </table></div>
+            <ul>
+                <li><code>3</code> + <code>rejectedreason</code>: rejected by the workstation (queue full, work order in progress cannot be deleted, license read-only). RTIndustry retries by itself every minute.</li>
+                <li><code>4</code> + <code>rejectedreason</code>: invalid data (for example missing <code>description</code>). The ERP corrects the row and sets <code>readed = 2</code> again.</li>
+            </ul>
+            <p>The work order identifier (<code>erp_id</code>) is the <code>id</code> of the <code>writewo</code> row. Rows with <code>serial</code> or <code>workstation</code> filled in are processed only by the matching workstation (table shared by several machines); if empty, any workstation processes them.</p>
+            <h3>Changing status</h3>
+            <ul>
+                <li><code>status</code> column (new in 2.0, optional): <code>RUNNING</code>, <code>PAUSED</code>, <code>COMPLETED</code>, <code>REQUESTED</code>… with <code>readed = 2</code>. It is a command: once executed, RTIndustry sets it back to <code>NULL</code>, so a later edit (for example of the quantity) does not cancel a pause decided by the operator;</li>
+                <li>version 1 <code>column</code> column: <code>in_progress</code> or <code>done</code>. To send a work order that has already started back to “To do”, use <code>status = 'REQUESTED'</code>.</li>
+            </ul>
+<pre><code>-- New work order
+INSERT INTO writewo (readed, description, itemcode, quantity, duedate)
+VALUES (0, 'Drive shaft', 'AX-12', 200, '2026-10-15');
+
+-- Start it
+UPDATE writewo SET status = 'RUNNING', readed = 2 WHERE id = 42;
+
+-- Progress
+SELECT id, status, qty_done, qty_scrap, mwt_running FROM readwo WHERE id = 'ERP-42';</code></pre>
+
+            <h2 id="mqtt">MQTT</h2>
+            <p>Built-in broker on port <strong>1883</strong> of the workstation.</p>
+            <div class="tabella"><table>
+                <thead><tr><th>Topic</th><th>Direction</th><th>Content</th></tr></thead>
+                <tbody>
+                    <tr><td><code>{deviceSN}/read</code></td><td>out</td><td>Telemetry (readable without credentials)</td></tr>
+                    <tr><td><code>{deviceSN}/write</code></td><td>in</td><td>Work order commands (authenticated clients only)</td></tr>
+                    <tr><td><code>{deviceSN}/write/result</code></td><td>out</td><td>Result of each command</td></tr>
+                    <tr><td><code>{deviceSN}/wo</code></td><td>out</td><td>Event at every change of an external work order (including changes by the operator or by production)</td></tr>
+                </tbody>
+            </table></div>
+            <p><strong>Authentication</strong>: any username (for example <code>erp</code>), password = API key (the same as for REST). Wrong credentials: connection refused. A client without credentials can read the telemetry, but its commands are discarded. No client can publish to <code>/read</code>, <code>/write/result</code> or <code>/wo</code>.</p>
+            <h3>Commands</h3>
+<pre><code>{ "id": "c-1", "action": "create", "erp_id": "MO-1", "data": { "description": "Shaft", "qty_requested": 10 } }
+{ "id": "c-2", "action": "update", "erp_id": "MO-1", "data": { "qty_requested": 12 } }
+{ "id": "c-3", "action": "status", "erp_id": "MO-1", "status": "RUNNING" }
+{ "id": "c-4", "action": "delete", "erp_id": "MO-1" }
+{ "id": "c-5", "action": "get",    "erp_id": "MO-1" }
+{ "id": "c-6", "action": "list",   "data": { "status": "RUNNING" } }</code></pre>
+            <p><code>data</code> has the same fields as the REST API; <code>id</code> is an identifier chosen by the sender and returned in the result.</p>
+            <h3>Results and events</h3>
+<pre><code>{ "id": "c-1", "action": "create", "erp_id": "MO-1", "ok": true,  "status": 201, "result": { "erp_id": "MO-1", "status": "REQUESTED" } }
+{ "id": "c-4", "action": "delete", "erp_id": "MO-1", "ok": false, "status": 400, "error": "...", "codice": "in_lavorazione" }
+
+{ "evento": "status", "eliminato": false, "workorder": { "erp_id": "MO-1", "status": "RUNNING", "qty_done": 3 } }</code></pre>
+            <p>In events, <code>evento</code> is the type of change and <code>eliminato</code> (deleted) is <code>true</code> when the work order has been deleted.</p>
+<pre><code>mosquitto_pub -h machine-pc -u erp -P "$RTI_KEY" -t "RTI-XXXX/write" \
+  -m '{"id":"1","action":"status","erp_id":"MO-1001","status":"RUNNING"}'
+mosquitto_sub -h machine-pc -u erp -P "$RTI_KEY" -t "RTI-XXXX/write/result" -t "RTI-XXXX/wo"</code></pre>
+
+            <h2 id="versione1">From version 1</h2>
+            <p>Those who cannot adapt their ERP keep using the <a href="#tabella">tables</a>. To move to the REST API:</p>
+            <div class="tabella"><table>
+                <thead><tr><th>Before (version 1, MySQL tables)</th><th>Now (2.0, API)</th></tr></thead>
+                <tbody>
+                    <tr><td><code>INSERT INTO writewo (...)</code> with <code>readed = 0</code></td><td><code>POST /api/erp/workorders</code></td></tr>
+                    <tr><td><code>UPDATE writewo ... readed = 2</code> (edit)</td><td><code>PUT /api/erp/workorders/{erp_id}</code></td></tr>
+                    <tr><td>Wait for <code>readed = 1</code></td><td>Immediate <code>201</code> response: the work order is already in “To do”</td></tr>
+                    <tr><td><code>readed = 3</code> (too many work orders / workstation error)</td><td><code>409</code> with <code>codice: "coda_piena"</code> (or another message)</td></tr>
+                    <tr><td><code>readed = 4</code> (read error)</td><td><code>400</code> with the list of invalid fields in <code>dettagli</code></td></tr>
+                    <tr><td><code>SELECT * FROM readwo</code></td><td><code>GET /api/erp/workorders</code> (+ <code>updatedSince</code>)</td></tr>
+                    <tr><td><code>column</code> in <code>writewo</code></td><td><code>POST /api/erp/workorders/{erp_id}/status</code></td></tr>
+                    <tr><td>No equivalent</td><td><code>DELETE /api/erp/workorders/{erp_id}</code></td></tr>
+                </tbody>
+            </table></div>
+            <div class="tabella"><table>
+                <thead><tr><th><code>writewo</code> field</th><th>API field</th></tr></thead>
+                <tbody>
+                    <tr><td><code>kanbanwoid</code> / ERP id</td><td><code>erp_id</code></td></tr>
+                    <tr><td><code>programname</code>, <code>programnumber</code></td><td><code>program_name</code>, <code>program_number</code></td></tr>
+                    <tr><td><code>description</code>, <code>itemcode</code></td><td><code>description</code>, <code>item_code</code></td></tr>
+                    <tr><td><code>quantity</code></td><td><code>qty_requested</code></td></tr>
+                    <tr><td><code>customername</code>, <code>customercode</code></td><td><code>customer_name</code>, <code>customer_code</code></td></tr>
+                    <tr><td><code>operatorname</code>, <code>notes</code></td><td><code>operator_name</code>, <code>notes</code></td></tr>
+                    <tr><td><code>duedate</code>, <code>targettime</code>, <code>targetenergy</code></td><td><code>due_date</code>, <code>target_time</code>, <code>target_energy</code></td></tr>
+                    <tr><td><code>receipt</code>, <code>wovalue</code>, <code>spare1</code>…<code>spare5</code></td><td><code>extra.receipt</code>, <code>extra.wo_value</code>, <code>extra.spare1</code>…<code>spare5</code></td></tr>
+                    <tr><td><code>client</code>, <code>plant</code>, <code>workstation</code>, <code>serial</code></td><td>Not needed: they are assigned by the workstation that receives the call</td></tr>
+                </tbody>
+            </table></div>
+            <p>In <code>readwo</code> and in the API response, <code>qty_done</code>, <code>qty_scrap</code>, <code>qty_requested</code>, <code>mwt_*</code>, <code>cycletime_avg</code>, <code>start_date</code>, <code>end_date</code> and <code>status</code> have the same name; <code>mwt_downtime</code> no longer exists (it is the sum of <code>mwt_stopped</code> and <code>mwt_alarm</code>).</p>
+
+            <div class="box-nota">Need help with the integration? Write to <a href="mailto:assistenza@rtindustry.it">assistenza@rtindustry.it</a>. To evaluate RTIndustry with your management system: <a href="mailto:demo@rtindustry.it?subject=RTIndustry%20demo%20request&amp;body=Hello%2C%0D%0AI%20would%20like%20to%20request%20a%20demo%20of%20RTIndustry.%0D%0A%0D%0ACompany%3A%0D%0ALocation%20%28city%29%3A%0D%0AMachines%20to%20connect%20%28make%2C%20model%20and%20CNC/PLC%20control%29%3A%0D%0ANumber%20of%20machines%3A%0D%0AContact%20person%20%28name%20and%20role%29%3A%0D%0APhone%3A%0D%0ANotes%3A%0D%0A%0D%0AThank%20you.">demo@rtindustry.it</a>.</div>
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h2 class="h6"><span style="color:var(--accent)">RT</span>Industry</h2>
+                    <p>Software for real-time monitoring of CNC machines and PLCs: work orders, OEE, energy, alarms and reports.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h2 class="h6">Navigation</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="../">Product</a></li>
+                        <li><a href="../site-manager/">Site Manager</a></li>
+                        <li><a href="../documentation/">Technical documentation</a></li>
+                        <li><a href="../../manuale/en/">User manual</a></li>
+                        <li><a href="../developers/">ERP and MES integration</a></li>
+                        <!-- Sezione prezzi temporaneamente nascosta. -->
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h2 class="h6">Contact</h2>
+                    <ul class="list-unstyled contact-line">
+                        <li><i class="bi bi-calendar-check me-2" aria-hidden="true"></i>Demo and information: <a href="mailto:demo@rtindustry.it?subject=RTIndustry%20demo%20request&amp;body=Hello%2C%0D%0AI%20would%20like%20to%20request%20a%20demo%20of%20RTIndustry.%0D%0A%0D%0ACompany%3A%0D%0ALocation%20%28city%29%3A%0D%0AMachines%20to%20connect%20%28make%2C%20model%20and%20CNC/PLC%20control%29%3A%0D%0ANumber%20of%20machines%3A%0D%0AContact%20person%20%28name%20and%20role%29%3A%0D%0APhone%3A%0D%0ANotes%3A%0D%0A%0D%0AThank%20you.">demo@rtindustry.it</a></li>
+                        <li><i class="bi bi-life-preserver me-2" aria-hidden="true"></i>Customer support: <a href="mailto:assistenza@rtindustry.it">assistenza@rtindustry.it</a></li>
+                    </ul>
+                    <h2 class="h6 mt-3">Legal</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="../privacy/">Privacy Policy</a></li>
+                        <li><a href="../cookie-policy/">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <p class="text-center mb-0">&copy; <span class="anno-corrente"></span> RTIndustry. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>document.querySelectorAll('.anno-corrente').forEach(function (e) { e.textContent = new Date().getFullYear(); });</script>
+</body>
+</html>

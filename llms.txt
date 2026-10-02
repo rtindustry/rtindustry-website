@@ -28,3 +28,14 @@
 
 - Demo e informazioni commerciali: demo@rtindustry.it
 - Assistenza clienti: assistenza@rtindustry.it
+
+## English
+
+RTIndustry 2.0 is Italian software for real-time monitoring of CNC machines and PLCs. It reads state, part counter, alarms and energy consumption from the machine, calculates OEE (availability × performance × quality) and organizes production in work orders on a Kanban board. It is installed as a single Windows service (Windows 10 1809+, Windows 11, Windows Server 2019+, 64-bit) with a built-in database and used from the browser on PCs, tablets and phones. Machine connection: OPC UA (Siemens SINUMERIK 840D sl, umati), FANUC FOCAS, Heidenhain DNC, Modbus TCP; Modbus energy meters. ERP/MES integration via REST API, database exchange table (writewo/readwo) and MQTT. One instance per machine, several instances on the same PC. 30-day free trial.
+
+- [Product](https://www.rtindustry.it/en/): overview, screens, protocols, integration and FAQ
+- [User manual](https://www.rtindustry.it/manuale/en/): how to use every screen (work orders, HMI, telemetry, OEE, reports, energy, alarms, WO history, settings, operators and activity log)
+- [Technical documentation](https://www.rtindustry.it/en/documentation/): requirements, installation, machine connection, license, network, backup, troubleshooting
+- [ERP and MES integration](https://www.rtindustry.it/en/developers/): REST API, exchange table and MQTT for work orders
+- [Site Manager](https://www.rtindustry.it/en/site-manager/): licenses, seats and installations for system integrators and resellers
+- Contact: demo@rtindustry.it (demo and sales), assistenza@rtindustry.it (customer support)
