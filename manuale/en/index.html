@@ -217,7 +217,7 @@
         <h3>Creating a work order</h3>
         <ol>
           <li>Press <span class="tasto">+ New work order</span>.</li>
-          <li>Fill in at least the <strong>Description</strong>. Useful: <em>Required quantity</em> (for progress), <em>Target time (s/part)</em> (for performance), <em>Due date</em>, customer, order, part number, program, operator, notes.</li>
+          <li>Fill in at least the <strong>Description</strong>. Useful: <em>Requested quantity</em> (for progress), <em>Target time (s/part)</em> (for performance), <em>Due date</em>, customer, order, part number, program, operator, notes.</li>
           <li>Press <span class="tasto">Save</span>: the WO appears in "To do".</li>
         </ol>
         <h3>Starting, pausing, completing</h3>
@@ -323,7 +323,7 @@
       <section id="settings">
         <h2><span class="num">13</span>Settings</h2>
         <p class="scopo">The whole configuration of the software, reserved for the <strong>administrator</strong>. Changes apply immediately, without restarting anything.</p>
-        <p>At the top you find the <strong>connection status</strong> with the machine (<em>ONLINE</em> in green) and the <span class="tasto">Test connection</span> button. With <span class="tasto">Try the changes before saving</span> you check a new address or protocol without touching the one in use.</p>
+        <p>At the top you find the <strong>connection status</strong> with the machine (<em>ONLINE</em> in green) and the <span class="tasto">Test connection</span> button. With <span class="tasto">Test the changes before saving</span> you check a new address or protocol without touching the one in use.</p>
         <table>
           <tr><th>Section</th><th>What it is for</th></tr>
           <tr><td>Machine and protocol</td><td>Connection type (OPC UA, FANUC, Heidenhain, Modbus, Simulator), IP address, security. When you change protocol, the previous configuration stays saved.</td></tr>
@@ -345,7 +345,7 @@
           <li><strong>PLC counter</strong> (Heidenhain): if the NC program or the PLC keeps a counter, enter its path and the data access password; it works like the machine part counter.</li>
         </ul>
         <div class="attenzione">Counting at program end reads the machine at intervals (usually every 5 seconds): if the operator restarts the cycle before the next reading, that part is not seen. With very short cycles or continuous cycles use the machine part counter or the PLC counter. When the software measures cycles shorter than three readings, the <strong>Short cycles</strong> warning appears in Settings.</div>
-        <p><strong>SINUMERIK</strong>: the <em>acProg (field-verified)</em> profile uses the control's native nodes; the <em>progStatus</em> profile remains for controls that expose only that. With <span class="tasto">Detect</span> the software suggests by itself the profile that responds.</p>
+        <p><strong>SINUMERIK</strong>: the <em>acProg (field-proven)</em> profile uses the control's native nodes; the <em>progStatus</em> profile remains for controls that expose only that. With <span class="tasto">Detect the controller type</span> the software suggests by itself the profile that responds.</p>
         <p><strong>Backup</strong>: every day RTIndustry saves a copy of the database in its own folder (last 7 days plus the last 4 Sundays). In <em>Services, energy and license</em> → <strong>Copy backups to another disk or network location</strong> you can set a second folder (for example <code>D:\RTIndustry Backup</code> or <code>\\NAS\backup</code>): this way, if the PC's disk fails, the history is not lost. Press <span class="tasto">Save</span>, then <span class="tasto">Back up now</span>: the message confirms whether the copy succeeded.</p>
         <div class="nota">For a network folder: the RTIndustry service runs with the PC's system account, so the share must give write permission to the computer (in a domain: <code>PC-NAME$</code>) or the service must be installed with an account that has access to it. If in doubt, use a second disk or a USB stick that is always connected.</div>
         <div class="attenzione">Deactivating the license frees the seat for another PC, but stops data collection on this one until you reactivate it.</div>
@@ -364,8 +364,8 @@
         <table>
           <tr><th>Button</th><th>Effect</th></tr>
           <tr><td>Edit</td><td>Changes the full name or sets a new password (forgotten password).</td></tr>
-          <tr><td>Deactivate / Reactivate</td><td>Suspends access: the operator is signed out immediately, even if they had the page open. Their activities remain in the log.</td></tr>
-          <tr><td>Delete</td><td>Deletes the account. The activities remain in the log. For a temporary absence, <em>Deactivate</em> is better.</td></tr>
+          <tr><td>Disable / Re-enable</td><td>Suspends access: the operator is signed out immediately, even if they had the page open. Their activities remain in the log.</td></tr>
+          <tr><td>Delete</td><td>Deletes the account. The activities remain in the log. For a temporary absence, <em>Disable</em> is better.</td></tr>
         </table>
         <h3>Activity log</h3>
         <p>Lists, most recent first, every operation performed in the interface: sign-ins (including those rejected for a wrong password), sign-outs, creation, editing, moving, status changes, scrap and deletion of work orders, account management, saving of settings. For each one: date and time, user, activity, work order and details.</p>
@@ -419,7 +419,7 @@
         <h3>Several machines</h3>
         <p>Each installation (<a href="#istanze">instance</a>) takes one license <strong>seat</strong>. With 8 machines you need 8 seats: usually a single key with 8 seats, entered in all the instances. The Site Manager shows how many seats are in use.</p>
         <h3>Moving the license to another PC</h3>
-        <p>On the old PC: Settings › Services, energy and license › <span class="tasto">Deactivate</span> (frees the seat). On the new PC: install RTIndustry and enter the same key in the setup wizard. If the old PC no longer works, ask support to free the seat.</p>
+        <p>On the old PC: Settings › Services, energy and license › <span class="tasto">Deactivate this installation</span> (frees the seat). On the new PC: install RTIndustry and enter the same key in the setup wizard. If the old PC no longer works, ask support to free the seat.</p>
         <table>
           <tr><th>Message</th><th>What to do</th></tr>
           <tr><td>Trial period: N days remaining</td><td>Nothing. To continue after the trial, the administrator enters a key in Settings.</td></tr>
