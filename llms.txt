@@ -5,7 +5,7 @@
 ## Funzionalità principali
 
 - Work order (Kanban): colonne Da fare, In corso, Completati; un solo work order in lavorazione; work order automatico se la macchina parte senza commessa.
-- HMI macchina: avanzamento, scostamento del tempo ciclo, scarti e rilavorazioni, stati (attrezzaggio, manutenzione, pulizia, guasto…), note di turno.
+- HMI macchina: avanzamento, scarti e pezzi aggiunti a mano, stato del work order che segue la macchina, tempi per stato e torta degli stati della macchina, tempo di produzione e deviazione dal previsto, invio del part program alla macchina, allegati (documenti e foto), note di turno. Cartelle di lavoro consultabili dal browser di qualsiasi PC in rete.
 - Telemetria del turno, OEE per turno e settimanale, Report di periodo con esportazione CSV, Energia (potenza, Wh per pezzo, costo), Allarmi, Storico WO.
 - Operatori e registro attività: account personali, ruoli Operatore e Amministratore, registro di chi ha fatto cosa (utile per tracciabilità e certificazione del macchinario).
 - Impostazioni riservate all'amministratore, configurazione guidata in sei passi, modalità tablet, guida in linea.

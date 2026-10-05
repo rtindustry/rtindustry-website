@@ -130,6 +130,7 @@
       <a href="#licenza">Licenza e messaggi</a>
       <a href="#requisiti">Requisiti, rete e antivirus</a>
       <a href="#problemi">Problemi frequenti</a>
+      <a href="#risoluzione-problemi">Risoluzione problemi</a>
       <a href="#glossario">Glossario</a>
       <a href="#assistenza">Assistenza</a>
     </nav>
@@ -236,13 +237,21 @@
         <ul>
           <li>Il <strong>work order</strong> in lavorazione (o quello scelto dall'elenco in alto), con consegna, turno e stato della macchina.</li>
           <li>L'<strong>anello di avanzamento</strong>: pezzi buoni rispetto ai pezzi richiesti.</li>
-          <li>Lo <strong>scostamento del tempo ciclo</strong>: quanto il pezzo medio è più lento (rosso) o più veloce (verde) del tempo target.</li>
+          <li>I <strong>tempi del work order</strong>: quanto è stato in lavorazione, in pausa, fermo, in guasto, in attrezzaggio, in manutenzione, in pulizia, in rilavorazione, con il totale.</li>
+          <li>La <strong>torta degli stati della macchina</strong>: in che percentuale la macchina è stata in lavoro, in pausa, ferma, in allarme, inattiva o spenta mentre il work order era attivo.</li>
+          <li>Il <strong>tempo di produzione</strong> (macchina in lavoro), il <strong>tempo previsto</strong> (ciclo target × pezzi fatti), la <strong>deviazione</strong> (in ritardo in arancione, in anticipo in verde), il ciclo medio e il tempo stimato per finire. Previsto e deviazione compaiono se il work order ha un ciclo target.</li>
           <li>L'eventuale <strong>allarme attivo</strong>, in evidenza.</li>
         </ul>
+        <h3>Lo stato del work order segue la macchina</h3>
+        <p>Quando la macchina cambia stato, il work order in lavorazione la segue: macchina in lavoro → <em>In lavorazione</em>, pausa → <em>In pausa</em>, fermo → <em>Fermo</em>, allarme → <em>Guasto</em>, attrezzaggio, manutenzione, pulizia e rilavorazione → stesso stato; macchina spenta con il work order in lavorazione → <em>Fermo</em>. Se indichi tu un motivo (per esempio <span class="tasto">Manutenzione</span> mentre la macchina è ferma), la tua scelta resta finché la macchina non cambia stato. L'amministratore può disattivare questo comportamento in <em>Impostazioni › Mapping stati e modi</em>.</p>
         <h3>Cosa puoi fare</h3>
         <ul>
-          <li><strong>Scarti</strong> e <strong>Rilavorazioni</strong>: con <span class="tasto">+</span> e <span class="tasto">−</span> registri i pezzi non buoni. I pezzi buoni si aggiornano di conseguenza.</li>
+          <li><strong>Scarti</strong>: con <span class="tasto">+</span> e <span class="tasto">−</span> registri i pezzi non buoni. I pezzi buoni si aggiornano di conseguenza.</li>
+          <li><strong>Pezzi aggiunti</strong>: con <span class="tasto">+</span> e <span class="tasto">−</span> aggiungi i pezzi fatti che il contapezzi della macchina non ha contato. Si sommano ai pezzi fatti del work order (anche per l'ERP).</li>
           <li><strong>Stato del work order</strong>: pulsanti <span class="tasto">Avvia</span>, <span class="tasto">Pausa</span>, <span class="tasto">Ferma</span>, <span class="tasto">Attrezzaggio</span>, <span class="tasto">Rilavorazione</span>, <span class="tasto">Manutenzione</span>, <span class="tasto">Pulizia</span>, <span class="tasto">Guasto</span>, <span class="tasto">Completa</span>. Indicare il motivo di una fermata rende più precisi i report.</li>
+          <li><strong>Invia programma alla macchina</strong>: si apre la cartella dei part program (il programma del work order è evidenziato in cima). Puoi entrare nelle sottocartelle, cercare, aprire o scaricare un file, caricarne uno dal tuo dispositivo e premere <span class="tasto">Invia alla macchina</span>: il programma viene copiato nella cartella di rete del CNC oppure, sui controlli Heidenhain, trasferito direttamente al CNC. Funziona da qualsiasi PC o tablet collegato.</li>
+          <li><strong>Documenti macchina</strong>: apre la cartella dei documenti della macchina (manuali, schede), se configurata.</li>
+          <li><strong>Allegati</strong>: <span class="tasto">Allega documento</span> aggiunge al work order disegni, istruzioni o altri file; <span class="tasto">Scatta foto</span> usa la fotocamera del tablet. Gli allegati si aprono con un tocco e si eliminano premendo due volte il cestino.</li>
           <li><strong>Note</strong>: scrivi un'annotazione per il turno successivo e salvala.</li>
         </ul>
       </section>
@@ -323,6 +332,7 @@
       <section id="settings">
         <h2><span class="num">13</span>Impostazioni</h2>
         <p class="scopo">Tutta la configurazione del programma, riservata all'<strong>amministratore</strong>. Le modifiche si applicano subito, senza riavviare nulla.</p>
+        <p>In cima alla pagina c'è l'<strong>Autodiagnosi</strong>: con <span class="tasto">Avvia autodiagnosi</span> RTIndustry controlla collegamento alla macchina, licenza e PC e dice cosa fare per ogni problema. Vedi <a href="#risoluzione-problemi">Risoluzione problemi</a>.</p>
         <p>In cima c'è lo <strong>stato della connessione</strong> con la macchina (<em>ONLINE</em> in verde) e il pulsante <span class="tasto">Testa connessione</span>. Con <span class="tasto">Prova le modifiche prima di salvare</span> verifichi un nuovo indirizzo o protocollo senza toccare quello in uso.</p>
         <table>
           <tr><th>Sezione</th><th>A cosa serve</th></tr>
@@ -334,7 +344,7 @@
           <tr><td>Identità e accesso</td><td>Dati dell'azienda e della macchina.</td></tr>
           <tr><td>Servizi, energia e licenza</td><td>Database e backup, prezzo dell'energia, fuso orario, licenza (attivazione e disattivazione), indirizzo del Site Manager e <strong>proxy aziendale</strong> (se il PC esce su internet tramite proxy).</td></tr>
           <tr><td>Integrazione work order (ERP, MES)</td><td>Ricezione dei work order dal gestionale.</td></tr>
-          <tr><td>Cartelle e trasferimenti</td><td>Cartelle per allegati e programmi; invio programmi ai controlli Heidenhain.</td></tr>
+          <tr><td>Cartelle e trasferimenti</td><td>Cartelle per allegati, part program, documenti macchina e <strong>cartella di rete del CNC</strong> (dove «Invia alla macchina» copia i programmi); cartella programmi dei controlli Heidenhain. Il pulsante con la cartella la apre nel browser, anche da un altro PC: puoi sfogliarla, aprire e caricare file. Sul PC dove è installato RTIndustry c'è anche <span class="tasto">Apri in Esplora risorse</span>; dagli altri PC <span class="tasto">Copia percorso</span>. Per le cartelle di rete usa il percorso completo (<code>\\server\condivisa</code>, non una lettera di unità mappata) e installa il servizio con un utente che vi abbia accesso (installer › Avanzate).</td></tr>
         </table>
         <p>Dopo le modifiche premi <span class="tasto">Salva</span>: se hai cambiato il collegamento alla macchina, parte da solo un test di connessione.</p>
         <h3 id="contapezzi">Come si contano i pezzi</h3>
@@ -462,6 +472,7 @@
 
       <section id="problemi">
         <h2><span class="num">20</span>Problemi frequenti</h2>
+        <div class="nota">Per un controllo completo e guidato usa prima l'<a href="#risoluzione-problemi">Autodiagnosi</a> (Impostazioni › <span class="tasto">Avvia autodiagnosi</span>).</div>
         <h3>La macchina risulta "Spenta o non raggiungibile"</h3>
         <ul>
           <li>Verifica che la macchina sia accesa e il cavo di rete collegato.</li>
@@ -505,8 +516,76 @@
         </table>
       </section>
 
+      <section id="risoluzione-problemi">
+        <h2><span class="num">21</span>Risoluzione problemi (Autodiagnosi)</h2>
+        <p class="scopo">Prima di chiamare l'assistenza: <a href="#settings">Impostazioni</a> › <span class="tasto">Avvia autodiagnosi</span> (in cima alla pagina, solo amministratore). In meno di un minuto RTIndustry controlla il collegamento alla macchina, la licenza e il PC e, per ogni punto, dice cosa ha verificato e cosa fare.</p>
+        <p>Ogni controllo ha un semaforo: <strong>verde</strong> superato, <strong>giallo</strong> funziona ma va sistemato, <strong>rosso</strong> problema, <strong>grigio</strong> non verificato (prima va risolto un problema sopra). Segui i controlli rossi <strong>dall'alto verso il basso</strong>: spesso, risolto il primo, si sistemano anche gli altri. Il pulsante <span class="tasto">Guida</span> accanto a un controllo apre la voce corrispondente qui sotto.</p>
+        <div class="nota">L'autodiagnosi funziona anche con la licenza bloccata, non modifica nessuna impostazione e viene annotata nel <a href="#operatori">registro delle attività</a>. Se dopo le azioni indicate il problema resta, premi <span class="tasto">Esporta diagnostica</span> e invia il file all'assistenza.</div>
+
+        <h3 id="ad-indirizzo">Indirizzo della macchina</h3>
+        <p>Verifica che l'indirizzo della macchina sia indicato e, se è un nome, che la rete lo riconosca.</p>
+        <ul>
+          <li><strong>Indirizzo mancante</strong>: in <em>Macchina e protocollo</em> scrivi l'indirizzo IP del controllo (si legge nelle impostazioni di rete del CNC o del PLC) e salva.</li>
+          <li><strong>Nome non riconosciuto</strong>: usa direttamente l'indirizzo IP (per esempio <code>192.168.1.50</code>).</li>
+        </ul>
+
+        <h3 id="ad-porta">Collegamento di rete alla macchina</h3>
+        <p>Il PC prova ad aprire la porta del protocollo: OPC UA <code>4840</code>, Modbus TCP <code>502</code>, FANUC FOCAS <code>8193</code>, Heidenhain DNC <code>19000</code> (o quella impostata).</p>
+        <ul>
+          <li><strong>Nessuna risposta</strong>: la macchina è spenta, il cavo è scollegato, l'indirizzo è sbagliato o PC e macchina sono su reti diverse. Accendi la macchina, controlla cavo e spie della presa, confronta l'indirizzo con quello del controllo; il PC deve avere un indirizzo della stessa rete (per esempio entrambi <code>192.168.1.x</code>).</li>
+          <li><strong>Porta chiusa</strong>: il PC arriva alla macchina, ma il servizio di comunicazione del controllo non è attivo o usa un'altra porta. Sul controllo verifica l'opzione (FOCAS Ethernet, server OPC UA, DNC/Remo Tools, Modbus TCP) e la porta. Dopo l'accensione alcuni controlli impiegano un paio di minuti ad attivarla.</li>
+        </ul>
+
+        <h3 id="ad-bridge">Componente di collegamento al CNC</h3>
+        <p>Solo FANUC e Heidenhain: RTIndustry usa un piccolo programma che dialoga con il CNC. Se manca, quasi sempre lo ha messo in quarantena l'antivirus: ripristinalo e aggiungi l'eccezione per <code>C:\RTIndustry</code> (vedi <a href="#antivirus">Antivirus con firewall proprio</a>). Altrimenti reinstalla RTIndustry: i dati vengono conservati.</p>
+
+        <h3 id="ad-sicurezza">Sicurezza OPC UA (certificato e accesso)</h3>
+        <ul>
+          <li><strong>Certificato rifiutato</strong>: scarica il certificato di RTIndustry con i pulsanti dell'autodiagnosi (PEM o DER) e fallo approvare sul controllo, spostandolo da <em>rifiutati</em> ad <em>attendibili</em> nell'elenco dei certificati del server OPC UA. Poi ripeti la verifica: il collegamento riparte da solo.</li>
+          <li><strong>Utente o password non accettati</strong>: verificali con chi gestisce il controllo e reinseriscili in <em>Macchina e protocollo › Sicurezza OPC UA</em>.</li>
+          <li><strong>Collegamento non completato</strong>: <em>Security mode</em> e <em>Security policy</em> devono essere tra quelle offerte dalla macchina; prova <span class="tasto">Riconosci il tipo di controllo</span> nell'esploratore dei nodi.</li>
+        </ul>
+
+        <h3 id="ad-lettura">Lettura delle variabili</h3>
+        <p>Legge le variabili configurate (stato, modo, contapezzi, programma, allarmi…).</p>
+        <ul>
+          <li><strong>Nessuna variabile letta</strong>: il profilo non corrisponde a questo controllo. Premi <span class="tasto">Ripristina preset</span> (con OPC UA prova <span class="tasto">Riconosci il tipo di controllo</span>) e poi <span class="tasto">Prova le modifiche prima di salvare</span>.</li>
+          <li><strong>Alcune variabili non lette</strong>: hanno un indirizzo sbagliato o non esistono su questo controllo; correggile in <em>Variabili macchina</em>. Le più importanti sono stato macchina e contapezzi.</li>
+        </ul>
+
+        <h3 id="ad-stato">Stato della macchina</h3>
+        <p>Controlla che il valore di stato inviato dal controllo sia nella tabella degli stati. Se compare <strong>stato non riconosciuto</strong>, in <em>Mapping stati e modi · contapezzi</em> aggiungi una riga con il valore mostrato e lo stato giusto (per esempio <code>RUNNING</code> se la macchina sta lavorando). Vedi anche <a href="#stati">Stati macchina e work order</a>.</p>
+
+        <h3 id="ad-contapezzi">Contapezzi</h3>
+        <ul>
+          <li><strong>Contapezzi non letto</strong>: indica la variabile del contapezzi in <em>Variabili macchina</em>, oppure attiva il conteggio a fine programma (vedi <a href="#contapezzi">Come si contano i pezzi</a>).</li>
+          <li><strong>Valore non valido</strong> (testo, numero negativo): la variabile punta al dato sbagliato; con Modbus controlla tipo e ordine del registro.</li>
+        </ul>
+
+        <h3 id="ad-flusso">Dati ricevuti dal servizio</h3>
+        <p>Dice da quanto tempo il servizio non riceve dati dalla macchina. Oltre un minuto senza dati la macchina risulta <em>Spenta o non raggiungibile</em>. Se la macchina è accesa segui i controlli rossi sopra; se sono tutti verdi premi <span class="tasto">Salva</span> nelle Impostazioni per far ripartire il collegamento. Dati lenti o a intermittenza indicano di solito una rete instabile (cavo, switch).</p>
+
+        <h3 id="ad-energia">Contatore di energia</h3>
+        <p>Solo se il contatore è attivo. Se non risponde, controlla alimentazione e cavo del contatore e, in <em>Contatore di energia (Modbus)</em>, indirizzo, porta, unit ID e registro con <span class="tasto">Testa lettura</span> (vedi <a href="#energy-meter">Collegare il contatore di energia</a>).</p>
+
+        <h3 id="ad-licenza">Licenza</h3>
+        <p>Mostra lo stato della licenza: in prova, in scadenza, scaduta (sola lettura), bloccata o assente. Per attivare o riconvalidare usa <em>Servizi, energia e licenza</em> (<span class="tasto">Riconvalida ora</span>); vedi <a href="#licenza">Licenza e messaggi</a>.</p>
+
+        <h3 id="ad-sitemanager">Collegamento al Site Manager (licenze)</h3>
+        <p>RTIndustry verifica la licenza via internet. Se il Site Manager non risponde la licenza resta valida per alcuni giorni, poi la raccolta si blocca. Verifica che il PC navighi; se l'azienda usa un proxy indicalo in <em>Servizi, energia e licenza › Proxy aziendale</em>; chiedi all'IT di consentire l'HTTPS (porta 443) verso <code>licenze.rtindustry.it</code>.</p>
+
+        <h3 id="ad-orologio">Data, ora e fuso orario</h3>
+        <p>Un orologio che torna indietro o un fuso diverso da quello delle Impostazioni falsano turni e report e possono bloccare la licenza. Correggi data e ora di Windows, attiva <em>Imposta ora automaticamente</em> e usa lo stesso fuso in Windows e in <em>Servizi, energia e licenza › Fuso orario</em>.</p>
+
+        <h3 id="ad-disco">Spazio su disco</h3>
+        <p>Sotto 5 GB liberi compare un avviso, sotto 1 GB un problema: con il disco pieno database e backup si bloccano. Libera spazio (file temporanei, download, vecchi file).</p>
+
+        <h3 id="ad-backup">Backup del database</h3>
+        <p>Controlla che il backup giornaliero sia recente e che l'eventuale copia su un altro disco o in rete riesca. Premi <span class="tasto">Backup ora</span> in <em>Servizi, energia e licenza</em>; per la copia in rete leggi la nota sui permessi in <a href="#settings">Impostazioni</a>.</p>
+      </section>
+
       <section id="glossario">
-        <h2><span class="num">21</span>Glossario</h2>
+        <h2><span class="num">22</span>Glossario</h2>
         <table>
           <tr><td><strong>WO (work order)</strong></td><td>Commessa di lavoro: cosa produrre e in che quantità.</td></tr>
           <tr><td><strong>OEE</strong></td><td>Overall Equipment Effectiveness, efficienza complessiva della macchina.</td></tr>
@@ -527,7 +606,8 @@
       </section>
 
       <section id="assistenza">
-        <h2><span class="num">22</span>Assistenza</h2>
+        <h2><span class="num">23</span>Assistenza</h2>
+        <p>Prima di scrivere, esegui l'<a href="#risoluzione-problemi">Autodiagnosi</a>: risolve da sola la maggior parte dei casi (macchina spenta o non raggiungibile, certificato, licenza, disco).</p>
         <p>Per dubbi o problemi contatta il tecnico o il rivenditore che ha installato RTIndustry, oppure scrivi a <a href="mailto:assistenza@rtindustry.it">assistenza@rtindustry.it</a>.</p>
         <p>Quando chiedi assistenza, allega il file della <strong>diagnostica</strong>: <a href="#settings">Impostazioni</a> › pulsante <span class="tasto">Esporta diagnostica</span> in alto. Contiene versione, stato del programma e ultimi messaggi di funzionamento, <strong>senza password</strong>.</p>
         <p>Se il programma non si apre, allega invece la pagella di <code>C:\RTIndustry\strumenti\Verifica-RTIndustry.bat</code> (doppio clic: controlla PC, rete e collegamento alla macchina).</p>

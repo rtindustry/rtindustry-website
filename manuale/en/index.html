@@ -130,6 +130,7 @@
       <a href="#licenza">License and messages</a>
       <a href="#requisiti">Requirements, network and antivirus</a>
       <a href="#problemi">Troubleshooting</a>
+      <a href="#risoluzione-problemi">Problem solving</a>
       <a href="#glossario">Glossary</a>
       <a href="#assistenza">Support</a>
     </nav>
@@ -236,13 +237,21 @@
         <ul>
           <li>The <strong>work order</strong> in progress (or the one chosen from the list at the top), with due date, shift and machine status.</li>
           <li>The <strong>progress ring</strong>: good parts compared with the required parts.</li>
-          <li>The <strong>cycle time deviation</strong>: how much the average part is slower (red) or faster (green) than the target time.</li>
+          <li>The <strong>work order times</strong>: how long it was running, paused, stopped, in fault, in set-up, maintenance, cleaning or rework, with the total.</li>
+          <li>The <strong>machine states pie</strong>: the share of time the machine was running, paused, stopped, in alarm, idle or off while the work order was active.</li>
+          <li>The <strong>production time</strong> (machine running), the <strong>expected time</strong> (target cycle × parts made), the <strong>deviation</strong> (late in orange, early in green), the average cycle and the estimated time to finish. Expected time and deviation appear when the work order has a target cycle.</li>
           <li>Any <strong>active alarm</strong>, highlighted.</li>
         </ul>
+        <h3>The work order status follows the machine</h3>
+        <p>When the machine changes state, the active work order follows it: running → <em>Running</em>, pause → <em>Paused</em>, stop → <em>Stopped</em>, alarm → <em>Fault</em>, set-up, maintenance, cleaning and rework → same state; machine switched off while the work order is running → <em>Stopped</em>. If you give a reason yourself (for example <span class="tasto">Maintenance</span> while the machine is stopped), your choice stays until the machine changes state. The administrator can turn this off in <em>Settings › State and mode mapping</em>.</p>
         <h3>What you can do</h3>
         <ul>
-          <li><strong>Scrap</strong> and <strong>Rework</strong>: with <span class="tasto">+</span> and <span class="tasto">−</span> you record the parts that are not good. Good parts are updated accordingly.</li>
+          <li><strong>Scrap</strong>: with <span class="tasto">+</span> and <span class="tasto">−</span> you record the parts that are not good. Good parts are updated accordingly.</li>
+          <li><strong>Added parts</strong>: with <span class="tasto">+</span> and <span class="tasto">−</span> you add parts made that the machine counter did not count. They are added to the parts made of the work order (also for the ERP).</li>
           <li><strong>Work order status</strong>: buttons <span class="tasto">Start</span>, <span class="tasto">Pause</span>, <span class="tasto">Stop</span>, <span class="tasto">Set-up</span>, <span class="tasto">Rework</span>, <span class="tasto">Maintenance</span>, <span class="tasto">Cleaning</span>, <span class="tasto">Fault</span>, <span class="tasto">Complete</span>. Giving the reason for a stop makes the reports more accurate.</li>
+          <li><strong>Send program to machine</strong>: opens the part program folder (the work order's program is highlighted at the top). You can enter subfolders, search, open or download a file, upload one from your device and press <span class="tasto">Send to machine</span>: the program is copied to the CNC network folder or, on Heidenhain controls, transferred directly to the CNC. It works from any connected PC or tablet.</li>
+          <li><strong>Machine documents</strong>: opens the machine documents folder (manuals, sheets), if configured.</li>
+          <li><strong>Attachments</strong>: <span class="tasto">Attach document</span> adds drawings, instructions or other files to the work order; <span class="tasto">Take photo</span> uses the tablet camera. Attachments open with a tap and are deleted by pressing the bin twice.</li>
           <li><strong>Notes</strong>: write a note for the next shift and save it.</li>
         </ul>
       </section>
@@ -323,6 +332,7 @@
       <section id="settings">
         <h2><span class="num">13</span>Settings</h2>
         <p class="scopo">The whole configuration of the software, reserved for the <strong>administrator</strong>. Changes apply immediately, without restarting anything.</p>
+        <p>At the top of the page there is the <strong>Self-diagnosis</strong>: with <span class="tasto">Start self-diagnosis</span> RTIndustry checks the machine connection, license and PC and tells you what to do for each problem. See <a href="#risoluzione-problemi">Problem solving</a>.</p>
         <p>At the top you find the <strong>connection status</strong> with the machine (<em>ONLINE</em> in green) and the <span class="tasto">Test connection</span> button. With <span class="tasto">Test the changes before saving</span> you check a new address or protocol without touching the one in use.</p>
         <table>
           <tr><th>Section</th><th>What it is for</th></tr>
@@ -334,7 +344,7 @@
           <tr><td>Identity and access</td><td>Company and machine details.</td></tr>
           <tr><td>Services, energy and license</td><td>Database and backup, energy price, time zone, license (activation and deactivation), Site Manager address and <strong>company proxy</strong> (if the PC reaches the internet through a proxy).</td></tr>
           <tr><td>Work order integration (ERP, MES)</td><td>Receiving work orders from the management system.</td></tr>
-          <tr><td>Folders and transfers</td><td>Folders for attachments and programs; sending programs to Heidenhain controls.</td></tr>
+          <tr><td>Folders and transfers</td><td>Folders for attachments, part programs, machine documents and the <strong>CNC network folder</strong> (where "Send to machine" copies the programs); program folder of Heidenhain controls. The folder button opens it in the browser, even from another PC: you can browse it, open and upload files. On the PC where RTIndustry is installed there is also <span class="tasto">Open in File Explorer</span>; on other PCs <span class="tasto">Copy path</span>. For network folders use the full path (<code>\\server\share</code>, not a mapped drive letter) and install the service with a user that can access it (installer › Advanced).</td></tr>
         </table>
         <p>After making changes press <span class="tasto">Save</span>: if you changed the machine connection, a connection test starts by itself.</p>
         <h3 id="contapezzi">How parts are counted</h3>
@@ -462,6 +472,7 @@
 
       <section id="problemi">
         <h2><span class="num">20</span>Troubleshooting</h2>
+        <div class="nota">For a complete, guided check use the <a href="#risoluzione-problemi">Self-diagnosis</a> first (Settings › <span class="tasto">Start self-diagnosis</span>).</div>
         <h3>The machine shows "Off or unreachable"</h3>
         <ul>
           <li>Check that the machine is switched on and the network cable is connected.</li>
@@ -505,8 +516,76 @@
         </table>
       </section>
 
+      <section id="risoluzione-problemi">
+        <h2><span class="num">21</span>Problem solving (Self-diagnosis)</h2>
+        <p class="scopo">Before calling support: <a href="#settings">Settings</a> › <span class="tasto">Start self-diagnosis</span> (at the top of the page, administrator only). In less than a minute RTIndustry checks the connection to the machine, the license and the PC and, for each point, tells you what it checked and what to do.</p>
+        <p>Each check has a traffic light: <strong>green</strong> passed, <strong>yellow</strong> works but needs fixing, <strong>red</strong> problem, <strong>grey</strong> not checked (a problem above must be fixed first). Follow the red checks <strong>from top to bottom</strong>: often, once the first is fixed, the others are fixed too. The <span class="tasto">Guide</span> button next to a check opens the matching entry below.</p>
+        <div class="nota">Self-diagnosis also works with a blocked license, does not change any setting and is recorded in the <a href="#operatori">activity log</a>. If the problem persists after the suggested actions, press <span class="tasto">Export diagnostics</span> and send the file to support.</div>
+
+        <h3 id="ad-indirizzo">Machine address</h3>
+        <p>Checks that the machine address is set and, if it is a name, that the network recognises it.</p>
+        <ul>
+          <li><strong>Address missing</strong>: in <em>Machine and protocol</em> enter the IP address of the control (shown in the network settings of the CNC or PLC) and save.</li>
+          <li><strong>Name not recognised</strong>: use the IP address directly (for example <code>192.168.1.50</code>).</li>
+        </ul>
+
+        <h3 id="ad-porta">Network connection to the machine</h3>
+        <p>The PC tries to open the protocol port: OPC UA <code>4840</code>, Modbus TCP <code>502</code>, FANUC FOCAS <code>8193</code>, Heidenhain DNC <code>19000</code> (or the configured one).</p>
+        <ul>
+          <li><strong>No response</strong>: the machine is off, the cable is unplugged, the address is wrong or PC and machine are on different networks. Switch the machine on, check cable and socket lights, compare the address with the one on the control; the PC must have an address on the same network (for example both <code>192.168.1.x</code>).</li>
+          <li><strong>Port closed</strong>: the PC reaches the machine, but the control's communication service is not active or uses another port. On the control check the option (FOCAS Ethernet, OPC UA server, DNC/Remo Tools, Modbus TCP) and the port. After power-on some controls take a couple of minutes to enable it.</li>
+        </ul>
+
+        <h3 id="ad-bridge">CNC connection component</h3>
+        <p>FANUC and Heidenhain only: RTIndustry uses a small program that talks to the CNC. If it is missing, the antivirus has almost always quarantined it: restore it and add an exception for <code>C:\RTIndustry</code> (see <a href="#antivirus">Antivirus with its own firewall</a>). Otherwise reinstall RTIndustry: data is kept.</p>
+
+        <h3 id="ad-sicurezza">OPC UA security (certificate and access)</h3>
+        <ul>
+          <li><strong>Certificate rejected</strong>: download the RTIndustry certificate with the self-diagnosis buttons (PEM or DER) and have it approved on the control, moving it from <em>rejected</em> to <em>trusted</em> in the OPC UA server certificate list. Then run the check again: the connection restarts by itself.</li>
+          <li><strong>User or password not accepted</strong>: check them with whoever manages the control and re-enter them in <em>Machine and protocol › OPC UA security</em>.</li>
+          <li><strong>Connection not completed</strong>: <em>Security mode</em> and <em>Security policy</em> must be among those offered by the machine; try <span class="tasto">Detect the controller type</span> in the node explorer.</li>
+        </ul>
+
+        <h3 id="ad-lettura">Variable reading</h3>
+        <p>Reads the configured variables (state, mode, part counter, program, alarms…).</p>
+        <ul>
+          <li><strong>No variable read</strong>: the profile does not match this control. Press <span class="tasto">Restore preset</span> (with OPC UA try <span class="tasto">Detect the controller type</span>) and then <span class="tasto">Test the changes before saving</span>.</li>
+          <li><strong>Some variables not read</strong>: they have a wrong address or do not exist on this control; fix them in <em>Machine variables</em>. The most important are machine state and part counter.</li>
+        </ul>
+
+        <h3 id="ad-stato">Machine state</h3>
+        <p>Checks that the state value sent by the control is in the state table. If <strong>state not recognised</strong> appears, in <em>Status and mode mapping · part counter</em> add a row with the value shown and the right state (for example <code>RUNNING</code> if the machine is working). See also <a href="#stati">Machine and work order states</a>.</p>
+
+        <h3 id="ad-contapezzi">Part counter</h3>
+        <ul>
+          <li><strong>Part counter not read</strong>: enter the part counter variable in <em>Machine variables</em>, or enable counting at program end (see <a href="#contapezzi">How parts are counted</a>).</li>
+          <li><strong>Invalid value</strong> (text, negative number): the variable points to the wrong data; with Modbus check register type and order.</li>
+        </ul>
+
+        <h3 id="ad-flusso">Data received by the service</h3>
+        <p>Tells how long the service has not received data from the machine. After one minute without data the machine shows as <em>Off or not reachable</em>. If the machine is on, follow the red checks above; if they are all green press <span class="tasto">Save</span> in Settings to restart the connection. Slow or intermittent data usually means an unstable network (cable, switch).</p>
+
+        <h3 id="ad-energia">Energy meter</h3>
+        <p>Only if the meter is enabled. If it does not respond, check the meter's power supply and cable and, in <em>Energy meter (Modbus)</em>, address, port, unit ID and register with <span class="tasto">Test reading</span> (see <a href="#energy-meter">Connecting the energy meter</a>).</p>
+
+        <h3 id="ad-licenza">License</h3>
+        <p>Shows the license status: trial, expiring, expired (read-only), blocked or missing. To activate or revalidate use <em>Services, energy and license</em> (<span class="tasto">Revalidate now</span>); see <a href="#licenza">License and messages</a>.</p>
+
+        <h3 id="ad-sitemanager">Connection to the Site Manager (licenses)</h3>
+        <p>RTIndustry checks the license over the internet. If the Site Manager does not respond the license stays valid for a few days, then data collection stops. Check that the PC can browse; if the company uses a proxy enter it in <em>Services, energy and license › Company proxy</em>; ask IT to allow HTTPS (port 443) to <code>licenze.rtindustry.it</code>.</p>
+
+        <h3 id="ad-orologio">Date, time and time zone</h3>
+        <p>A clock that goes backwards or a time zone different from the one in Settings distort shifts and reports and can block the license. Correct the Windows date and time, enable <em>Set time automatically</em> and use the same time zone in Windows and in <em>Services, energy and license › Time zone</em>.</p>
+
+        <h3 id="ad-disco">Disk space</h3>
+        <p>Below 5 GB free a warning appears, below 1 GB a problem: with a full disk the database and backups stop. Free up space (temporary files, downloads, old files).</p>
+
+        <h3 id="ad-backup">Database backup</h3>
+        <p>Checks that the daily backup is recent and that the optional copy to another disk or network folder succeeds. Press <span class="tasto">Back up now</span> in <em>Services, energy and license</em>; for a network copy read the note on permissions in <a href="#settings">Settings</a>.</p>
+      </section>
+
       <section id="glossario">
-        <h2><span class="num">21</span>Glossary</h2>
+        <h2><span class="num">22</span>Glossary</h2>
         <table>
           <tr><td><strong>WO (work order)</strong></td><td>Production job: what to produce and in what quantity.</td></tr>
           <tr><td><strong>OEE</strong></td><td>Overall Equipment Effectiveness, the overall efficiency of the machine.</td></tr>
@@ -527,7 +606,8 @@
       </section>
 
       <section id="assistenza">
-        <h2><span class="num">22</span>Support</h2>
+        <h2><span class="num">23</span>Support</h2>
+        <p>Before writing, run the <a href="#risoluzione-problemi">Self-diagnosis</a>: it solves most cases by itself (machine off or not reachable, certificate, license, disk).</p>
         <p>For questions or problems contact the technician or reseller who installed RTIndustry, or write to <a href="mailto:assistenza@rtindustry.it">assistenza@rtindustry.it</a>.</p>
         <p>When you ask for support, attach the <strong>diagnostics</strong> file: <a href="#settings">Settings</a> › <span class="tasto">Export diagnostics</span> button at the top. It contains version, software status and the latest operating messages, <strong>without passwords</strong>.</p>
         <p>If the software does not open, attach instead the report of <code>C:\RTIndustry\strumenti\Verifica-RTIndustry.bat</code> (double-click it: it checks the PC, the network and the connection to the machine).</p>
