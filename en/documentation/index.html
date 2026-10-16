@@ -278,6 +278,7 @@
                 <li>Add the <code>C:\RTIndustry</code> folder and those of the instances (<code>C:\RTIndustry-…</code>) to the antivirus exceptions.</li>
                 <li>In the antivirus firewall allow incoming connections to <code>C:\RTIndustry\node\node.exe</code> (one per instance), or set the shop-floor network as private or trusted.</li>
                 <li>If the icon has ended up in quarantine, restore it and restart the PC: data collection (the service) continues anyway.</li>
+                <li>On servers and company PCs with centrally managed protection (EDR such as Cortex XDR, CrowdStrike, SentinelOne) the icon <code>RTIndustryTray.exe</code> may be deleted without warning right after installation: the self-diagnosis reports it. The IT department must exclude the RTIndustry folders, then reinstall choosing "update".</li>
                 <li>Always test access from a tablet. The check tool reports the presence of a third-party firewall.</li>
             </ul>
 
