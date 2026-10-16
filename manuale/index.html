@@ -65,6 +65,9 @@
     table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: .93rem; }
     th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
     th { color: var(--muted); font-weight: 600; font-size: .82rem; text-transform: uppercase; letter-spacing: .04em; }
+    figure.schermata { margin: 14px 0; }
+    figure.schermata img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 10px; }
+    figure.schermata figcaption { color: var(--muted); font-size: .85rem; margin-top: 6px; }
     .stato { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
     .stato::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--c, var(--idle)); }
     footer.piede { max-width: 1180px; margin: 0 auto; padding: 24px 28px 40px; color: var(--muted); font-size: .88rem; border-top: 1px solid var(--border); }
@@ -87,6 +90,7 @@
       header.testa, nav.indice, .su, .solo-schermo { display: none !important; }
       .layout { display: block; }
       section { break-inside: avoid-page; border-color: #d1d5db; box-shadow: none !important; }
+      figure.schermata { break-inside: avoid; } figure.schermata img { max-width: 80%; }
       a { color: inherit; text-decoration: none; }
     }
   </style>
@@ -121,6 +125,10 @@
       <a href="#energy">Energia</a>
       <a href="#alarms">Allarmi</a>
       <a href="#table">Storico WO</a>
+      <a href="#anagrafiche">Anagrafiche</a>
+      <a href="#consumi">Consumi di materiale</a>
+      <a href="#magazzino">Magazzino</a>
+      <a href="#archivio">Archivio aziendale</a>
       <a href="#settings">Impostazioni</a>
       <a href="#operatori">Operatori e registro</a>
       <div class="gruppo">Da sapere</div>
@@ -174,10 +182,11 @@
           <li>Premi <span class="tasto">Accedi</span>. Si apre la schermata dei work order, oppure la pagina che stavi cercando di aprire.</li>
         </ol>
         <p>Per uscire: menu con il tuo nome in alto a destra → <span class="tasto">Esci</span>.</p>
-        <p>Gli account sono di due tipi:</p>
+        <p>Gli account sono di tre tipi:</p>
         <table>
           <tr><th>Ruolo</th><th>Cosa può fare</th></tr>
           <tr><td>Operatore</td><td>Work order, HMI, telemetria, OEE, report, energia, allarmi, storico. Non vede le Impostazioni.</td></tr>
+          <tr><td>Capo reparto</td><td>Come l'operatore, più la gestione delle <a href="#anagrafiche">Anagrafiche</a> (clienti, articoli, materiali, distinte). L'amministratore lo crea o lo assegna in <a href="#operatori">Operatori e registro</a>.</td></tr>
           <tr><td>Amministratore</td><td>Tutto, più <a href="#settings">Impostazioni</a>, licenza e <a href="#operatori">Operatori e registro</a>. Il suo account si crea nella <a href="#wizard">configurazione guidata</a>.</td></tr>
         </table>
         <p><strong>Cambiare la propria password</strong>: menu con il tuo nome in alto a destra → <span class="tasto">La mia password</span>. Scrivi la password attuale, poi due volte quella nuova (almeno 8 caratteri).</p>
@@ -191,7 +200,7 @@
         <p class="scopo">Compare solo la prima volta, subito dopo l'installazione: in sei passi il programma è pronto.</p>
         <ol>
           <li><strong>Azienda</strong> — nome dell'azienda (obbligatorio), stabilimento, reparto, nome della macchina e fuso orario (per l'Italia <code>Europe/Rome</code>, l'ora legale è automatica).</li>
-          <li><strong>Macchina</strong> — scegli il tipo di collegamento: OPC UA, FANUC, Heidenhain, Modbus TCP oppure <em>Simulatore</em> (dati di prova, senza macchina). Inserisci l'indirizzo IP e premi <span class="tasto">Prova la connessione</span>: il riquadro verde "Macchina collegata" conferma che stato e pezzi arrivano. Se la macchina è spenta puoi proseguire e riprovare più tardi dalle Impostazioni.</li>
+          <li><strong>Macchina</strong> — scegli il tipo di collegamento: OPC UA, FANUC, Heidenhain, Modbus TCP oppure <em>Simulatore</em> (dati di prova, senza macchina). Inserisci l'indirizzo IP e premi <span class="tasto">Prova la connessione</span>: il riquadro verde "Macchina collegata" conferma che stato e pezzi arrivano. Se la macchina è spenta puoi proseguire e riprovare più tardi dalle Impostazioni. Se hai il <a href="#profilo-macchina">profilo</a> di una macchina uguale già collegata, premi <span class="tasto">Importa profilo</span>: indichi solo l'indirizzo IP e la macchina è configurata.</li>
           <li><strong>Turni</strong> — orari di inizio e fine di ogni turno (anche turni di notte).</li>
           <li><strong>Licenza</strong> — inserisci la chiave (formato <code>XXXX-XXXX-XXXX-XXXX</code>) e premi <span class="tasto">Attiva licenza</span>. Senza chiave parte una <strong>prova gratuita di 30 giorni</strong>. Il riquadro mostra l'esito e i giorni rimanenti. Se l'azienda esce su internet tramite <strong>proxy</strong>, indicane indirizzo (e, se richiesti, utente e password) in <em>Opzioni avanzate</em>.</li>
           <li><strong>Amministratore</strong> — nome utente e password (almeno 8 caratteri) del primo amministratore.</li>
@@ -203,7 +212,7 @@
       <section id="navigazione">
         <h2><span class="num">4</span>Muoversi nel programma</h2>
         <ul>
-          <li><strong>Barra in alto</strong>: nome della schermata, <em>stato della macchina</em> in tempo reale (colorato), indicatore <em>Live</em> (verde = dati in arrivo), pulsante <span class="tasto">? Guida</span> e menu utente.</li>
+          <li><strong>Barra in alto</strong>: frecce <span class="tasto">‹</span> <span class="tasto">›</span> a sinistra per tornare alla schermata precedente o andare a quella successiva (utili sul tablet a schermo intero, dove non ci sono i pulsanti del browser), nome della schermata, <em>stato della macchina</em> in tempo reale (colorato), indicatore <em>Live</em> (verde = dati in arrivo), pulsante <span class="tasto">? Guida</span> e menu utente.</li>
           <li><strong>Pulsante rosso rotondo</strong> in basso a destra (<span class="tasto">+</span>): apre il menu con tutte le schermate.</li>
           <li><strong>Banner sotto la barra</strong>: compare solo per avvisi sulla licenza (vedi <a href="#licenza">Licenza e messaggi</a>).</li>
         </ul>
@@ -221,12 +230,24 @@
           <li>Compila almeno la <strong>Descrizione</strong>. Utili: <em>Quantità richiesta</em> (per l'avanzamento), <em>Tempo target (s/pezzo)</em> (per l'efficienza), <em>Data di consegna</em>, cliente, ordine, codice articolo, programma, operatore, note.</li>
           <li>Premi <span class="tasto">Salva</span>: il WO compare in "Da fare".</li>
         </ol>
+        <h3 id="wo-articolo-cliente">Articolo e cliente in pochi tocchi</h3>
+        <p>Con le <a href="#anagrafiche">Anagrafiche</a> attive, in cima al form ci sono i campi <strong>Articolo</strong> e <strong>Cliente</strong>: si scrive una parte del nome o del codice e si sceglie dall'elenco. Appena si apre il form, il campo Articolo mostra gli <em>ultimi articoli usati</em> su questa postazione.</p>
+        <ol>
+          <li>Tocca <span class="tasto">+ Nuovo work order</span>.</li>
+          <li>Tocca l'articolo: descrizione, programma, tempo ciclo e <strong>cliente abituale</strong> si compilano da soli e il cursore passa alla quantità.</li>
+          <li>Scrivi la quantità e tocca <span class="tasto">Crea work order</span>.</li>
+        </ol>
+        <p>Se il cliente (o l'articolo) non esiste ancora, scrivi il nome e tocca <span class="tasto">+ Nuovo cliente «…»</span> in fondo all'elenco: viene creato al volo con il segno <em>da completare</em> e l'ufficio lo completa dopo, in Anagrafiche.</p>
+        <figure class="schermata"><img src="img/it/wo-nuovo.webp" width="800" height="744" loading="lazy" alt="Form del nuovo work order con articolo e cliente scelti e quantità 50"><figcaption>Articolo scelto dai recenti: il resto si è compilato da solo.</figcaption></figure>
+        <p><strong>Distinta congelata.</strong> Quando il work order entra in lavorazione, RTIndustry fotografa la distinta base dell'articolo: se poi la distinta cambia, i consumi di questo WO restano calcolati su quella di partenza. Il capo reparto o l'amministratore può aggiornarla con <span class="tasto">Riallinea all'articolo</span> nella modifica del WO.</p>
+        <p><strong>Materiale insufficiente.</strong> Con il <a href="#magazzino">Magazzino</a> attivo, all'avvio del WO compare un avviso se in magazzino non c'è abbastanza materiale per i pezzi ancora da fare. È solo un avviso: la produzione non si blocca.</p>
         <h3>Avviare, mettere in pausa, completare</h3>
         <ul>
           <li><strong>Trascina</strong> la scheda nella colonna voluta: in "In corso" parte, in "Completati" si chiude. Su tablet tieni premuta la scheda un istante prima di trascinarla.</li>
           <li>Sulla scheda in corso ci sono i pulsanti rapidi: <span class="tasto">Pausa</span>/<span class="tasto">Avvia</span>, <span class="tasto">Scarto +1</span>, <span class="tasto">Nota</span>, <span class="tasto">Completa</span>.</li>
           <li>Le icone sulla scheda aprono l'HMI di quel WO, la modifica o l'eliminazione (con conferma).</li>
         </ul>
+        <p>Sulle schede con un articolo compare anche il <strong>consumo di materiale</strong> (vedi <a href="#consumi">Consumi di materiale</a>).</p>
         <div class="attenzione"><strong>Un solo work order alla volta è in lavorazione.</strong> Avviandone un altro, quello precedente va in pausa da solo: i pezzi vengono sempre attribuiti al WO giusto.</div>
       </section>
 
@@ -237,18 +258,18 @@
         <ul>
           <li>Il <strong>work order</strong> in lavorazione (o quello scelto dall'elenco in alto), con consegna, turno e stato della macchina.</li>
           <li>L'<strong>anello di avanzamento</strong>: pezzi buoni rispetto ai pezzi richiesti.</li>
-          <li>I <strong>tempi del work order</strong>: quanto è stato in lavorazione, in pausa, fermo, in guasto, in attrezzaggio, in manutenzione, in pulizia, in rilavorazione, con il totale.</li>
+          <li>I <strong>tempi del work order</strong>: quanto è stato in lavorazione, in pausa, fermo, in allarme, in attrezzaggio, in manutenzione, in pulizia, in rilavorazione, con il totale.</li>
           <li>La <strong>torta degli stati della macchina</strong>: in che percentuale la macchina è stata in lavoro, in pausa, ferma, in allarme, inattiva o spenta mentre il work order era attivo.</li>
           <li>Il <strong>tempo di produzione</strong> (macchina in lavoro), il <strong>tempo previsto</strong> (ciclo target × pezzi fatti), la <strong>deviazione</strong> (in ritardo in arancione, in anticipo in verde), il ciclo medio e il tempo stimato per finire. Previsto e deviazione compaiono se il work order ha un ciclo target.</li>
           <li>L'eventuale <strong>allarme attivo</strong>, in evidenza.</li>
         </ul>
         <h3>Lo stato del work order segue la macchina</h3>
-        <p>Quando la macchina cambia stato, il work order in lavorazione la segue: macchina in lavoro → <em>In lavorazione</em>, pausa → <em>In pausa</em>, fermo → <em>Fermo</em>, allarme → <em>Guasto</em>, attrezzaggio, manutenzione, pulizia e rilavorazione → stesso stato; macchina spenta con il work order in lavorazione → <em>Fermo</em>. Se indichi tu un motivo (per esempio <span class="tasto">Manutenzione</span> mentre la macchina è ferma), la tua scelta resta finché la macchina non cambia stato. L'amministratore può disattivare questo comportamento in <em>Impostazioni › Mapping stati e modi</em>.</p>
+        <p>Quando la macchina cambia stato, il work order in lavorazione la segue: macchina in lavoro → <em>In lavorazione</em>, pausa → <em>In pausa</em>, fermo → <em>Fermo</em>, allarme → <em>In allarme</em>, attrezzaggio, manutenzione, pulizia e rilavorazione → stesso stato; macchina spenta con il work order in lavorazione → <em>Fermo</em>. Se indichi tu un motivo (per esempio <span class="tasto">Manutenzione</span> mentre la macchina è ferma), la tua scelta resta finché la macchina non cambia stato. L'amministratore può disattivare questo comportamento in <em>Impostazioni › Mapping stati e modi</em>.</p>
         <h3>Cosa puoi fare</h3>
         <ul>
           <li><strong>Scarti</strong>: con <span class="tasto">+</span> e <span class="tasto">−</span> registri i pezzi non buoni. I pezzi buoni si aggiornano di conseguenza.</li>
           <li><strong>Pezzi aggiunti</strong>: con <span class="tasto">+</span> e <span class="tasto">−</span> aggiungi i pezzi fatti che il contapezzi della macchina non ha contato. Si sommano ai pezzi fatti del work order (anche per l'ERP).</li>
-          <li><strong>Stato del work order</strong>: pulsanti <span class="tasto">Avvia</span>, <span class="tasto">Pausa</span>, <span class="tasto">Ferma</span>, <span class="tasto">Attrezzaggio</span>, <span class="tasto">Rilavorazione</span>, <span class="tasto">Manutenzione</span>, <span class="tasto">Pulizia</span>, <span class="tasto">Guasto</span>, <span class="tasto">Completa</span>. Indicare il motivo di una fermata rende più precisi i report.</li>
+          <li><strong>Stato del work order</strong>: pulsanti <span class="tasto">Avvia</span>, <span class="tasto">Pausa</span>, <span class="tasto">Ferma</span>, <span class="tasto">Attrezzaggio</span>, <span class="tasto">Rilavorazione</span>, <span class="tasto">Manutenzione</span>, <span class="tasto">Pulizia</span>, <span class="tasto">Allarme</span>, <span class="tasto">Completa</span>. Indicare il motivo di una fermata rende più precisi i report.</li>
           <li><strong>Invia programma alla macchina</strong>: si apre la cartella dei part program (il programma del work order è evidenziato in cima). Puoi entrare nelle sottocartelle, cercare, aprire o scaricare un file, caricarne uno dal tuo dispositivo e premere <span class="tasto">Invia alla macchina</span>: il programma viene copiato nella cartella di rete del CNC oppure, sui controlli Heidenhain, trasferito direttamente al CNC. Funziona da qualsiasi PC o tablet collegato.</li>
           <li><strong>Documenti macchina</strong>: apre la cartella dei documenti della macchina (manuali, schede), se configurata.</li>
           <li><strong>Allegati</strong>: <span class="tasto">Allega documento</span> aggiunge al work order disegni, istruzioni o altri file; <span class="tasto">Scatta foto</span> usa la fotocamera del tablet. Gli allegati si aprono con un tocco e si eliminano premendo due volte il cestino.</li>
@@ -290,6 +311,7 @@
           <li>Leggi i riepiloghi: <em>OEE medio</em>, <em>Pezzi buoni</em>, <em>Scarti</em>, <em>Energia</em>.</li>
           <li>Sotto trovi l'OEE giorno per giorno, la <strong>distribuzione dei tempi</strong> (produzione, pausa, inattivo, fermo, allarme, manutenzione, attrezzaggio), l'energia rispetto alla produzione e l'elenco dei work order completati.</li>
           <li>Con <span class="tasto">Esporta CSV</span> scarichi i dati per Excel.</li>
+          <li>In fondo, la sezione <strong>Consumi di materiale</strong> riassume il materiale consumato dai work order completati nel periodo: vedi <a href="#consumi">Consumi di materiale</a>.</li>
         </ol>
       </section>
 
@@ -303,6 +325,7 @@
         <div class="nota">Il costo usa il prezzo dell'energia impostato in <a href="#settings">Impostazioni</a> › Servizi, energia e licenza (euro al kWh).</div>
         <h3 id="energy-meter">Collegare il contatore di energia</h3>
         <p>In <a href="#settings">Impostazioni</a> › <em>Contatore di energia (Modbus)</em> scegli il <strong>modello del contatore</strong>: i campi si compilano da soli e restano modificabili. Per l'<strong>IME CE4DT MID (Conto D4)</strong> il profilo imposta funzione FC4 (input register), unit ID 5, registro 20592, tipo uint32, ordine ABCD e fattore di scala 100: devi indicare solo l'indirizzo IP. Per altri modelli scegli <em>Personalizzato</em> e copia registro, tipo di dato e ordine dei registri dal manuale del contatore.</p>
+        <p><strong>Contatore su RS485 con convertitore Ethernet</strong> (es. USR-DR302): se il convertitore inoltra i byte così come arrivano (modalità trasparente) scegli il protocollo <em>Modbus RTU su TCP (convertitore RS485)</em> e la porta TCP configurata sul convertitore; se invece il convertitore fa la conversione Modbus TCP → RTU lascia <em>Modbus TCP</em>. Non sai quale? Premi <span class="tasto">Testa lettura</span>: se il contatore risponde solo con l'altro protocollo, RTIndustry te lo propone con il valore letto e lo applichi con <span class="tasto">Usa questo protocollo</span>. Velocità, parità e bit di stop della seriale del convertitore devono coincidere con quelli del contatore.</p>
         <p>Il <strong>fattore di scala</strong> trasforma il valore letto in <strong>Wh</strong> (wattora), l'unità con cui RTIndustry fa tutti i calcoli: contatore che conta in kWh → fattore 1000; in 0,1 kWh (come l'IME) → 100; già in Wh → 1. Premi <span class="tasto">Testa lettura</span>: il risultato compare in Wh e in kWh e deve coincidere con il totale mostrato sul display del contatore.</p>
         <div class="attenzione">Se copi il fattore 0,1 dalle note del contatore (che ragionano in kWh), i consumi risultano 1000 volte più bassi: con l'IME il fattore giusto è 100.</div>
       </section>
@@ -329,24 +352,118 @@
         </ul>
       </section>
 
+      <section id="anagrafiche">
+        <h2><span class="num">13</span>Anagrafiche</h2>
+        <p class="scopo">L'elenco di clienti, articoli, materiali e tipi di articolo dell'azienda, con la <strong>distinta base</strong> di ogni articolo: di quali materiali è fatto un pezzo e in che quantità.</p>
+        <ul>
+          <li><strong>Clienti</strong>: l'unico dato obbligatorio è il nome. La partita IVA si può scrivere con o senza «IT». La ricerca trova le parole in qualsiasi ordine e ignora maiuscole, accenti e punti: «rossi srl» trova «Meccanica Rossi S.r.l.».</li>
+          <li><strong>Materiali</strong>: ognuno ha un'<em>unità di consumo</em> (quella della distinta, es. m²) e un'<em>unità di acquisto</em> (quella del magazzino, es. kg). Se sono di grandezze diverse si indica la conversione: «1 m² di questa lamiera = 15,86 kg». Per le lamiere il pulsante <span class="tasto">Usa</span> calcola i kg per m² da spessore e materiale. Tra unità della stessa grandezza (g e kg, mm e m) la conversione è automatica. Unità disponibili: pz; g, kg, t; mm, m; mm², m²; cm³, dm³, l, m³.</li>
+          <li><strong>Tipi di articolo</strong>: descrivono la natura dell'articolo con i suoi dati (un pezzo tornito ha diametro e lunghezza, una lamiera spessore e finitura). Ci sono cinque tipi di partenza (Pezzo tornito, Pezzo fresato, Lamiera tagliata, Tubo / profilato, Assieme), modificabili; ogni dato può essere un numero con unità, un testo, una scelta da elenco o un sì/no.</li>
+          <li><strong>Articoli</strong>: codice, descrizione, tipo con i suoi dati, cliente abituale e i valori proposti nel work order (programma, tempo ciclo, energia). Nella <strong>distinta base</strong> si indica la quantità di ogni materiale per <strong>un</strong> pezzo, nell'unità di consumo, con lo sfrido in percentuale; l'anteprima mostra quanto materiale serve, per esempio, per 100 pezzi.</li>
+          <li><strong>Da completare</strong>: i clienti e gli articoli creati al volo o arrivati da un sistema esterno hanno solo i dati minimi. Il filtro <span class="tasto">Solo da completare</span> li elenca; salvandoli dal form completo il segno sparisce.</li>
+          <li><strong>Doppioni</strong>: apri il record da tenere e, in fondo, cerca il doppione e premi <span class="tasto">Unisci</span>. Il doppione viene eliminato, gli articoli e i work order che lo usano passano al record tenuto e i dati mancanti vengono presi dal doppione.</li>
+          <li><strong>Excel</strong>: il pulsante <span class="tasto">CSV</span> esporta l'elenco (e, negli articoli, le distinte) e lo importa. All'importazione RTIndustry controlla prima il file e mostra le righe con errori; poi salva solo quelle valide. Chi ha un codice già presente viene aggiornato.</li>
+        </ul>
+        <figure class="schermata"><img src="img/it/anagrafiche-articolo.webp" width="1240" height="1161" loading="lazy" alt="Form di un articolo con tipo, dati, valori proposti nel work order, distinta base e anteprima del materiale per 100 pezzi"><figcaption>Un articolo con la sua distinta base: 0,35 m² di lamiera con l'8 % di sfrido e una guarnizione per pezzo.</figcaption></figure>
+        <h3 id="anagrafiche-primo-avvio">Dopo l'aggiornamento: clienti e articoli dai work order esistenti</h3>
+        <p>Chi usava già RTIndustry ha i nomi dei clienti e i codici articolo scritti nei work order. All'apertura della pagina un avviso propone <span class="tasto">Crea e collega</span>: RTIndustry crea un cliente per ogni nome e un articolo per ogni codice (senza doppioni, segnati <em>da completare</em>) e li collega ai work order. Gli stessi comandi sono nel menu <span class="tasto">CSV</span> › <em>Crea dai work order esistenti</em>. I testi dei work order non cambiano.</p>
+        <h3>File CSV per Excel</h3>
+        <p>La prima riga contiene i nomi delle colonne, così come li esporta RTIndustry: per partire, esporta l'elenco (anche vuoto) e usalo come modello. Le distinte hanno una riga per materiale:</p>
+        <table>
+          <tr><th>Articolo</th><th>Materiale</th><th>Quantità per pezzo</th><th>Sfrido %</th><th>Nota</th></tr>
+          <tr><td>FL-DN80</td><td>LAM-304-20</td><td>0,35</td><td>8</td><td>taglio laser</td></tr>
+          <tr><td>FL-DN80</td><td>GUA-EPDM-80</td><td>1</td><td>0</td><td></td></tr>
+        </table>
+        <div class="attenzione">Importando le distinte, quella di ogni articolo citato nel file viene <strong>sostituita per intero</strong>; una cella vuota svuota il campo. Excel salva i CSV sia in UTF-8 sia nel formato «CSV (delimitato)»: RTIndustry li legge entrambi.</div>
+        <div class="nota">Tutti consultano le anagrafiche; modificano, uniscono e importano solo il <strong>capo reparto</strong> e l'<strong>amministratore</strong>. Un materiale usato in una distinta non si elimina e non cambia unità di consumo; un tipo usato da un articolo non si elimina.</div>
+      </section>
+
+      <section id="consumi">
+        <h2><span class="num">14</span>Consumi di materiale</h2>
+        <p class="scopo">Quanto materiale ha consumato ogni work order e quanto è costato, calcolato dalla distinta base e dai pezzi fatti.</p>
+        <h3>Come si calcola</h3>
+        <p><strong>Pezzi fatti</strong> = pezzi del contapezzi + pezzi aggiunti a mano. Gli scarti sono già compresi: la macchina conta ogni pezzo, buono o scartato.</p>
+        <p><strong>Consumo</strong> = quantità per pezzo × pezzi fatti × (1 + sfrido). Poi si converte nell'unità di acquisto e si moltiplica per il costo unitario del materiale.</p>
+        <div class="nota">Esempio: flangia con 0,35 m² di lamiera e sfrido dell'8 %, 53 pezzi fatti → 0,35 × 53 × 1,08 = 20,03 m² → con 15,86 kg/m² = 317,7 kg → a 4,20 €/kg = 1.334,51 €.</div>
+        <h3>Dove si vede</h3>
+        <ul>
+          <li><strong>Work order</strong>: sulla scheda, il materiale principale con il consumo fatto e quello previsto per tutta la quantità (<span class="tasto">+1</span> indica altri materiali).</li>
+          <li><strong>HMI</strong>: il riquadro <em>Materiale</em> con tutte le righe della distinta e il costo del materiale.</li>
+          <li><strong>Storico WO</strong>: le colonne <em>Materiale</em> e <em>Costo materiale</em>.</li>
+          <li><strong>Report</strong>: la sezione <em>Consumi di materiale</em> del periodo, raggruppata per materiale, cliente, articolo, work order o postazione.</li>
+        </ul>
+        <figure class="schermata"><img src="img/it/kanban-consumo.webp" width="1280" height="800" loading="lazy" alt="Bacheca dei work order: sulle schede il consumo di lamiera fatto e previsto"><figcaption>Sulla scheda: 4,5 m² di lamiera consumati su 18,9 m² previsti per 50 pezzi.</figcaption></figure>
+        <h3>Report: reale contro previsto</h3>
+        <p>Per ogni materiale il Report mostra il <strong>Previsto</strong> (distinta × pezzi richiesti) e lo <strong>Scostamento</strong>: in arancione quando si è consumato più del 5 % del previsto. Con l'<a href="#archivio">archivio aziendale</a> il report comprende tutte le macchine dell'azienda e si può filtrare o raggruppare per <strong>postazione</strong>. <span class="tasto">Esporta CSV</span> scarica i dati per Excel, <span class="tasto">Stampa / PDF</span> apre una pagina da stampare o salvare in PDF.</p>
+        <figure class="schermata"><img src="img/it/report-consumi.webp" width="1240" height="230" loading="lazy" alt="Sezione Consumi di materiale del Report con consumo, previsto e scostamento"><figcaption>84 pezzi fatti su 80 richiesti: consumo del 5 % sopra il previsto.</figcaption></figure>
+        <div class="attenzione">I consumi del Report arrivano dai work order <strong>completati</strong>. Un materiale senza costo unitario rende il costo «parziale». Un work order chiuso prima di finire i pezzi richiesti ha uno scostamento negativo. I work order chiusi prima della versione 2.7 non hanno il previsto («—»).</div>
+        <p>I consumi arrivano anche al gestionale: alla chiusura di ogni work order via REST, nella tabella <code>readconsumi</code> e sul topic MQTT <code>{numero di serie}/consumi</code> (dettagli per i tecnici nella documentazione per sviluppatori).</p>
+      </section>
+
+      <section id="magazzino">
+        <h2><span class="num">15</span>Magazzino</h2>
+        <p class="scopo">Le giacenze dei materiali, con i carichi, l'inventario e lo scarico automatico a ogni work order chiuso. Si trova in Anagrafiche › <strong>Magazzino</strong>, se il modulo è compreso nella licenza.</p>
+        <figure class="schermata"><img src="img/it/magazzino.webp" width="1280" height="800" loading="lazy" alt="Scheda Magazzino con le giacenze dei materiali e i pulsanti Carico, Rettifica, Inventario e Movimenti"><figcaption>Giacenze con i segni <em>Sottoscorta</em> e <em>Manca un carico</em>.</figcaption></figure>
+        <h3>Chi gestisce le giacenze</h3>
+        <ul>
+          <li><strong>RTIndustry</strong>: alla chiusura di ogni work order il materiale consumato si scarica da solo. Se il WO viene riaperto lo scarico si annulla, e alla nuova chiusura si scarica il consumo aggiornato.</li>
+          <li><strong>Il gestionale (ERP)</strong>: RTIndustry calcola e invia i consumi, lo scarico lo fa il gestionale. Così non si scarica due volte.</li>
+        </ul>
+        <h3>Carico, rettifica, inventario</h3>
+        <ul>
+          <li><span class="tasto">Carico</span>: scegli il materiale, scrivi la quantità e, se vuoi, bolla e lotto. La quantità si può scrivere anche nell'unità di consumo (per esempio in m² per la lamiera): RTIndustry la converte nell'unità di magazzino.</li>
+          <li><span class="tasto">Rettifica</span>: una correzione con il segno (+ o −), con una nota sul motivo.</li>
+          <li><span class="tasto">Inventario</span>: stampa il <span class="tasto">Foglio di conta</span>, conta e scrivi la quantità solo per i materiali contati; RTIndustry registra la differenza con la giacenza calcolata.</li>
+          <li><span class="tasto">Movimenti</span>: lo storico di carichi, scarichi, storni, rettifiche e inventari, con data, postazione, utente, bolla e lotto.</li>
+        </ul>
+        <div class="nota"><strong>Sottoscorta</strong>: la giacenza è sotto la scorta minima indicata nel materiale. <strong>Manca un carico</strong>: la giacenza è negativa, cioè si è scaricato più di quanto caricato; registra il carico mancante o fai un inventario. La produzione non si blocca mai per il magazzino.</div>
+        <p>Consultano tutti; carichi, rettifiche, inventario e scelta del gestore sono del <strong>capo reparto</strong> e dell'<strong>amministratore</strong>. Con l'<a href="#archivio">archivio aziendale</a> i movimenti di tutte le macchine si sommano: la giacenza è quella dell'azienda.</p>
+      </section>
+
+      <section id="archivio">
+        <h2><span class="num">16</span>Archivio aziendale</h2>
+        <p class="scopo">Clienti, articoli, materiali, distinte, consumi e movimenti di magazzino condivisi tra tutte le macchine della licenza. Si attiva in Impostazioni › <strong>Archivio aziendale</strong> (amministratore).</p>
+        <h3>Neanche noi possiamo leggere i tuoi dati</h3>
+        <p>I dati partono da ogni postazione <strong>cifrati con una chiave che ha solo la tua azienda</strong>. Il Site Manager li conserva e li smista alle altre macchine, ma non li può leggere: vede solo blocchi illeggibili, la data e il numero di record. Senza rete si lavora sulla copia locale e le modifiche partono al ritorno della connessione; se due persone cambiano campi diversi dello stesso cliente, le modifiche si uniscono.</p>
+        <figure class="schermata"><img src="img/it/archivio.webp" width="1240" height="340" loading="lazy" alt="Sezione Archivio aziendale delle Impostazioni con il codice di recupero e il pulsante per attivare l'archivio"><figcaption>Impostazioni › Archivio aziendale su una postazione non ancora collegata.</figcaption></figure>
+        <h3>Prima macchina: attivare</h3>
+        <ol>
+          <li>Premi <span class="tasto">Attiva l'archivio aziendale</span>: RTIndustry crea la chiave dell'azienda.</li>
+          <li><strong>Stampa o salva subito il foglio di recupero</strong> (<span class="tasto">Apri il foglio da stampare</span>): contiene il <em>codice di recupero</em> e un QR. Conservalo come una chiave di casa. Puoi anche scaricare il file della chiave (<code>.rtikey</code>).</li>
+          <li>Conferma con <span class="tasto">Fatto: ho stampato o salvato il foglio</span>.</li>
+        </ol>
+        <h3>Altre macchine: collegare</h3>
+        <p>Sulle altre postazioni della stessa licenza, nella stessa sezione, scrivi il codice di recupero (maiuscole, minuscole e trattini non contano) e premi <span class="tasto">Collega questa postazione</span>, oppure usa <span class="tasto">Da file .rtikey</span>. Le anagrafiche arrivano subito; i dati che la postazione aveva già si uniscono a quelli dell'azienda.</p>
+        <p>La nuvola nella barra in alto dice lo stato: sincronizzato, modifiche in attesa, senza rete o errore. <span class="tasto">Sincronizza ora</span> forza l'invio.</p>
+        <div class="attenzione"><strong>Se il codice di recupero si perde e tutte le macchine si rompono, i dati dell'archivio non si possono recuperare</strong>: noi non abbiamo la chiave. Le copie locali sulle macchine e i backup restano comunque leggibili.</div>
+        <h3>Operazioni avanzate</h3>
+        <p>Si abilitano scrivendo <strong>CONFERMO</strong>: <span class="tasto">Cambia la chiave</span> (dopo, le altre postazioni si ricollegano con il nuovo codice), <span class="tasto">Scollega solo questa postazione</span>, <span class="tasto">Disattiva per tutta l'azienda</span> (il Site Manager cancella l'archivio dopo 30 giorni; i dati restano su ogni postazione).</p>
+      </section>
+
       <section id="settings">
-        <h2><span class="num">13</span>Impostazioni</h2>
+        <h2><span class="num">17</span>Impostazioni</h2>
         <p class="scopo">Tutta la configurazione del programma, riservata all'<strong>amministratore</strong>. Le modifiche si applicano subito, senza riavviare nulla.</p>
         <p>In cima alla pagina c'è l'<strong>Autodiagnosi</strong>: con <span class="tasto">Avvia autodiagnosi</span> RTIndustry controlla collegamento alla macchina, licenza e PC e dice cosa fare per ogni problema. Vedi <a href="#risoluzione-problemi">Risoluzione problemi</a>.</p>
         <p>In cima c'è lo <strong>stato della connessione</strong> con la macchina (<em>ONLINE</em> in verde) e il pulsante <span class="tasto">Testa connessione</span>. Con <span class="tasto">Prova le modifiche prima di salvare</span> verifichi un nuovo indirizzo o protocollo senza toccare quello in uso.</p>
         <table>
           <tr><th>Sezione</th><th>A cosa serve</th></tr>
           <tr><td>Macchina e protocollo</td><td>Tipo di collegamento (OPC UA, FANUC, Heidenhain, Modbus, Simulatore), indirizzo IP, sicurezza. Cambiando protocollo, la configurazione precedente resta salvata.</td></tr>
-          <tr><td>Variabili macchina</td><td>Da dove leggere stato, pezzi, programma, allarmi… (di solito proposte in automatico dal profilo).</td></tr>
+          <tr><td>Variabili macchina</td><td>Da dove leggere stato, pezzi, programma, allarmi… (di solito proposte in automatico dal profilo). Accanto a ogni variabile vedi se è <em>assegnata</em> o <em>non assegnata</em>; con Modbus anche se il nome non corrisponde a nessun registro. Le sorgenti si assegnano con un tocco dall'albero OPC UA, dalla tabella dei registri Modbus o dall'elenco <em>Campi letti dalla macchina</em> (FANUC e Heidenhain): ogni variabile dice se è già assegnata a quella sorgente, a un'altra (e quale) o se è libera.</td></tr>
           <tr><td>Mapping stati e modi · contapezzi</td><td>Come tradurre i valori della macchina negli stati di RTIndustry; come contare i pezzi.</td></tr>
           <tr><td>Contatore di energia (Modbus)</td><td>Collegamento al contatore di energia (modello, registro, tipo e ordine, fattore di scala in Wh), con prova di lettura: vedi <a href="#energy-meter">Collegare il contatore di energia</a>.</td></tr>
           <tr><td>Turni di lavoro</td><td>Orari dei turni.</td></tr>
           <tr><td>Identità e accesso</td><td>Dati dell'azienda e della macchina.</td></tr>
           <tr><td>Servizi, energia e licenza</td><td>Database e backup, prezzo dell'energia, fuso orario, licenza (attivazione e disattivazione), indirizzo del Site Manager e <strong>proxy aziendale</strong> (se il PC esce su internet tramite proxy).</td></tr>
-          <tr><td>Integrazione work order (ERP, MES)</td><td>Ricezione dei work order dal gestionale.</td></tr>
+          <tr><td>Integrazione work order (ERP, MES)</td><td>Ricezione dei work order dal gestionale. Con <strong>Censimento automatico nelle anagrafiche</strong> i codici cliente e articolo nuovi che arrivano dal gestionale vengono creati <em>da completare</em>; spento, i work order arrivano lo stesso ma restano senza collegamento.</td></tr>
+          <tr><td>Archivio aziendale</td><td>Anagrafiche, consumi e magazzino condivisi tra le macchine, cifrati con la chiave dell'azienda: vedi <a href="#archivio">Archivio aziendale</a>.</td></tr>
           <tr><td>Cartelle e trasferimenti</td><td>Cartelle per allegati, part program, documenti macchina e <strong>cartella di rete del CNC</strong> (dove «Invia alla macchina» copia i programmi); cartella programmi dei controlli Heidenhain. Il pulsante con la cartella la apre nel browser, anche da un altro PC: puoi sfogliarla, aprire e caricare file. Sul PC dove è installato RTIndustry c'è anche <span class="tasto">Apri in Esplora risorse</span>; dagli altri PC <span class="tasto">Copia percorso</span>. Per le cartelle di rete usa il percorso completo (<code>\\server\condivisa</code>, non una lettera di unità mappata) e installa il servizio con un utente che vi abbia accesso (installer › Avanzate).</td></tr>
         </table>
         <p>Dopo le modifiche premi <span class="tasto">Salva</span>: se hai cambiato il collegamento alla macchina, parte da solo un test di connessione.</p>
+        <h3 id="profilo-macchina">Profilo macchina: copiare la configurazione su una macchina uguale</h3>
+        <p>Quando due o più macchine sono dello stesso tipo (stesso costruttore, modello e controllo), la configurazione si fa una volta sola. Sulla macchina già collegata e collaudata, nel riquadro <strong>Profilo macchina</strong> premi <span class="tasto">Esporta profilo</span>, dai un nome (per esempio <em>Tornio Mazak QT 200 · FANUC 0i-TF</em>), costruttore, modello, controllo e qualche nota per chi lo userà, poi <span class="tasto">Scarica il profilo</span>. Il file (<code>.rtiprofilo.json</code>) contiene protocollo, variabili, mapping degli stati, conteggio dei pezzi, regole e contatore di energia, ma <strong>nessun indirizzo IP, nessuna password e nessun dato dell'azienda</strong>: si può conservare e dare ad altri.</p>
+        <p>Sull'altra macchina premi <span class="tasto">Importa profilo</span>, scegli il file, indica l'indirizzo IP della macchina (e del contatore di energia, se c'è: lascialo vuoto se questa macchina non lo ha) e premi <span class="tasto">Usa questo profilo</span>. Le Impostazioni si compilano: premi <span class="tasto">Prova le modifiche prima di salvare</span> e poi <span class="tasto">Salva e applica</span>. Si esporta sempre la configurazione <em>salvata</em>; se la connessione OPC UA è protetta, utente e password vanno inseriti a mano.</p>
+        <p><strong>Libreria dei profili.</strong> Con <span class="tasto">Libreria</span> si sceglie un profilo pronto senza bisogno del file: il <em>catalogo ufficiale RTIndustry</em> (profili controllati da noi; quelli con il bollino <em>Verificato sul campo</em> sono già stati provati su una macchina vera) e, se il tuo rivenditore ha la libreria privata, i <em>profili del rivenditore</em>, visibili solo alle sue installazioni. Cerca per costruttore, modello o controllo, premi <span class="tasto">Usa</span>, indica l'indirizzo IP e prosegui come con un file. Serve la licenza attiva e la connessione a internet. Se la tua macchina manca, configurala, esporta il profilo e chiedi al rivenditore o all'assistenza di aggiungerlo.</p>
+
         <h3 id="contapezzi">Come si contano i pezzi</h3>
         <p>RTIndustry conta i pezzi in uno di questi modi, scelti in Impostazioni › Mapping stati e modi · contapezzi:</p>
         <ul>
@@ -362,7 +479,7 @@
       </section>
 
       <section id="operatori">
-        <h2><span class="num">14</span>Operatori e registro</h2>
+        <h2><span class="num">18</span>Operatori e registro</h2>
         <p class="scopo">Solo per l'amministratore: account personali degli operatori e registro di tutte le operazioni (chi ha fatto cosa e quando).</p>
         <h3>Creare l'account di un operatore</h3>
         <ol>
@@ -384,13 +501,13 @@
       </section>
 
       <section id="stati">
-        <h2><span class="num">15</span>Stati macchina e work order</h2>
+        <h2><span class="num">19</span>Stati macchina e work order</h2>
         <table>
           <tr><th>Stato</th><th>Significato</th></tr>
           <tr><td><span class="stato" style="--c: var(--ok)">In lavorazione</span></td><td>La macchina produce.</td></tr>
           <tr><td><span class="stato" style="--c: var(--warn)">In pausa</span></td><td>Pausa temporanea.</td></tr>
-          <tr><td><span class="stato" style="--c: var(--stop)">Fermo</span> · <span class="stato" style="--c: var(--stop)">Guasto</span></td><td>Macchina ferma; guasto se la causa è un malfunzionamento.</td></tr>
-          <tr><td><span class="stato" style="--c: #ff2d55">In allarme</span></td><td>Il controllo segnala un allarme.</td></tr>
+          <tr><td><span class="stato" style="--c: var(--stop)">Fermo</span></td><td>Macchina ferma.</td></tr>
+          <tr><td><span class="stato" style="--c: #ff2d55">In allarme</span></td><td>Il controllo segnala un allarme (o l'operatore lo indica con il pulsante <span class="tasto">Allarme</span>): vale sia per la macchina sia per il work order.</td></tr>
           <tr><td><span class="stato" style="--c: var(--idle)">Inattivo</span> · <span class="stato" style="--c: var(--done)">Finito</span></td><td>Accesa ma senza lavorare; <em>Finito</em> quando il programma è arrivato alla fine (il tempo conta come inattivo).</td></tr>
           <tr><td><span class="stato" style="--c: var(--info)">Attrezzaggio</span> · <span class="stato" style="--c: var(--info)">Rilavorazione</span></td><td>Preparazione della macchina; lavorazione di pezzi da rifare.</td></tr>
           <tr><td><span class="stato" style="--c: var(--maint)">Manutenzione</span> · <span class="stato" style="--c: var(--maint)">Pulizia</span></td><td>Fermate programmate.</td></tr>
@@ -400,7 +517,7 @@
       </section>
 
       <section id="tablet">
-        <h2><span class="num">16</span>Uso su tablet</h2>
+        <h2><span class="num">20</span>Uso su tablet</h2>
         <p>Dal menu con il tuo nome in alto a destra:</p>
         <ul>
           <li><strong>Modalità tablet (tasti grandi)</strong>: pulsanti più grandi, adatti al tocco e ai guanti.</li>
@@ -411,7 +528,7 @@
       </section>
 
       <section id="tray">
-        <h2><span class="num">17</span>Icona nell'area di notifica</h2>
+        <h2><span class="num">21</span>Icona nell'area di notifica</h2>
         <p>Vicino all'orologio di Windows c'è l'icona di RTIndustry. Il colore dice subito se è tutto a posto:</p>
         <ul>
           <li><span class="stato" style="--c: var(--ok)">Verde</span> — servizio attivo e licenza valida.</li>
@@ -423,11 +540,13 @@
       </section>
 
       <section id="licenza">
-        <h2><span class="num">18</span>Licenza e messaggi</h2>
+        <h2><span class="num">22</span>Licenza e messaggi</h2>
         <p>La licenza si verifica via internet con il Site Manager e si gestisce da Impostazioni (solo amministratore). Se la licenza non è attiva, gli operatori vedono la pagina <em>Servizio sospeso</em> e devono rivolgersi all'amministratore.</p>
         <p>Se la connessione manca, RTIndustry continua a lavorare normalmente e riprova da solo: la licenza resta valida per alcuni giorni anche senza internet (avviso <em>funzionamento offline temporaneo</em>), poi serve di nuovo il collegamento.</p>
         <h3>Più macchine</h3>
         <p>Ogni installazione (<a href="#istanze">istanza</a>) occupa un <strong>posto</strong> della licenza. Con 8 macchine servono 8 posti: di solito una sola chiave con 8 posti, inserita in tutte le istanze. Il Site Manager mostra quanti posti sono usati.</p>
+        <h3>Moduli della licenza</h3>
+        <p>Alcune funzioni sono moduli che la licenza può comprendere o no: <strong>Anagrafiche</strong> (con distinta base e consumi), <strong>Archivio aziendale</strong> e <strong>Magazzino</strong>. Li imposta il rivenditore. Se un modulo non è compreso, la sua voce non compare e chi prova a usarlo vede «Il modulo … non è compreso nella licenza»; i dati già inseriti non si cancellano e tornano visibili quando il modulo viene riattivato. Senza Anagrafiche i work order si creano come prima, con i campi di testo, e quelli dal gestionale continuano ad arrivare.</p>
         <h3>Spostare la licenza su un altro PC</h3>
         <p>Sul PC vecchio: Impostazioni › Servizi, energia e licenza › <span class="tasto">Disattiva</span> (libera il posto). Sul PC nuovo: installa RTIndustry e inserisci la stessa chiave nella configurazione guidata. Se il PC vecchio non funziona più, chiedi all'assistenza di liberare il posto.</p>
         <table>
@@ -443,7 +562,7 @@
       </section>
 
       <section id="requisiti">
-        <h2><span class="num">19</span>Requisiti, rete e antivirus</h2>
+        <h2><span class="num">23</span>Requisiti, rete e antivirus</h2>
         <h3>Il PC di RTIndustry</h3>
         <ul>
           <li>Windows 10 (1809 o successivo) o Windows 11 a 64 bit, 4 GB di RAM, 10 GB liberi; per più istanze sullo stesso PC conta circa 100 MB di RAM in più per ogni macchina (da 6 macchine in su consigliati 8 GB).</li>
@@ -471,7 +590,7 @@
       </section>
 
       <section id="problemi">
-        <h2><span class="num">20</span>Problemi frequenti</h2>
+        <h2><span class="num">24</span>Problemi frequenti</h2>
         <div class="nota">Per un controllo completo e guidato usa prima l'<a href="#risoluzione-problemi">Autodiagnosi</a> (Impostazioni › <span class="tasto">Avvia autodiagnosi</span>).</div>
         <h3>La macchina risulta "Spenta o non raggiungibile"</h3>
         <ul>
@@ -512,12 +631,13 @@
           <tr><td><code>RTI-E001</code></td><td>Il programma non si avvia su questo PC (cartella copiata da un altro PC, oppure nome del PC o Windows reinstallato). Reinstalla RTIndustry: i dati vengono conservati.</td></tr>
           <tr><td><code>RTI-E011</code></td><td>La porta 1880 è occupata da un altro programma (per esempio la versione precedente). Chiudi l'altro programma o cambia porta.</td></tr>
           <tr><td><code>RTI-E020</code> / <code>E021</code></td><td>Problema del database. Contatta l'assistenza: esistono backup automatici giornalieri.</td></tr>
-          <tr><td><code>RTI-E030</code></td><td>Identità dell'installazione non leggibile: va riattivata la licenza.</td></tr>
+          <tr><td><code>RTI-E030</code></td><td>Identità dell'installazione non leggibile: va riattivata la licenza. In Impostazioni › Licenza e Site Manager inserisci la tua chiave (anche la stessa di prima) e premi «Attiva», con il Site Manager raggiungibile; poi reinserisci le password salvate (OPC UA, MySQL, Heidenhain, proxy).</td></tr>
+          <tr><td><code>RTI-E004</code></td><td>Identificativi del PC non leggibili in questo momento: il servizio riparte da solo. Se si ripete, riavvia il PC.</td></tr>
         </table>
       </section>
 
       <section id="risoluzione-problemi">
-        <h2><span class="num">21</span>Risoluzione problemi (Autodiagnosi)</h2>
+        <h2><span class="num">25</span>Risoluzione problemi (Autodiagnosi)</h2>
         <p class="scopo">Prima di chiamare l'assistenza: <a href="#settings">Impostazioni</a> › <span class="tasto">Avvia autodiagnosi</span> (in cima alla pagina, solo amministratore). In meno di un minuto RTIndustry controlla il collegamento alla macchina, la licenza e il PC e, per ogni punto, dice cosa ha verificato e cosa fare.</p>
         <p>Ogni controllo ha un semaforo: <strong>verde</strong> superato, <strong>giallo</strong> funziona ma va sistemato, <strong>rosso</strong> problema, <strong>grigio</strong> non verificato (prima va risolto un problema sopra). Segui i controlli rossi <strong>dall'alto verso il basso</strong>: spesso, risolto il primo, si sistemano anche gli altri. Il pulsante <span class="tasto">Guida</span> accanto a un controllo apre la voce corrispondente qui sotto.</p>
         <div class="nota">L'autodiagnosi funziona anche con la licenza bloccata, non modifica nessuna impostazione e viene annotata nel <a href="#operatori">registro delle attività</a>. Se dopo le azioni indicate il problema resta, premi <span class="tasto">Esporta diagnostica</span> e invia il file all'assistenza.</div>
@@ -585,7 +705,7 @@
       </section>
 
       <section id="glossario">
-        <h2><span class="num">22</span>Glossario</h2>
+        <h2><span class="num">26</span>Glossario</h2>
         <table>
           <tr><td><strong>WO (work order)</strong></td><td>Commessa di lavoro: cosa produrre e in che quantità.</td></tr>
           <tr><td><strong>OEE</strong></td><td>Overall Equipment Effectiveness, efficienza complessiva della macchina.</td></tr>
@@ -602,11 +722,16 @@
           <tr><td><strong>Contatore di energia</strong></td><td>Strumento elettrico che misura i consumi della macchina, letto via Modbus TCP.</td></tr>
           <tr><td><strong>Wh / kWh</strong></td><td>Wattora / chilowattora (1 kWh = 1000 Wh), unità dell'energia consumata.</td></tr>
           <tr><td><strong>Part program</strong></td><td>Programma di lavorazione eseguito dalla macchina utensile.</td></tr>
+          <tr><td><strong>Distinta base</strong></td><td>Elenco dei materiali che servono per fare un pezzo, con le quantità.</td></tr>
+          <tr><td><strong>Sfrido</strong></td><td>Materiale perso in lavorazione (ritagli, trucioli), in percentuale.</td></tr>
+          <tr><td><strong>Unità di consumo / di acquisto</strong></td><td>L'unità della distinta (es. m²) e quella con cui il materiale si compra e si tiene in magazzino (es. kg).</td></tr>
+          <tr><td><strong>Giacenza</strong></td><td>Quantità di un materiale presente in magazzino.</td></tr>
+          <tr><td><strong>Codice di recupero</strong></td><td>Il codice che contiene la chiave dell'archivio aziendale: serve per collegare le macchine e per recuperare i dati.</td></tr>
         </table>
       </section>
 
       <section id="assistenza">
-        <h2><span class="num">23</span>Assistenza</h2>
+        <h2><span class="num">27</span>Assistenza</h2>
         <p>Prima di scrivere, esegui l'<a href="#risoluzione-problemi">Autodiagnosi</a>: risolve da sola la maggior parte dei casi (macchina spenta o non raggiungibile, certificato, licenza, disco).</p>
         <p>Per dubbi o problemi contatta il tecnico o il rivenditore che ha installato RTIndustry, oppure scrivi a <a href="mailto:assistenza@rtindustry.it">assistenza@rtindustry.it</a>.</p>
         <p>Quando chiedi assistenza, allega il file della <strong>diagnostica</strong>: <a href="#settings">Impostazioni</a> › pulsante <span class="tasto">Esporta diagnostica</span> in alto. Contiene versione, stato del programma e ultimi messaggi di funzionamento, <strong>senza password</strong>.</p>

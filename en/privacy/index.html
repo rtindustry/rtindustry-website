@@ -112,7 +112,7 @@
     <section class="legal-hero">
         <div class="container">
             <h1>Privacy Policy</h1>
-            <p class="updated">Last updated: 30 September 2026</p>
+            <p class="updated">Last updated: 16 October 2026</p>
         </div>
     </section>
 
@@ -173,13 +173,15 @@
                 Contact data is entered, optionally, in the software's setup wizard (License step).</p>
             <p>Operators' personal accounts and the activity log (who did what and when) are kept in the database installed on the customer's PC, who is their controller, and are not sent to the Site Manager.
             </p>
+            <p><strong>Master data, consumption and stock.</strong> Customers, items, materials, bills of materials, material consumption and stock movements are kept in the database on the customer's PC, who is their controller. If the customer activates the <strong>company archive</strong> to share them between its machines, this data leaves the workstation already <strong>encrypted</strong> (AES-256-GCM) with a key generated and kept by the customer: RTIndustry does not have the key and cannot read the content. The Site Manager stores it in encrypted form on the customer's behalf, only to forward it to the other workstations of the same license.</p>
 
             <h3>2.3 Site Manager (online license management service)</h3>
             <p>The Site Manager is the online service, available at licenze.rtindustry.it, through which RTIndustry verifies licenses and customers and resellers consult their installations. It processes the following data:</p>
             <ul>
                 <li><strong>User credentials:</strong> username and password (the latter stored as a bcrypt hash)</li>
                 <li><strong>Event log:</strong> records of system activity (license validation, heartbeat, errors)</li>
-                <li><strong>License data:</strong> license key, status, expiry date, maximum number of machines</li>
+                <li><strong>License data:</strong> license key, status, expiry date, maximum number of machines, included modules</li>
+                <li><strong>Company archive</strong> (only if activated by the customer): encrypted blocks that RTIndustry cannot read and the technical metadata needed to forward them (data type, random record identifier, sequence number, source workstation, date, size)</li>
             </ul>
 
             <h2>3. Legal basis for processing</h2>
@@ -228,6 +230,10 @@
                         <td>License data</td>
                         <td>Duration of the contract + 12 months</td>
                     </tr>
+                    <tr>
+                        <td>Encrypted company archive</td>
+                        <td>As long as the customer keeps it active; deleted 30 days after deactivation</td>
+                    </tr>
                 </tbody>
             </table>
             <p>Once these periods have elapsed, the data is deleted or irreversibly anonymized.</p>
@@ -244,7 +250,7 @@
                 <li><strong>Authorized resellers</strong> — they can access the data of the installations assigned to them through the Site Manager, limited to support and license management</li>
             </ul>
             <p>
-                Production data (work orders, full telemetry, reports, operator accounts and activity log) stays in the database installed on the customer's PC. Only the data listed in section 2.2, needed for license management and support, reaches the Site Manager. RTIndustry accesses the data on the customer's PC only at the customer's request, for support interventions.
+                Production data (work orders, full telemetry, reports, operator accounts and activity log) stays in the database installed on the customer's PC. Only the data listed in section 2.2, needed for license management and support, reaches the Site Manager, plus, if the customer activates the company archive, encrypted data that RTIndustry cannot read. RTIndustry accesses the data on the customer's PC only at the customer's request, for support interventions.
             </p>
 
             <h2>7. Rights of the data subject</h2>
@@ -274,6 +280,7 @@
                 <li><strong>Password hashing</strong> — user credentials are stored with the bcrypt algorithm</li>
                 <li><strong>Encryption on the workstation</strong> — the installed program and the saved credentials (machine, proxy, database) are encrypted with a key tied to the PC's hardware</li>
                 <li><strong>Personal accounts</strong> — on the workstation each operator signs in with their own account and operations are recorded in the activity log</li>
+                <li><strong>Company archive encrypted on the workstation</strong> — AES-256-GCM with a key that stays with the customer (printed recovery code), never sent to RTIndustry</li>
                 <li><strong>JWT authentication</strong> — access to the Site Manager protected by tokens with an expiry</li>
                 <li><strong>Access control (RBAC)</strong> — differentiated roles (admin, reseller, viewer) with granular permissions</li>
             </ul>

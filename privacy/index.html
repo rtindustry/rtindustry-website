@@ -112,7 +112,7 @@
     <section class="legal-hero">
         <div class="container">
             <h1>Privacy Policy</h1>
-            <p class="updated">Ultimo aggiornamento: 30 settembre 2026</p>
+            <p class="updated">Ultimo aggiornamento: 16 ottobre 2026</p>
         </div>
     </section>
 
@@ -173,13 +173,15 @@
                 I dati di contatto si indicano, facoltativamente, nella configurazione guidata del software (passo Licenza).</p>
             <p>Gli account personali degli operatori e il registro attività (chi ha fatto cosa e quando) sono conservati nel database installato sul PC del cliente, che ne è titolare, e non vengono trasmessi al Site Manager.
             </p>
+            <p><strong>Anagrafiche, consumi e magazzino.</strong> Clienti, articoli, materiali, distinte base, consumi di materiale e movimenti di magazzino sono conservati nel database sul PC del cliente, che ne è titolare. Se il cliente attiva l'<strong>archivio aziendale</strong> per condividerli tra le proprie macchine, questi dati partono dalla postazione già <strong>cifrati</strong> (AES-256-GCM) con una chiave generata e custodita dal cliente: RTIndustry non possiede la chiave e non può leggerne il contenuto. Il Site Manager li conserva in forma cifrata per conto del cliente al solo scopo di trasmetterli alle altre postazioni della stessa licenza.</p>
 
             <h3>2.3 Site Manager (servizio online di gestione delle licenze)</h3>
             <p>Il Site Manager è il servizio online, raggiungibile all'indirizzo licenze.rtindustry.it, con cui RTIndustry verifica le licenze e con cui clienti e reseller consultano le proprie installazioni. Tratta i seguenti dati:</p>
             <ul>
                 <li><strong>Credenziali utente:</strong> username e password (quest'ultima conservata con hash bcrypt)</li>
                 <li><strong>Log eventi:</strong> registrazioni di attività di sistema (validazione licenze, heartbeat, errori)</li>
-                <li><strong>Dati licenze:</strong> chiave di licenza, stato, scadenza, numero massimo di macchine</li>
+                <li><strong>Dati licenze:</strong> chiave di licenza, stato, scadenza, numero massimo di macchine, moduli compresi</li>
+                <li><strong>Archivio aziendale</strong> (solo se attivato dal cliente): blocchi cifrati illeggibili per RTIndustry e metadati tecnici necessari a smistarli (tipo di dato, identificativo casuale del record, numero di sequenza, postazione di provenienza, data, dimensione)</li>
             </ul>
 
             <h2>3. Base giuridica del trattamento</h2>
@@ -228,6 +230,10 @@
                         <td>Dati licenze</td>
                         <td>Durata del contratto + 12 mesi</td>
                     </tr>
+                    <tr>
+                        <td>Archivio aziendale cifrato</td>
+                        <td>Finché il cliente lo tiene attivo; cancellato 30 giorni dopo la disattivazione</td>
+                    </tr>
                 </tbody>
             </table>
             <p>Trascorsi i periodi indicati, i dati vengono cancellati o anonimizzati in modo irreversibile.</p>
@@ -244,7 +250,7 @@
                 <li><strong>Reseller autorizzati</strong> — possono accedere ai dati delle installazioni a loro assegnate tramite il Site Manager, limitatamente al ruolo di assistenza e gestione licenze</li>
             </ul>
             <p>
-                I dati di produzione (work order, telemetria completa, report, account degli operatori e registro attività) restano nel database installato sul PC del cliente. Al Site Manager arrivano solo i dati indicati al punto 2.2, necessari alla gestione della licenza e all'assistenza. RTIndustry accede ai dati presenti sul PC del cliente solo su sua richiesta, per interventi di supporto.
+                I dati di produzione (work order, telemetria completa, report, account degli operatori e registro attività) restano nel database installato sul PC del cliente. Al Site Manager arrivano solo i dati indicati al punto 2.2, necessari alla gestione della licenza e all'assistenza, e, se il cliente attiva l'archivio aziendale, i dati cifrati che RTIndustry non può leggere. RTIndustry accede ai dati presenti sul PC del cliente solo su sua richiesta, per interventi di supporto.
             </p>
 
             <h2>7. Diritti dell'interessato</h2>
@@ -274,6 +280,7 @@
                 <li><strong>Password hash</strong> — le credenziali utente sono conservate con algoritmo bcrypt</li>
                 <li><strong>Cifratura sulla postazione</strong> — il programma installato e le credenziali salvate (macchina, proxy, database) sono cifrati con una chiave legata all'hardware del PC</li>
                 <li><strong>Account personali</strong> — sulla postazione ogni operatore accede con il proprio account e le operazioni sono registrate nel registro attività</li>
+                <li><strong>Cifratura dell'archivio aziendale sulla postazione</strong> — AES-256-GCM con una chiave che resta al cliente (codice di recupero stampato), mai trasmessa a RTIndustry</li>
                 <li><strong>Autenticazione JWT</strong> — accesso al Site Manager protetto da token con scadenza</li>
                 <li><strong>Controllo accessi (RBAC)</strong> — ruoli differenziati (admin, reseller, viewer) con permessi granulari</li>
             </ul>

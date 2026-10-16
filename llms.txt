@@ -13,15 +13,19 @@
 - Contapezzi: dal controllo della macchina oppure, se manca (spesso Heidenhain), calcolato a fine programma (M30, M2, END PGM), con avviso quando i cicli sono più brevi di tre letture.
 - Più macchine dallo stesso PC o server: un'istanza di RTIndustry per macchina (servizio, porta, dati e licenza propri), installabile dall'installer o con il parametro /ISTANZA=<nome>; ogni istanza occupa un posto della licenza.
 - Antivirus con firewall proprio (Avast, AVG, Kaspersky, ESET, Bitdefender…): servono un'eccezione per C:\RTIndustry e il permesso in ingresso per node.exe, altrimenti i tablet non raggiungono la dashboard.
-- Integrazione ERP/MES: API REST, tabella di scambio su database (writewo/readwo, compatibile con la versione 1), MQTT con broker integrato.
+- Anagrafiche (dalla 2.5): clienti, articoli con tipo e attributi, materiali con unità di acquisto e di consumo e fattore di conversione, distinta base per articolo; nuovo work order in tre tocchi con articolo e cliente scelti o creati al volo dal tablet; import/export CSV, doppioni e unione.
+- Consumi di materiale: per work order dai pezzi contati (contapezzi + pezzi aggiunti), con costo; report di periodo reale contro previsto per materiale, cliente, articolo, work order e postazione, in CSV e PDF.
+- Magazzino (modulo, dalla 2.7): giacenze, carico con bolla e lotto, rettifica, inventario con foglio di conta, scarico automatico alla chiusura dei work order oppure gestito dal gestionale.
+- Archivio aziendale cifrato (modulo): anagrafiche, consumi e magazzino condivisi tra le macchine della licenza, cifrati sulla postazione (AES-256-GCM) con una chiave che ha solo l'azienda; il servizio online li conserva senza poterli leggere; funziona anche offline.
+- Integrazione ERP/MES: API REST, tabella di scambio su database (writewo/readwo, compatibile con la versione 1), MQTT con broker integrato; anche anagrafiche, consumi (readconsumi, {deviceSN}/consumi) e giacenze.
 - Licenza verificata online con funzionamento anche offline, proxy aziendale, backup automatici giornalieri, prova gratuita di 30 giorni.
 
 ## Pagine principali
 
 - [Prodotto](https://www.rtindustry.it/): panoramica, schermate, protocolli, integrazione e domande frequenti
-- [Manuale d'uso](https://www.rtindustry.it/manuale/): come usare ogni schermata (work order, HMI, telemetria, OEE, report, energia, allarmi, storico WO, impostazioni, operatori e registro)
+- [Manuale d'uso](https://www.rtindustry.it/manuale/): come usare ogni schermata (work order, HMI, telemetria, OEE, report, energia, allarmi, storico WO, anagrafiche, consumi di materiale, magazzino, archivio aziendale, impostazioni, operatori e registro)
 - [Documentazione tecnica](https://www.rtindustry.it/documentazione/): requisiti, installazione, collegamento alla macchina, licenza, rete, backup, problemi frequenti
-- [Integrazione ERP e MES](https://www.rtindustry.it/developers/): API REST, tabella di scambio e MQTT per i work order
+- [Integrazione ERP e MES](https://www.rtindustry.it/developers/): API REST, tabella di scambio e MQTT per work order, anagrafiche, consumi e giacenze
 - [Site Manager](https://www.rtindustry.it/site-manager/): licenze, posti e installazioni per integratori e rivenditori
 
 ## Contatti
@@ -31,11 +35,11 @@
 
 ## English
 
-RTIndustry 2.0 is Italian software for real-time monitoring of CNC machines and PLCs. It reads state, part counter, alarms and energy consumption from the machine, calculates OEE (availability × performance × quality) and organizes production in work orders on a Kanban board. It is installed as a single Windows service (Windows 10 1809+, Windows 11, Windows Server 2019+, 64-bit) with a built-in database and used from the browser on PCs, tablets and phones. Machine connection: OPC UA (Siemens SINUMERIK 840D sl, umati), FANUC FOCAS, Heidenhain DNC, Modbus TCP; Modbus energy meters. ERP/MES integration via REST API, database exchange table (writewo/readwo) and MQTT. One instance per machine, several instances on the same PC. 30-day free trial.
+RTIndustry 2.0 is Italian software for real-time monitoring of CNC machines and PLCs. It reads state, part counter, alarms and energy consumption from the machine, calculates OEE (availability × performance × quality) and organizes production in work orders on a Kanban board. It is installed as a single Windows service (Windows 10 1809+, Windows 11, Windows Server 2019+, 64-bit) with a built-in database and used from the browser on PCs, tablets and phones. Machine connection: OPC UA (Siemens SINUMERIK 840D sl, umati), FANUC FOCAS, Heidenhain DNC, Modbus TCP; Modbus energy meters. ERP/MES integration via REST API, database exchange table (writewo/readwo) and MQTT. Master data (customers, items, materials, bills of materials), material consumption per work order with actual-versus-expected reports, optional stock management and an encrypted company archive shared between machines (encrypted on the workstation with a key only the company has). One instance per machine, several instances on the same PC. 30-day free trial.
 
 - [Product](https://www.rtindustry.it/en/): overview, screens, protocols, integration and FAQ
-- [User manual](https://www.rtindustry.it/manuale/en/): how to use every screen (work orders, HMI, telemetry, OEE, reports, energy, alarms, WO history, settings, operators and activity log)
+- [User manual](https://www.rtindustry.it/manuale/en/): how to use every screen (work orders, HMI, telemetry, OEE, reports, energy, alarms, WO history, master data, material consumption, stock, company archive, settings, operators and activity log)
 - [Technical documentation](https://www.rtindustry.it/en/documentation/): requirements, installation, machine connection, license, network, backup, troubleshooting
-- [ERP and MES integration](https://www.rtindustry.it/en/developers/): REST API, exchange table and MQTT for work orders
+- [ERP and MES integration](https://www.rtindustry.it/en/developers/): REST API, exchange table and MQTT for work orders, master data, consumption and stock
 - [Site Manager](https://www.rtindustry.it/en/site-manager/): licenses, seats and installations for system integrators and resellers
 - Contact: demo@rtindustry.it (demo and sales), assistenza@rtindustry.it (customer support)

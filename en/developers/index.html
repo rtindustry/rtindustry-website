@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ERP and MES integration — REST API, exchange table and MQTT | RTIndustry 2.0</title>
-    <meta name="description" content="Developer guide: how an ERP or a MES creates, edits, starts and deletes RTIndustry 2.0 work orders and reads their progress through the REST API, a database exchange table (writewo/readwo) or MQTT.">
+    <meta name="description" content="Developer guide: how an ERP or a MES creates, edits, starts and deletes RTIndustry 2.0 work orders and reads their progress through the REST API, a database exchange table (writewo/readwo) or MQTT; master data for customers, materials and items with bills of materials, material consumption and stock levels.">
     <link rel="canonical" href="https://www.rtindustry.it/en/developers/">
     <link rel="alternate" hreflang="it" href="https://www.rtindustry.it/developers/">
     <link rel="alternate" hreflang="en" href="https://www.rtindustry.it/en/developers/">
@@ -96,6 +96,8 @@
             <div class="gruppo">Other channels</div>
             <a href="#tabella">Exchange table</a>
             <a href="#mqtt">MQTT</a>
+            <div class="gruppo">Master data</div>
+            <a href="#anagrafiche">Master data, consumption and stock</a>
             <a href="#versione1">From version 1</a>
         </nav>
 
@@ -115,6 +117,7 @@
                 <a href="#esempi">Examples</a>
                 <a href="#tabella">Exchange table</a>
                 <a href="#mqtt">MQTT</a>
+                <a href="#anagrafiche">Master data, consumption and stock</a>
                 <a href="#versione1">From version 1</a>
             </details>
 
@@ -330,6 +333,64 @@ SELECT id, status, qty_done, qty_scrap, mwt_running FROM readwo WHERE id = 'ERP-
 <pre><code>mosquitto_pub -h machine-pc -u erp -P "$RTI_KEY" -t "RTI-XXXX/write" \
   -m '{"id":"1","action":"status","erp_id":"MO-1001","status":"RUNNING"}'
 mosquitto_sub -h machine-pc -u erp -P "$RTI_KEY" -t "RTI-XXXX/write/result" -t "RTI-XXXX/wo"</code></pre>
+
+            <h2 id="anagrafiche">Master data, consumption and stock</h2>
+            <p>Since version 2.5 RTIndustry keeps master data for <strong>customers, materials and items with a bill of materials</strong> and calculates the <strong>material used</strong> by each work order; since 2.7 it also manages <strong>stock levels</strong>. The work order contract described above <strong>does not change</strong>: these are additions. Without the module in the license these calls return <code>403</code> with <code>codice: "modulo_assente"</code>, while work orders keep working as before.</p>
+
+            <h3 id="codici">Codes in incoming work orders</h3>
+            <p>On every channel (REST, exchange table, MQTT), when a work order arrives with <code>customer_code</code>, <code>customer_name</code> or <code>item_code</code>:</p>
+            <div class="tabella"><table>
+                <thead><tr><th>Situation</th><th>What RTIndustry does</th></tr></thead>
+                <tbody>
+                    <tr><td>Code already in master data</td><td>Links the WO to the customer or item (case-insensitive)</td></tr>
+                    <tr><td>Only <code>customer_name</code></td><td>Looks the customer up by name, ignoring case, accents and punctuation</td></tr>
+                    <tr><td>Unknown code</td><td>Registers the customer or item with the WO data, marked "to complete"</td></tr>
+                    <tr><td>Registration off (Settings › Work order integration)</td><td>The WO comes in unlinked, as in 2.4</td></tr>
+                </tbody>
+            </table></div>
+            <p><strong>No work order is ever rejected</strong> because of a master data problem, and the texts sent stay exactly as they are.</p>
+
+            <h3 id="anagrafiche-rest">Customers, materials and items via REST</h3>
+            <div class="tabella"><table>
+                <thead><tr><th>Endpoint</th><th>Purpose</th></tr></thead>
+                <tbody>
+                    <tr><td><code>GET /customers?q=&amp;page=&amp;pageSize=&amp;to_complete=1</code></td><td>Customer list</td></tr>
+                    <tr><td><code>GET /customers/{code}</code> · <code>PUT /customers/{code}</code></td><td>Read · <strong>upsert by code</strong></td></tr>
+                    <tr><td><code>GET /materials</code> · <code>GET</code>/<code>PUT /materials/{code}</code></td><td>Materials</td></tr>
+                    <tr><td><code>GET /articles</code> · <code>GET</code>/<code>PUT /articles/{code}</code></td><td>Items with bill of materials</td></tr>
+                </tbody>
+            </table></div>
+            <p><code>PUT</code> creates the record if the code does not exist (<code>201</code>), otherwise it changes only the fields sent (<code>200</code>). All errors are listed in <code>dettagli</code> (<code>400</code>).</p>
+<pre><code>PUT /customers/C-0042
+{ "name": "Rossi Engineering Ltd", "vat_number": "IT01234567890", "city": "Palermo" }
+
+PUT /materials/LAM-304-20
+{ "description": "Stainless sheet AISI 304 2 mm", "uom_stock": "kg", "uom_use": "m2", "conversion": 15.86, "unit_cost": 4.20 }
+
+PUT /articles/FL-DN80
+{ "description": "Stainless flange DN80", "type": "Lamiera tagliata", "default_customer_code": "C-0042",
+  "program_name": "O1001", "target_time": 42,
+  "bom": [ { "material_code": "LAM-304-20", "qty": 0.35, "scrap_pct": 8 }, { "material_code": "GUA-EPDM-80", "qty": 1 } ] }</code></pre>
+            <ul>
+                <li><code>uom_stock</code> is the purchase and stock unit, <code>uom_use</code> the consumption unit used in the bill; <code>conversion</code> = how many <code>uom_stock</code> make 1 <code>uom_use</code> (required between different quantities). Units: <code>pz</code> (pieces), <code>g</code>, <code>kg</code>, <code>t</code>, <code>mm</code>, <code>m</code>, <code>mm2</code>, <code>m2</code>, <code>cm3</code>, <code>dm3</code>, <code>l</code>, <code>m3</code>.</li>
+                <li><code>bom</code> is the bill of materials: quantity for <strong>one</strong> piece in the consumption unit, scrap as a percentage. Sending it replaces the existing one.</li>
+                <li><code>type</code> is the stored name of an existing item type (the five starting types have Italian names, e.g. <code>Lamiera tagliata</code> = cut sheet metal).</li>
+            </ul>
+
+            <h3 id="consumi">Material consumption</h3>
+            <p><code>GET /workorders/{erp_id}/consumi</code>: consumption of the work order, <code>in_corso</code> (on the parts made so far, with the expected value for the requested quantity) or <code>consolidato</code> (WO completed). <code>GET /consumi?dateFrom=&amp;dateTo=&amp;customer_code=&amp;item_code=</code>: consumption of the work orders closed in the period.</p>
+<pre><code>{ "erp_id": "ODP-1001", "stato": "in_corso", "righe": [
+  { "material_code": "LAM-304-20", "uom_use": "m2", "qty_use": 12.096, "uom_stock": "kg", "qty_stock": 191.84,
+    "cost": 805.74, "qty_use_expected": 18.9 } ] }</code></pre>
+            <p>Parts consumed = machine part counter + parts added by hand (scrap is already included). The same consumption is in the <code>readconsumi</code> table (next to <code>readwo</code>, with version 1 style names) and on the MQTT topic <code>{deviceSN}/consumi</code> when each work order closes.</p>
+
+            <h3 id="magazzino">Stock</h3>
+            <p><code>GET /giacenze?q=&amp;sottoscorta=1</code>: stock level of each material in the stock unit, with <code>gestore</code> (<code>rtindustry</code> if RTIndustry issues the material itself when WOs close, <code>erp</code> if the ERP does it with the consumption data). <code>POST /movimenti</code>: goods-in or adjustment from the ERP.</p>
+<pre><code>POST /movimenti
+{ "material_code": "LAM-304-20", "kind": "load", "qty": 2, "uom": "m2", "document": "DN 99", "lot": "L-2610" }
+
+→ 201 { "material_code": "LAM-304-20", "kind": "load", "qty": 31.72, "uom_stock": "kg", "giacenza": 291.769, ... }</code></pre>
+            <p><code>kind</code>: <code>load</code> (goods-in, positive quantity) or <code>adjust</code> (signed adjustment). <code>uom</code> is optional: a unit of the same quantity or the consumption unit, converted with the material's factor. Stock can go negative: it is flagged, never blocked.</p>
 
             <h2 id="versione1">From version 1</h2>
             <p>Those who cannot adapt their ERP keep using the <a href="#tabella">tables</a>. To move to the REST API:</p>

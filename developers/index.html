@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Integrazione ERP e MES — API REST, tabella di scambio e MQTT | RTIndustry 2.0</title>
-    <meta name="description" content="Guida per sviluppatori: come un ERP o un MES crea, modifica, avvia ed elimina i work order di RTIndustry 2.0 e ne legge l'avanzamento con API REST, tabella di scambio su database (writewo/readwo) o MQTT.">
+    <meta name="description" content="Guida per sviluppatori: come un ERP o un MES crea, modifica, avvia ed elimina i work order di RTIndustry 2.0 e ne legge l'avanzamento con API REST, tabella di scambio su database (writewo/readwo) o MQTT; anagrafiche di clienti, materiali e articoli con distinta, consumi di materiale e giacenze.">
     <link rel="canonical" href="https://www.rtindustry.it/developers/">
     <link rel="alternate" hreflang="it" href="https://www.rtindustry.it/developers/">
     <link rel="alternate" hreflang="en" href="https://www.rtindustry.it/en/developers/">
@@ -96,6 +96,8 @@
             <div class="gruppo">Altri canali</div>
             <a href="#tabella">Tabella di scambio</a>
             <a href="#mqtt">MQTT</a>
+            <div class="gruppo">Anagrafiche</div>
+            <a href="#anagrafiche">Anagrafiche, consumi e magazzino</a>
             <a href="#versione1">Dalla versione 1</a>
         </nav>
 
@@ -115,6 +117,7 @@
                 <a href="#esempi">Esempi</a>
                 <a href="#tabella">Tabella di scambio</a>
                 <a href="#mqtt">MQTT</a>
+                <a href="#anagrafiche">Anagrafiche, consumi e magazzino</a>
                 <a href="#versione1">Dalla versione 1</a>
             </details>
 
@@ -328,6 +331,63 @@ SELECT id, status, qty_done, qty_scrap, mwt_running FROM readwo WHERE id = 'ERP-
 <pre><code>mosquitto_pub -h pc-macchina -u erp -P "$RTI_KEY" -t "RTI-XXXX/write" \
   -m '{"id":"1","action":"status","erp_id":"ODP-1001","status":"RUNNING"}'
 mosquitto_sub -h pc-macchina -u erp -P "$RTI_KEY" -t "RTI-XXXX/write/result" -t "RTI-XXXX/wo"</code></pre>
+
+            <h2 id="anagrafiche">Anagrafiche, consumi e magazzino</h2>
+            <p>Dalla versione 2.5 RTIndustry tiene un'anagrafica di <strong>clienti, materiali e articoli con distinta base</strong> e calcola il <strong>materiale consumato</strong> da ogni work order; dalla 2.7 gestisce anche le <strong>giacenze</strong>. Il contratto dei work order descritto sopra <strong>non cambia</strong>: le novità si aggiungono. Senza il modulo nella licenza queste chiamate rispondono <code>403</code> con <code>codice: "modulo_assente"</code>, mentre i work order funzionano come prima.</p>
+
+            <h3 id="codici">Codici dei work order in ingresso</h3>
+            <p>Su tutti i canali (REST, tabella di scambio, MQTT), quando un work order arriva con <code>customer_code</code>, <code>customer_name</code> o <code>item_code</code>:</p>
+            <div class="tabella"><table>
+                <thead><tr><th>Situazione</th><th>Cosa fa RTIndustry</th></tr></thead>
+                <tbody>
+                    <tr><td>Codice già in anagrafica</td><td>Collega il WO al cliente o all'articolo (maiuscole e minuscole indifferenti)</td></tr>
+                    <tr><td>Solo <code>customer_name</code></td><td>Cerca il cliente per nome, senza badare a maiuscole, accenti e punteggiatura</td></tr>
+                    <tr><td>Codice sconosciuto</td><td>Censisce il cliente o l'articolo con i dati del WO, segnato «da completare»</td></tr>
+                    <tr><td>Censimento spento (Impostazioni › Integrazione work order)</td><td>Il WO entra scollegato, come nella 2.4</td></tr>
+                </tbody>
+            </table></div>
+            <p><strong>Nessun work order viene rifiutato</strong> per un problema di anagrafica, e i testi inviati restano esattamente come sono.</p>
+
+            <h3 id="anagrafiche-rest">Clienti, materiali e articoli via REST</h3>
+            <div class="tabella"><table>
+                <thead><tr><th>Endpoint</th><th>Funzione</th></tr></thead>
+                <tbody>
+                    <tr><td><code>GET /customers?q=&amp;page=&amp;pageSize=&amp;to_complete=1</code></td><td>Elenco clienti</td></tr>
+                    <tr><td><code>GET /customers/{code}</code> · <code>PUT /customers/{code}</code></td><td>Lettura · <strong>upsert per codice</strong></td></tr>
+                    <tr><td><code>GET /materials</code> · <code>GET</code>/<code>PUT /materials/{code}</code></td><td>Materiali</td></tr>
+                    <tr><td><code>GET /articles</code> · <code>GET</code>/<code>PUT /articles/{code}</code></td><td>Articoli con distinta</td></tr>
+                </tbody>
+            </table></div>
+            <p><code>PUT</code> crea il record se il codice non esiste (<code>201</code>), altrimenti modifica solo i campi inviati (<code>200</code>). Gli errori sono elencati tutti in <code>dettagli</code> (<code>400</code>).</p>
+<pre><code>PUT /customers/C-0042
+{ "name": "Meccanica Rossi S.r.l.", "vat_number": "IT01234567890", "city": "Palermo" }
+
+PUT /materials/LAM-304-20
+{ "description": "Lamiera inox AISI 304 sp. 2 mm", "uom_stock": "kg", "uom_use": "m2", "conversion": 15.86, "unit_cost": 4.20 }
+
+PUT /articles/FL-DN80
+{ "description": "Flangia DN80 inox", "type": "Lamiera tagliata", "default_customer_code": "C-0042",
+  "program_name": "O1001", "target_time": 42,
+  "bom": [ { "material_code": "LAM-304-20", "qty": 0.35, "scrap_pct": 8 }, { "material_code": "GUA-EPDM-80", "qty": 1 } ] }</code></pre>
+            <ul>
+                <li><code>uom_stock</code> è l'unità di acquisto e di magazzino, <code>uom_use</code> quella di consumo usata nella distinta; <code>conversion</code> = quante <code>uom_stock</code> vale 1 <code>uom_use</code> (obbligatoria tra grandezze diverse). Unità: <code>pz</code>, <code>g</code>, <code>kg</code>, <code>t</code>, <code>mm</code>, <code>m</code>, <code>mm2</code>, <code>m2</code>, <code>cm3</code>, <code>dm3</code>, <code>l</code>, <code>m3</code>.</li>
+                <li><code>bom</code> è la distinta: quantità per <strong>un</strong> pezzo nell'unità di consumo, sfrido in percentuale. Inviandola si sostituisce quella esistente.</li>
+            </ul>
+
+            <h3 id="consumi">Consumi di materiale</h3>
+            <p><code>GET /workorders/{erp_id}/consumi</code>: consumo del work order, <code>in_corso</code> (sui pezzi fatti finora, con il previsto per la quantità richiesta) o <code>consolidato</code> (WO completato). <code>GET /consumi?dateFrom=&amp;dateTo=&amp;customer_code=&amp;item_code=</code>: consumi dei work order chiusi nel periodo.</p>
+<pre><code>{ "erp_id": "ODP-1001", "stato": "in_corso", "righe": [
+  { "material_code": "LAM-304-20", "uom_use": "m2", "qty_use": 12.096, "uom_stock": "kg", "qty_stock": 191.84,
+    "cost": 805.74, "qty_use_expected": 18.9 } ] }</code></pre>
+            <p>Pezzi consumati = contapezzi della macchina + pezzi aggiunti a mano (gli scarti sono già compresi). Gli stessi consumi sono nella tabella <code>readconsumi</code> (accanto a <code>readwo</code>, con i nomi in stile versione 1) e sul topic MQTT <code>{deviceSN}/consumi</code> alla chiusura di ogni work order.</p>
+
+            <h3 id="magazzino">Magazzino</h3>
+            <p><code>GET /giacenze?q=&amp;sottoscorta=1</code>: giacenza di ogni materiale nell'unità di magazzino, con <code>gestore</code> (<code>rtindustry</code> se RTIndustry scarica da solo il materiale alla chiusura dei WO, <code>erp</code> se lo scarico lo fa il gestionale con i consumi). <code>POST /movimenti</code>: carico o rettifica dal gestionale.</p>
+<pre><code>POST /movimenti
+{ "material_code": "LAM-304-20", "kind": "load", "qty": 2, "uom": "m2", "document": "DDT 99", "lot": "L-2610" }
+
+→ 201 { "material_code": "LAM-304-20", "kind": "load", "qty": 31.72, "uom_stock": "kg", "giacenza": 291.769, ... }</code></pre>
+            <p><code>kind</code>: <code>load</code> (carico, quantità positiva) o <code>adjust</code> (rettifica con segno). <code>uom</code> è facoltativa: un'unità della stessa grandezza o l'unità di consumo, convertita con il fattore del materiale. La giacenza può essere negativa: si segnala, non si blocca.</p>
 
             <h2 id="versione1">Dalla versione 1</h2>
             <p>Chi non può adeguare l'ERP continua a usare le <a href="#tabella">tabelle</a>. Per passare all'API REST:</p>

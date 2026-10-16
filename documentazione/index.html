@@ -234,13 +234,14 @@
             <p>I turni si definiscono con numero, ora di inizio e ora di fine, anche a cavallo della mezzanotte. Il cambio turno usa il fuso orario impostato (non l'ora del PC): all'inizio di ogni turno si azzerano i contatori del turno, mentre i work order conservano i loro totali. L'OEE e i report si possono leggere per turno.</p>
 
             <h2 id="integrazione">Integrazione ERP e MES</h2>
-            <p>I sistemi esterni creano, modificano, avviano ed eliminano i work order e ne leggono l'avanzamento tramite <strong>API REST</strong>, <strong>tabella di scambio su database</strong> (compatibile con la versione 1) o <strong>MQTT</strong>. I canali si attivano in <em>Impostazioni › Integrazione work order</em>. Tutti i dettagli, con esempi, sono nella <a href="../developers/">guida all'integrazione</a>.</p>
+            <p>I sistemi esterni creano, modificano, avviano ed eliminano i work order e ne leggono l'avanzamento tramite <strong>API REST</strong>, <strong>tabella di scambio su database</strong> (compatibile con la versione 1) o <strong>MQTT</strong>. I canali si attivano in <em>Impostazioni › Integrazione work order</em>. Dalla versione 2.5 il gestionale invia e legge anche clienti, materiali e articoli con la distinta base, legge i consumi di materiale e, con il modulo Magazzino, le giacenze. Tutti i dettagli, con esempi, sono nella <a href="../developers/">guida all'integrazione</a>.</p>
 
             <h2 id="utenti">Utenti e registro attività</h2>
             <div class="tabella"><table>
                 <thead><tr><th>Ruolo</th><th>Cosa può fare</th></tr></thead>
                 <tbody>
                     <tr><td>Operatore</td><td>Work order, HMI, telemetria, OEE, report, energia, allarmi, storico. Non vede le Impostazioni.</td></tr>
+                    <tr><td>Capo reparto</td><td>Come l'operatore, in più gestisce anagrafiche (clienti, articoli, materiali, distinte) e magazzino.</td></tr>
                     <tr><td>Amministratore</td><td>Tutto, più Impostazioni, licenza e Operatori e registro. Si crea nella configurazione guidata.</td></tr>
                 </tbody>
             </table></div>
@@ -255,6 +256,7 @@
                 <li>Se l'azienda esce su internet tramite <strong>proxy</strong>, se ne indicano indirizzo ed eventuali utente e password.</li>
                 <li>Una licenza scaduta porta l'interfaccia in <strong>sola lettura</strong>: i dati si vedono ma non si modificano. Va rinnovata entro 30 giorni.</li>
                 <li>Ogni chiave ha un numero di <strong>posti</strong>: ogni installazione o <a href="#istanze">istanza</a> ne occupa uno. Per più macchine si usa di solito una sola chiave con tanti posti quante sono le macchine. <em>Disattiva licenza</em> libera il posto per un altro PC, ma ferma la raccolta dati su quello attuale finché non la si riattiva.</li>
+                <li>La licenza può comprendere i <strong>moduli</strong> Anagrafiche (con distinta e consumi), Archivio aziendale e Magazzino. Un modulo non compreso nasconde le sue funzioni ma non cancella i dati.</li>
             </ul>
             <p>I messaggi della licenza e cosa fare sono spiegati nel <a href="../manuale/#licenza">manuale</a>.</p>
 
@@ -267,6 +269,7 @@
                 <li>MQTT: la telemetria è leggibile, ma i comandi sui work order sono accettati solo da client autenticati.</li>
                 <li>Password della macchina, del proxy e dei database esterni conservate cifrate sul PC.</li>
                 <li>Il file di diagnostica per l'assistenza non contiene password.</li>
+                <li><strong>Archivio aziendale</strong>: anagrafiche, consumi e magazzino partono dalla postazione già cifrati (AES-256-GCM) con una chiave che ha solo l'azienda, sulla stessa connessione HTTPS della licenza: nessuna porta in più. Il servizio online li conserva senza poterli leggere.</li>
             </ul>
 
             <h2 id="antivirus">Antivirus e firewall</h2>
@@ -284,6 +287,7 @@
                 <li><strong>Backup automatico giornaliero</strong> del database in <code>data\backups</code>: si conservano gli ultimi 7 giorni e 4 domeniche. Si può impostare una copia secondaria (per esempio su un'altra unità) e lanciare un backup a mano da <em>Impostazioni › Servizi, energia e licenza</em>.</li>
                 <li>All'avvio il database viene controllato; se risulta danneggiato si ripristina dall'ultimo backup valido. Prima di ogni aggiornamento del database viene fatta una copia di sicurezza.</li>
                 <li>I log di funzionamento sono in <code>data\logs</code>, con rotazione automatica.</li>
+                <li>Con l'archivio aziendale attivo, anagrafiche, consumi e magazzino sono anche sul servizio online, cifrati: si recuperano su un PC nuovo con il <strong>codice di recupero</strong> stampato all'attivazione.</li>
             </ul>
 
             <h2 id="servizio">Servizio e icona nell'area di notifica</h2>

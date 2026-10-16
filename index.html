@@ -78,13 +78,19 @@
             "Configurazione guidata in sei passi",
             "Collegamento OPC UA, FANUC FOCAS, Heidenhain DNC, Modbus TCP",
             "Integrazione ERP/MES tramite API REST, tabella di scambio su database e MQTT",
-            "Licenza verificata online, funzionamento anche offline, supporto proxy aziendale"
+            "Licenza verificata online, funzionamento anche offline, supporto proxy aziendale",
+            "Anagrafiche di clienti, articoli e materiali con distinta base",
+            "Consumi e costo del materiale per work order, reale contro previsto",
+            "Magazzino: giacenze, carichi, inventario e scarico automatico",
+            "Archivio aziendale cifrato con la chiave del cliente, condiviso tra le macchine"
           ],
           "screenshot": [
             "https://www.rtindustry.it/img/work-order.webp",
             "https://www.rtindustry.it/img/hmi.webp",
             "https://www.rtindustry.it/img/telemetria.webp",
-            "https://www.rtindustry.it/img/oee.webp"
+            "https://www.rtindustry.it/img/oee.webp",
+            "https://www.rtindustry.it/img/anagrafiche.webp",
+            "https://www.rtindustry.it/img/consumi.webp"
           ],
           "publisher": { "@id": "https://www.rtindustry.it/#organizzazione" }
         },
@@ -100,6 +106,8 @@
             { "@type": "Question", "name": "Posso seguire più macchine dallo stesso PC?", "acceptedAnswer": { "@type": "Answer", "text": "Sì. Su un PC o un server si installa un'istanza di RTIndustry per ogni macchina (per esempio 8 istanze per 8 macchine): ognuna ha servizio, porta, dati e backup propri e occupa un posto della licenza. L'installer propone da solo nome, cartella e porte libere." } },
             { "@type": "Question", "name": "La mia macchina non ha il contapezzi: posso contare i pezzi?", "acceptedAnswer": { "@type": "Answer", "text": "Sì. Se il controllo non ha un contapezzi (capita spesso con Heidenhain), RTIndustry conta un pezzo a ogni fine programma (M30, M2 o END PGM). In alternativa legge un contatore dal PLC della macchina." } },
             { "@type": "Question", "name": "Funziona anche senza connessione a internet?", "acceptedAnswer": { "@type": "Answer", "text": "Sì. La licenza si verifica online, ma se la connessione manca RTIndustry continua a raccogliere i dati e riprova da solo. Se l'azienda esce su internet tramite proxy, lo si indica nelle impostazioni." } },
+            { "@type": "Question", "name": "Posso sapere quanto materiale consuma una commessa?", "acceptedAnswer": { "@type": "Answer", "text": "Sì. Con la distinta base dell'articolo RTIndustry calcola il materiale consumato da ogni work order dai pezzi contati dalla macchina, con il costo e lo scostamento dal previsto. Con il modulo Magazzino scarica anche le giacenze, oppure manda i consumi al gestionale." } },
+            { "@type": "Question", "name": "Dove finiscono clienti, articoli e consumi?", "acceptedAnswer": { "@type": "Answer", "text": "Restano sul PC della macchina. Con l'archivio aziendale sono condivisi tra le macchine dell'azienda attraverso il nostro servizio online, ma cifrati con una chiave che ha solo l'azienda: il servizio li conserva senza poterli leggere." } },
             { "@type": "Question", "name": "Si può provare RTIndustry?", "acceptedAnswer": { "@type": "Answer", "text": "Sì: senza chiave di licenza parte una prova gratuita di 30 giorni. Per una dimostrazione sulla propria macchina si può scrivere a demo@rtindustry.it." } }
           ]
         }
@@ -513,6 +521,69 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Anagrafiche e distinta base -->
+            <div class="feature-block" id="anagrafiche">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6 order-lg-2">
+                        <img src="img/anagrafiche.webp" width="1440" height="900" loading="lazy" alt="Articolo di RTIndustry con tipo, dati, valori proposti nel work order e distinta base con lamiera e guarnizione" class="img-screenshot">
+                    </div>
+                    <div class="col-lg-6 order-lg-1">
+                        <span class="etichetta">Anagrafiche e distinta base</span>
+                        <h3>Clienti, articoli e materiali, con la distinta di ogni pezzo</h3>
+                        <p>Il work order si crea in tre tocchi: scegli l'articolo e il resto si compila da solo. Se il cliente è nuovo, l'operatore lo crea al volo dal tablet e l'ufficio lo completa dopo.</p>
+                        <ul class="feature-check">
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Articoli con tipo e dati (diametro, spessore, finitura…) e distinta base: materiale per un pezzo e sfrido</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Materiali con unità di acquisto e di consumo e conversione (1 m² di lamiera = 15,86 kg)</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Nuovo work order: articolo dagli ultimi usati, cliente abituale proposto, cursore già sulla quantità</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Import ed export CSV per Excel, ricerca dei doppioni e unione</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Codici cliente e articolo dal gestionale collegati o censiti da soli, senza cambiare l'integrazione</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Consumi e magazzino -->
+            <div class="feature-block" id="consumi">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6">
+                        <img src="img/consumi.webp" width="1440" height="900" loading="lazy" alt="Report di RTIndustry con la sezione Consumi di materiale: consumo, previsto, scostamento e costo per materiale" class="img-screenshot">
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="etichetta">Consumi e magazzino</span>
+                        <h3>Quanto materiale consuma ogni commessa, e quanto costa</h3>
+                        <p>Dalla distinta e dai pezzi contati dalla macchina RTIndustry calcola il materiale consumato, il costo e lo scostamento dal previsto. Senza fogli di carta e senza ricalcoli in Excel.</p>
+                        <ul class="feature-check">
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Consumo in tempo reale sulla scheda del work order e nell'HMI</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Report del periodo: reale contro previsto per materiale, cliente, articolo e macchina, in CSV e PDF</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Magazzino opzionale: carico dal tablet con bolla e lotto, inventario guidato, avviso di sottoscorta</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Scarico automatico a ogni commessa chiusa, oppure consumi al gestionale che scarica lui</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Consumi verso l'ERP via API REST, tabella <code>readconsumi</code> e MQTT</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Archivio aziendale cifrato -->
+            <div class="feature-block" id="archivio">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6 order-lg-2">
+                        <img src="img/archivio.webp" width="1440" height="900" loading="lazy" alt="Impostazioni di RTIndustry, sezione Archivio aziendale con il codice di recupero e il pulsante per attivare l'archivio" class="img-screenshot">
+                    </div>
+                    <div class="col-lg-6 order-lg-1">
+                        <span class="etichetta">Archivio aziendale cifrato</span>
+                        <h3>Neanche noi possiamo leggere i tuoi dati</h3>
+                        <p>Anagrafiche, consumi e magazzino sono condivisi tra tutte le macchine dell'azienda e cifrati con una chiave che ha solo l'azienda: il servizio online li conserva e li smista, ma non li può leggere.</p>
+                        <ul class="feature-check">
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Cifratura AES-256-GCM (uno standard internazionale) già sulla macchina, prima di partire</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Senza rete si lavora sulla copia locale: le modifiche si uniscono al ritorno della connessione</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Foglio di recupero stampabile con codice e QR per collegare le altre macchine</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Modifiche fatte su due macchine allo stesso cliente unite campo per campo</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Nessun server da installare in azienda</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -685,6 +756,8 @@
             <details><summary>Posso seguire più macchine dallo stesso PC?</summary><p>Sì. Su un PC o un server si installa un'istanza di RTIndustry per ogni macchina (per esempio 8 istanze per 8 macchine): ognuna ha servizio, porta, dati e backup propri e occupa un posto della licenza. L'installer propone da solo nome, cartella e porte libere.</p></details>
             <details><summary>La mia macchina non ha il contapezzi: posso contare i pezzi?</summary><p>Sì. Se il controllo non ha un contapezzi (capita spesso con Heidenhain), RTIndustry conta un pezzo a ogni fine programma (M30, M2 o END PGM). In alternativa legge un contatore dal PLC della macchina.</p></details>
             <details><summary>Funziona anche senza connessione a internet?</summary><p>Sì. La licenza si verifica online, ma se la connessione manca RTIndustry continua a raccogliere i dati e riprova da solo. Se l'azienda esce su internet tramite proxy, lo si indica nelle impostazioni.</p></details>
+            <details><summary>Posso sapere quanto materiale consuma una commessa?</summary><p>Sì. Con la distinta base dell'articolo RTIndustry calcola il materiale consumato da ogni work order dai pezzi contati dalla macchina, con il costo e lo scostamento dal previsto. Con il modulo Magazzino scarica anche le giacenze, oppure manda i consumi al gestionale.</p></details>
+            <details><summary>Dove finiscono clienti, articoli e consumi?</summary><p>Restano sul PC della macchina. Con l'archivio aziendale sono condivisi tra le macchine dell'azienda attraverso il nostro servizio online, ma cifrati con una chiave che ha solo l'azienda: il servizio li conserva senza poterli leggere.</p></details>
             <details><summary>Si può provare?</summary><p>Sì: senza chiave di licenza parte una prova gratuita di 30 giorni. Per una dimostrazione sulla tua macchina scrivi a <a href="mailto:demo@rtindustry.it?subject=Richiesta%20demo%20RTIndustry&amp;body=Buongiorno%2C%0D%0Avorrei%20richiedere%20una%20demo%20di%20RTIndustry.%0D%0A%0D%0AAzienda%3A%0D%0ASede%20%28citt%C3%A0%29%3A%0D%0AMacchine%20da%20collegare%20%28marca%2C%20modello%20e%20controllo%20CNC/PLC%29%3A%0D%0ANumero%20di%20macchine%3A%0D%0AReferente%20%28nome%20e%20ruolo%29%3A%0D%0ATelefono%3A%0D%0ANote%3A%0D%0A%0D%0AGrazie.">demo@rtindustry.it</a>.</p></details>
         </div>
     </section>

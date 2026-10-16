@@ -80,13 +80,19 @@
             "Six-step setup wizard",
             "OPC UA, FANUC FOCAS, Heidenhain DNC and Modbus TCP connection",
             "ERP/MES integration through REST API, database exchange table and MQTT",
-            "License verified online, offline operation, company proxy support"
+            "License verified online, offline operation, company proxy support",
+            "Master data for customers, items and materials with bill of materials",
+            "Material consumption and cost per work order, actual against expected",
+            "Stock: levels, goods-in, stocktake and automatic issue",
+            "Encrypted company archive with the customer's own key, shared between machines"
           ],
           "screenshot": [
             "https://www.rtindustry.it/img/work-order.webp",
             "https://www.rtindustry.it/img/hmi.webp",
             "https://www.rtindustry.it/img/telemetria.webp",
-            "https://www.rtindustry.it/img/oee.webp"
+            "https://www.rtindustry.it/img/oee.webp",
+            "https://www.rtindustry.it/img/anagrafiche.webp",
+            "https://www.rtindustry.it/img/consumi.webp"
           ],
           "publisher": { "@id": "https://www.rtindustry.it/#organizzazione" }
         },
@@ -103,6 +109,8 @@
             { "@type": "Question", "name": "Can I monitor several machines from the same PC?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. One RTIndustry instance per machine is installed on a PC or server (for example 8 instances for 8 machines): each one has its own service, port, data and backups and takes one license seat. The installer suggests the name, folder and free ports by itself." } },
             { "@type": "Question", "name": "My machine has no part counter: can I count parts?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. If the control has no part counter (often the case with Heidenhain), RTIndustry counts one part at every program end (M30, M2 or END PGM). Alternatively it reads a counter from the machine's PLC." } },
             { "@type": "Question", "name": "Does it work without an internet connection?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The license is verified online, but if the connection is missing RTIndustry keeps collecting data and retries by itself. If the company reaches the internet through a proxy, it can be entered in the settings." } },
+            { "@type": "Question", "name": "Can I see how much material a job uses?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. With the item's bill of materials RTIndustry calculates the material used by each work order from the parts counted by the machine, with the cost and the deviation from the expected. With the Stock module it also issues the stock, or it sends the consumption to the ERP." } },
+            { "@type": "Question", "name": "Where do customers, items and consumption data go?", "acceptedAnswer": { "@type": "Answer", "text": "They stay on the machine's PC. With the company archive they are shared between the company's machines through our online service, but encrypted with a key only the company has: the service stores them without being able to read them." } },
             { "@type": "Question", "name": "Can I try RTIndustry?", "acceptedAnswer": { "@type": "Answer", "text": "Yes: without a license key a 30-day free trial starts. For a demonstration on your own machine, write to demo@rtindustry.it." } }
           ]
         }
@@ -516,6 +524,69 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Master data and bill of materials -->
+            <div class="feature-block" id="anagrafiche">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6 order-lg-2">
+                        <img src="../img/anagrafiche.webp" width="1440" height="900" loading="lazy" alt="RTIndustry item with type, attributes, values proposed in the work order and bill of materials with sheet and gasket" class="img-screenshot">
+                    </div>
+                    <div class="col-lg-6 order-lg-1">
+                        <span class="etichetta">Master data and bill of materials</span>
+                        <h3>Customers, items and materials, with the bill of materials of every part</h3>
+                        <p>A work order takes three taps: choose the item and the rest fills in by itself. If the customer is new, the operator creates it on the fly from the tablet and the office completes it later.</p>
+                        <ul class="feature-check">
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Items with type and attributes (diameter, thickness, finish…) and bill of materials: material per piece and scrap</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Materials with purchase and consumption units and conversion (1 m² of sheet = 15.86 kg)</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> New work order: item from the last used, usual customer proposed, cursor already on the quantity</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> CSV import and export for Excel, duplicate search and merge</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Customer and item codes from the ERP linked or registered automatically, with no change to the integration</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Consumption and stock -->
+            <div class="feature-block" id="consumi">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6">
+                        <img src="../img/consumi.webp" width="1440" height="900" loading="lazy" alt="RTIndustry Report with the Material consumption section: consumption, expected, deviation and cost per material" class="img-screenshot">
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="etichetta">Consumption and stock</span>
+                        <h3>How much material each job uses, and what it costs</h3>
+                        <p>From the bill of materials and the parts counted by the machine, RTIndustry calculates the material used, its cost and the deviation from the expected. No paper sheets and no recalculating in Excel.</p>
+                        <ul class="feature-check">
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Live consumption on the work order card and in the HMI</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Period report: actual against expected by material, customer, item and machine, as CSV and PDF</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Optional stock: goods-in from the tablet with delivery note and lot, guided stocktake, below-minimum warning</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Automatic issue for every closed job, or consumption sent to the ERP that issues it</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Consumption to the ERP through REST API, <code>readconsumi</code> table and MQTT</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Encrypted company archive -->
+            <div class="feature-block" id="archivio">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6 order-lg-2">
+                        <img src="../img/archivio.webp" width="1440" height="900" loading="lazy" alt="RTIndustry Settings, Company archive section with the recovery code and the button to activate the archive" class="img-screenshot">
+                    </div>
+                    <div class="col-lg-6 order-lg-1">
+                        <span class="etichetta">Encrypted company archive</span>
+                        <h3>Not even we can read your data</h3>
+                        <p>Master data, consumption and stock are shared by every machine in the company and encrypted with a key only the company has: the online service stores and forwards them but cannot read them.</p>
+                        <ul class="feature-check">
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> AES-256-GCM encryption (an international standard) on the machine, before anything leaves</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Without a network you work on the local copy: changes are merged when the connection is back</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Printable recovery sheet with code and QR to connect the other machines</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Changes made on two machines to the same customer merged field by field</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> No server to install on site</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -688,6 +759,8 @@
             <details><summary>Can I monitor several machines from the same PC?</summary><p>Yes. One RTIndustry instance per machine is installed on a PC or server (for example 8 instances for 8 machines): each one has its own service, port, data and backups and takes one license seat. The installer suggests the name, folder and free ports by itself.</p></details>
             <details><summary>My machine has no part counter: can I count parts?</summary><p>Yes. If the control has no part counter (often the case with Heidenhain), RTIndustry counts one part at every program end (M30, M2 or END PGM). Alternatively it reads a counter from the machine's PLC.</p></details>
             <details><summary>Does it work without an internet connection?</summary><p>Yes. The license is verified online, but if the connection is missing RTIndustry keeps collecting data and retries by itself. If the company reaches the internet through a proxy, it can be entered in the settings.</p></details>
+            <details><summary>Can I see how much material a job uses?</summary><p>Yes. With the item's bill of materials RTIndustry calculates the material used by each work order from the parts counted by the machine, with the cost and the deviation from the expected. With the Stock module it also issues the stock, or it sends the consumption to the ERP.</p></details>
+            <details><summary>Where do customers, items and consumption data go?</summary><p>They stay on the machine's PC. With the company archive they are shared between the company's machines through our online service, but encrypted with a key only the company has: the service stores them without being able to read them.</p></details>
             <details><summary>Can I try it?</summary><p>Yes: without a license key a 30-day free trial starts. For a demonstration on your machine, write to <a href="mailto:demo@rtindustry.it?subject=RTIndustry%20demo%20request&amp;body=Hello%2C%0D%0AI%20would%20like%20to%20request%20a%20demo%20of%20RTIndustry.%0D%0A%0D%0ACompany%3A%0D%0ALocation%20%28city%29%3A%0D%0AMachines%20to%20connect%20%28make%2C%20model%20and%20CNC/PLC%20control%29%3A%0D%0ANumber%20of%20machines%3A%0D%0AContact%20person%20%28name%20and%20role%29%3A%0D%0APhone%3A%0D%0ANotes%3A%0D%0A%0D%0AThank%20you.">demo@rtindustry.it</a>.</p></details>
         </div>
     </section>

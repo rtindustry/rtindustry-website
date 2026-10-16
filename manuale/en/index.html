@@ -65,6 +65,9 @@
     table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: .93rem; }
     th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
     th { color: var(--muted); font-weight: 600; font-size: .82rem; text-transform: uppercase; letter-spacing: .04em; }
+    figure.schermata { margin: 14px 0; }
+    figure.schermata img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 10px; }
+    figure.schermata figcaption { color: var(--muted); font-size: .85rem; margin-top: 6px; }
     .stato { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
     .stato::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--c, var(--idle)); }
     footer.piede { max-width: 1180px; margin: 0 auto; padding: 24px 28px 40px; color: var(--muted); font-size: .88rem; border-top: 1px solid var(--border); }
@@ -87,6 +90,7 @@
       header.testa, nav.indice, .su, .solo-schermo { display: none !important; }
       .layout { display: block; }
       section { break-inside: avoid-page; border-color: #d1d5db; box-shadow: none !important; }
+      figure.schermata { break-inside: avoid; } figure.schermata img { max-width: 80%; }
       a { color: inherit; text-decoration: none; }
     }
   </style>
@@ -121,6 +125,10 @@
       <a href="#energy">Energy</a>
       <a href="#alarms">Alarms</a>
       <a href="#table">WO history</a>
+      <a href="#anagrafiche">Master data</a>
+      <a href="#consumi">Material consumption</a>
+      <a href="#magazzino">Stock</a>
+      <a href="#archivio">Company archive</a>
       <a href="#settings">Settings</a>
       <a href="#operatori">Operators and activity log</a>
       <div class="gruppo">Good to know</div>
@@ -174,10 +182,11 @@
           <li>Press <span class="tasto">Sign in</span>. The work orders screen opens, or the page you were trying to open.</li>
         </ol>
         <p>To leave: menu with your name at the top right → <span class="tasto">Sign out</span>.</p>
-        <p>There are two types of account:</p>
+        <p>There are three types of account:</p>
         <table>
           <tr><th>Role</th><th>What they can do</th></tr>
           <tr><td>Operator</td><td>Work orders, HMI, telemetry, OEE, reports, energy, alarms, history. Cannot see Settings.</td></tr>
+          <tr><td>Supervisor</td><td>Like the operator, plus managing <a href="#anagrafiche">Master data</a> (customers, items, materials, bills of materials). The administrator creates or assigns this role in <a href="#operatori">Operators and activity log</a>.</td></tr>
           <tr><td>Administrator</td><td>Everything, plus <a href="#settings">Settings</a>, license and <a href="#operatori">Operators and activity log</a>. The administrator account is created in the <a href="#wizard">setup wizard</a>.</td></tr>
         </table>
         <p><strong>Changing your password</strong>: menu with your name at the top right → <span class="tasto">My password</span>. Enter your current password, then the new one twice (at least 8 characters).</p>
@@ -191,7 +200,7 @@
         <p class="scopo">It appears only the first time, right after installation: in six steps the software is ready.</p>
         <ol>
           <li><strong>Company</strong> — company name (required), plant, department, machine name and time zone (for Italy <code>Europe/Rome</code>; daylight saving time is automatic).</li>
-          <li><strong>Machine</strong> — choose the connection type: OPC UA, FANUC, Heidenhain, Modbus TCP or <em>Simulator</em> (test data, no machine). Enter the IP address and press <span class="tasto">Test the connection</span>: the green "Machine connected" box confirms that state and parts are coming in. If the machine is off you can go ahead and try again later from Settings.</li>
+          <li><strong>Machine</strong> — choose the connection type: OPC UA, FANUC, Heidenhain, Modbus TCP or <em>Simulator</em> (test data, no machine). Enter the IP address and press <span class="tasto">Test the connection</span>: the green "Machine connected" box confirms that state and parts are coming in. If the machine is off you can go ahead and try again later from Settings. If you have the <a href="#profilo-macchina">profile</a> of an identical machine that is already connected, press <span class="tasto">Import profile</span>: you only enter the IP address and the machine is configured.</li>
           <li><strong>Shifts</strong> — start and end times of each shift (night shifts too).</li>
           <li><strong>License</strong> — enter the key (format <code>XXXX-XXXX-XXXX-XXXX</code>) and press <span class="tasto">Activate license</span>. Without a key a <strong>30-day free trial</strong> starts. The box shows the result and the remaining days. If the company reaches the internet through a <strong>proxy</strong>, enter its address (and, if required, username and password) under <em>Advanced options</em>.</li>
           <li><strong>Administrator</strong> — username and password (at least 8 characters) of the first administrator.</li>
@@ -203,7 +212,7 @@
       <section id="navigazione">
         <h2><span class="num">4</span>Finding your way around</h2>
         <ul>
-          <li><strong>Top bar</strong>: screen name, live <em>machine status</em> (color-coded), <em>Live</em> indicator (green = data coming in), <span class="tasto">? Help</span> button and user menu.</li>
+          <li><strong>Top bar</strong>: <span class="tasto">‹</span> <span class="tasto">›</span> arrows on the left to go back to the previous screen or forward to the next one (handy on a full-screen tablet, where the browser buttons are hidden), screen name, live <em>machine status</em> (color-coded), <em>Live</em> indicator (green = data coming in), <span class="tasto">? Help</span> button and user menu.</li>
           <li><strong>Round red button</strong> at the bottom right (<span class="tasto">+</span>): opens the menu with all the screens.</li>
           <li><strong>Banner below the bar</strong>: appears only for license notices (see <a href="#licenza">License and messages</a>).</li>
         </ul>
@@ -221,12 +230,24 @@
           <li>Fill in at least the <strong>Description</strong>. Useful: <em>Requested quantity</em> (for progress), <em>Target time (s/part)</em> (for performance), <em>Due date</em>, customer, order, part number, program, operator, notes.</li>
           <li>Press <span class="tasto">Save</span>: the WO appears in "To do".</li>
         </ol>
+        <h3 id="wo-articolo-cliente">Item and customer in a few taps</h3>
+        <p>With <a href="#anagrafiche">Master data</a> active, the form starts with the <strong>Item</strong> and <strong>Customer</strong> fields: type part of the name or code and pick from the list. As soon as the form opens, the Item field shows the <em>items used last</em> on this workstation.</p>
+        <ol>
+          <li>Tap <span class="tasto">+ New work order</span>.</li>
+          <li>Tap the item: description, program, cycle time and <strong>usual customer</strong> fill in by themselves and the cursor moves to the quantity.</li>
+          <li>Type the quantity and tap <span class="tasto">Create work order</span>.</li>
+        </ol>
+        <p>If the customer (or item) does not exist yet, type the name and tap <span class="tasto">+ New customer «…»</span> at the bottom of the list: it is created on the fly, marked <em>to complete</em>, and the office completes it later in Master data.</p>
+        <figure class="schermata"><img src="../img/en/wo-nuovo.webp" width="800" height="744" loading="lazy" alt="New work order form with item and customer chosen and quantity 50"><figcaption>Item picked from the recent ones: the rest filled in by itself.</figcaption></figure>
+        <p><strong>Frozen bill of materials.</strong> When the work order goes into production, RTIndustry takes a snapshot of the item's bill of materials: if the bill changes later, this WO's consumption is still calculated on the original one. The supervisor or the administrator can update it with <span class="tasto">Realign to the item</span> when editing the WO.</p>
+        <p><strong>Not enough material.</strong> With <a href="#magazzino">Stock</a> active, a warning appears when the WO starts if there is not enough material in stock for the parts still to be made. It is only a warning: production is never blocked.</p>
         <h3>Starting, pausing, completing</h3>
         <ul>
           <li><strong>Drag</strong> the card to the column you want: in "In progress" it starts, in "Completed" it closes. On a tablet, press and hold the card for a moment before dragging it.</li>
           <li>The card in progress has quick buttons: <span class="tasto">Pause</span>/<span class="tasto">Start</span>, <span class="tasto">Scrap +1</span>, <span class="tasto">Note</span>, <span class="tasto">Complete</span>.</li>
           <li>The icons on the card open the HMI of that WO, editing or deletion (with confirmation).</li>
         </ul>
+        <p>Cards with an item also show the <strong>material consumption</strong> (see <a href="#consumi">Material consumption</a>).</p>
         <div class="attenzione"><strong>Only one work order at a time is in progress.</strong> When you start another one, the previous one is paused automatically: parts are always assigned to the right WO.</div>
       </section>
 
@@ -237,18 +258,18 @@
         <ul>
           <li>The <strong>work order</strong> in progress (or the one chosen from the list at the top), with due date, shift and machine status.</li>
           <li>The <strong>progress ring</strong>: good parts compared with the required parts.</li>
-          <li>The <strong>work order times</strong>: how long it was running, paused, stopped, in fault, in set-up, maintenance, cleaning or rework, with the total.</li>
+          <li>The <strong>work order times</strong>: how long it was running, paused, stopped, in alarm, in set-up, maintenance, cleaning or rework, with the total.</li>
           <li>The <strong>machine states pie</strong>: the share of time the machine was running, paused, stopped, in alarm, idle or off while the work order was active.</li>
           <li>The <strong>production time</strong> (machine running), the <strong>expected time</strong> (target cycle × parts made), the <strong>deviation</strong> (late in orange, early in green), the average cycle and the estimated time to finish. Expected time and deviation appear when the work order has a target cycle.</li>
           <li>Any <strong>active alarm</strong>, highlighted.</li>
         </ul>
         <h3>The work order status follows the machine</h3>
-        <p>When the machine changes state, the active work order follows it: running → <em>Running</em>, pause → <em>Paused</em>, stop → <em>Stopped</em>, alarm → <em>Fault</em>, set-up, maintenance, cleaning and rework → same state; machine switched off while the work order is running → <em>Stopped</em>. If you give a reason yourself (for example <span class="tasto">Maintenance</span> while the machine is stopped), your choice stays until the machine changes state. The administrator can turn this off in <em>Settings › State and mode mapping</em>.</p>
+        <p>When the machine changes state, the active work order follows it: running → <em>Running</em>, pause → <em>Paused</em>, stop → <em>Stopped</em>, alarm → <em>In alarm</em>, set-up, maintenance, cleaning and rework → same state; machine switched off while the work order is running → <em>Stopped</em>. If you give a reason yourself (for example <span class="tasto">Maintenance</span> while the machine is stopped), your choice stays until the machine changes state. The administrator can turn this off in <em>Settings › State and mode mapping</em>.</p>
         <h3>What you can do</h3>
         <ul>
           <li><strong>Scrap</strong>: with <span class="tasto">+</span> and <span class="tasto">−</span> you record the parts that are not good. Good parts are updated accordingly.</li>
           <li><strong>Added parts</strong>: with <span class="tasto">+</span> and <span class="tasto">−</span> you add parts made that the machine counter did not count. They are added to the parts made of the work order (also for the ERP).</li>
-          <li><strong>Work order status</strong>: buttons <span class="tasto">Start</span>, <span class="tasto">Pause</span>, <span class="tasto">Stop</span>, <span class="tasto">Set-up</span>, <span class="tasto">Rework</span>, <span class="tasto">Maintenance</span>, <span class="tasto">Cleaning</span>, <span class="tasto">Fault</span>, <span class="tasto">Complete</span>. Giving the reason for a stop makes the reports more accurate.</li>
+          <li><strong>Work order status</strong>: buttons <span class="tasto">Start</span>, <span class="tasto">Pause</span>, <span class="tasto">Stop</span>, <span class="tasto">Set-up</span>, <span class="tasto">Rework</span>, <span class="tasto">Maintenance</span>, <span class="tasto">Cleaning</span>, <span class="tasto">Alarm</span>, <span class="tasto">Complete</span>. Giving the reason for a stop makes the reports more accurate.</li>
           <li><strong>Send program to machine</strong>: opens the part program folder (the work order's program is highlighted at the top). You can enter subfolders, search, open or download a file, upload one from your device and press <span class="tasto">Send to machine</span>: the program is copied to the CNC network folder or, on Heidenhain controls, transferred directly to the CNC. It works from any connected PC or tablet.</li>
           <li><strong>Machine documents</strong>: opens the machine documents folder (manuals, sheets), if configured.</li>
           <li><strong>Attachments</strong>: <span class="tasto">Attach document</span> adds drawings, instructions or other files to the work order; <span class="tasto">Take photo</span> uses the tablet camera. Attachments open with a tap and are deleted by pressing the bin twice.</li>
@@ -290,6 +311,7 @@
           <li>Read the summaries: <em>Average OEE</em>, <em>Good parts</em>, <em>Scrap</em>, <em>Energy</em>.</li>
           <li>Below you find the OEE day by day, the <strong>time distribution</strong> (production, pause, idle, stopped, alarm, maintenance, set-up), energy compared with production and the list of completed work orders.</li>
           <li>With <span class="tasto">Export CSV</span> you download the data for Excel.</li>
+          <li>At the bottom, the <strong>Material consumption</strong> section summarises the material used by the work orders completed in the period: see <a href="#consumi">Material consumption</a>.</li>
         </ol>
       </section>
 
@@ -303,6 +325,7 @@
         <div class="nota">The cost uses the energy price set in <a href="#settings">Settings</a> › Services, energy and license (euros per kWh).</div>
         <h3 id="energy-meter">Connecting the energy meter</h3>
         <p>In <a href="#settings">Settings</a> › <em>Energy meter (Modbus)</em> choose the <strong>meter model</strong>: the fields fill in by themselves and remain editable. For the <strong>IME CE4DT MID (Conto D4)</strong> the profile sets function FC4 (input register), unit ID 5, register 20592, type uint32, order ABCD and scale factor 100: you only need to enter the IP address. For other models choose <em>Custom</em> and copy register, data type and register order from the meter's manual.</p>
+        <p><strong>RS485 meter with an Ethernet converter</strong> (e.g. USR-DR302): if the converter forwards the bytes as they arrive (transparent mode) choose the <em>Modbus RTU over TCP (RS485 converter)</em> protocol and the TCP port configured on the converter; if the converter performs the Modbus TCP → RTU conversion keep <em>Modbus TCP</em>. Not sure? Press <span class="tasto">Test reading</span>: if the meter only answers with the other protocol, RTIndustry suggests it with the value read and you apply it with <span class="tasto">Use this protocol</span>. Baud rate, parity and stop bits of the converter serial port must match those of the meter.</p>
         <p>The <strong>scale factor</strong> converts the value read into <strong>Wh</strong> (watt-hours), the unit RTIndustry uses for all its calculations: a meter that counts in kWh → factor 1000; in 0.1 kWh (like the IME) → 100; already in Wh → 1. Press <span class="tasto">Test reading</span>: the result appears in Wh and in kWh and must match the total shown on the meter's display.</p>
         <div class="attenzione">If you copy the factor 0.1 from the meter's notes (which reason in kWh), consumption comes out 1000 times too low: with the IME the right factor is 100.</div>
       </section>
@@ -329,24 +352,118 @@
         </ul>
       </section>
 
+      <section id="anagrafiche">
+        <h2><span class="num">13</span>Master data</h2>
+        <p class="scopo">The company list of customers, items, materials and item types, with the <strong>bill of materials</strong> of each item: which materials a piece is made of and how much of each.</p>
+        <ul>
+          <li><strong>Customers</strong>: the only required field is the name. The VAT number can be written with or without the country prefix. Search finds the words in any order and ignores case, accents and dots: «rossi srl» finds «Meccanica Rossi S.r.l.».</li>
+          <li><strong>Materials</strong>: each one has a <em>consumption unit</em> (the one used in the bill of materials, e.g. m²) and a <em>purchase unit</em> (the stock unit, e.g. kg). When they measure different quantities you enter the conversion: «1 m² of this sheet = 15.86 kg». For sheet metal the <span class="tasto">Use</span> button calculates kg per m² from thickness and material. Between units of the same quantity (g and kg, mm and m) the conversion is automatic. Available units: pz (pieces); g, kg, t; mm, m; mm², m²; cm³, dm³, l, m³.</li>
+          <li><strong>Item types</strong>: they describe the nature of an item with its data (a turned part has diameter and length, a sheet has thickness and finish). There are five starting types (Turned part, Milled part, Cut sheet, Tube / profile, Assembly) that you can change; each field can be a number with a unit, a text, a choice from a list or yes/no.</li>
+          <li><strong>Items</strong>: code, description, type with its data, usual customer and the values proposed in the work order (program, cycle time, energy). In the <strong>bill of materials</strong> you enter the quantity of each material for <strong>one</strong> piece, in its consumption unit, with the scrap percentage; the preview shows how much material is needed, for example, for 100 pieces.</li>
+          <li><strong>To be completed</strong>: customers and items created on the fly or received from an external system only have the minimum data. The <span class="tasto">Only to complete</span> filter lists them; saving them from the full form removes the mark.</li>
+          <li><strong>Duplicates</strong>: open the record to keep and, at the bottom, search the duplicate and press <span class="tasto">Merge</span>. The duplicate is deleted, the items and work orders using it move to the kept record and missing data is taken from the duplicate.</li>
+          <li><strong>Excel</strong>: the <span class="tasto">CSV</span> button exports the list (and, for items, the bills of materials) and imports it. On import RTIndustry first checks the file and shows the rows with errors; then it saves only the valid ones. Records with an existing code are updated.</li>
+        </ul>
+        <figure class="schermata"><img src="../img/en/anagrafiche-articolo.webp" width="1240" height="1161" loading="lazy" alt="Item form with type, attributes, values proposed in the work order, bill of materials and material preview for 100 pieces"><figcaption>An item with its bill of materials: 0.35 m² of sheet with 8% scrap and one gasket per piece.</figcaption></figure>
+        <h3 id="anagrafiche-primo-avvio">After the update: customers and items from existing work orders</h3>
+        <p>If you already used RTIndustry, customer names and part numbers are written in the work orders. When the page opens, a message offers <span class="tasto">Create and link</span>: RTIndustry creates one customer for each name and one item for each part number (no duplicates, marked <em>to complete</em>) and links them to the work orders. The same command is in the <span class="tasto">CSV</span> menu › <em>Create from existing work orders</em>. The work order texts do not change.</p>
+        <h3>CSV files for Excel</h3>
+        <p>The first row holds the column names, as RTIndustry exports them: to start, export the list (even empty) and use it as a template. Bills of materials have one row per material:</p>
+        <table>
+          <tr><th>Item</th><th>Material</th><th>Quantity per piece</th><th>Scrap %</th><th>Note</th></tr>
+          <tr><td>FL-DN80</td><td>LAM-304-20</td><td>0.35</td><td>8</td><td>laser cut</td></tr>
+          <tr><td>FL-DN80</td><td>GUA-EPDM-80</td><td>1</td><td>0</td><td></td></tr>
+        </table>
+        <div class="attenzione">When importing bills of materials, the bill of every item in the file is <strong>replaced entirely</strong>; an empty cell clears the field. Excel saves CSV files both in UTF-8 and as "CSV (delimited)": RTIndustry reads both.</div>
+        <div class="nota">Everyone can view master data; only the <strong>supervisor</strong> and the <strong>administrator</strong> can change, merge and import it. A material used in a bill of materials cannot be deleted and its consumption unit cannot change; an item type used by an item cannot be deleted.</div>
+      </section>
+
+      <section id="consumi">
+        <h2><span class="num">14</span>Material consumption</h2>
+        <p class="scopo">How much material each work order used and what it cost, calculated from the bill of materials and the parts made.</p>
+        <h3>How it is calculated</h3>
+        <p><strong>Parts made</strong> = parts from the part counter + parts added by hand. Scrap is already included: the machine counts every part, good or scrapped.</p>
+        <p><strong>Consumption</strong> = quantity per piece × parts made × (1 + scrap). It is then converted into the purchase unit and multiplied by the material's unit cost.</p>
+        <div class="nota">Example: flange with 0.35 m² of sheet and 8% scrap, 53 parts made → 0.35 × 53 × 1.08 = 20.03 m² → at 15.86 kg/m² = 317.7 kg → at €4.20/kg = €1,334.51.</div>
+        <h3>Where you see it</h3>
+        <ul>
+          <li><strong>Work orders</strong>: on the card, the main material with the consumption so far and the expected one for the whole quantity (<span class="tasto">+1</span> means more materials).</li>
+          <li><strong>HMI</strong>: the <em>Material</em> box with every row of the bill and the material cost.</li>
+          <li><strong>WO history</strong>: the <em>Material</em> and <em>Material cost</em> columns.</li>
+          <li><strong>Report</strong>: the <em>Material consumption</em> section for the period, grouped by material, customer, item, work order or workstation.</li>
+        </ul>
+        <figure class="schermata"><img src="../img/en/kanban-consumo.webp" width="1280" height="800" loading="lazy" alt="Work order board: the cards show the sheet consumption so far and expected"><figcaption>On the card: 4.5 m² of sheet used out of 18.9 m² expected for 50 parts.</figcaption></figure>
+        <h3>Report: actual against expected</h3>
+        <p>For each material the Report shows the <strong>Expected</strong> quantity (bill × requested parts) and the <strong>Deviation</strong>: in orange when more than 5% above the expected. With the <a href="#archivio">company archive</a> the report includes every machine in the company and can be filtered or grouped by <strong>workstation</strong>. <span class="tasto">Export CSV</span> downloads the data for Excel, <span class="tasto">Print / PDF</span> opens a page to print or save as PDF.</p>
+        <figure class="schermata"><img src="../img/en/report-consumi.webp" width="1240" height="230" loading="lazy" alt="Material consumption section of the Report with consumption, expected and deviation"><figcaption>84 parts made out of 80 requested: consumption 5% above the expected.</figcaption></figure>
+        <div class="attenzione">Report consumption comes from <strong>completed</strong> work orders. A material without a unit cost makes the cost "partial". A work order closed before making all the requested parts has a negative deviation. Work orders closed before version 2.7 have no expected value ("—").</div>
+        <p>Consumption also reaches the management system: when each work order closes, through REST, in the <code>readconsumi</code> table and on the MQTT topic <code>{serial number}/consumi</code> (technical details in the developer documentation).</p>
+      </section>
+
+      <section id="magazzino">
+        <h2><span class="num">15</span>Stock</h2>
+        <p class="scopo">Material stock levels, with goods-in, stocktake and automatic issue for every closed work order. It is in Master data › <strong>Stock</strong>, if the module is included in the license.</p>
+        <figure class="schermata"><img src="../img/en/magazzino.webp" width="1280" height="800" loading="lazy" alt="Stock tab with the material stock levels and the Goods-in, Adjustment, Stocktake and Movements buttons"><figcaption>Stock levels with the <em>Below minimum</em> and <em>Goods-in missing</em> marks.</figcaption></figure>
+        <h3>Who manages the stock</h3>
+        <ul>
+          <li><strong>RTIndustry</strong>: when each work order closes, the material used is issued automatically. If the WO is reopened the issue is reversed, and the updated consumption is issued at the next closure.</li>
+          <li><strong>The ERP system</strong>: RTIndustry calculates and sends the consumption, the ERP issues the stock. Nothing is issued twice.</li>
+        </ul>
+        <h3>Goods-in, adjustment, stocktake</h3>
+        <ul>
+          <li><span class="tasto">Goods-in</span>: choose the material, type the quantity and, if you like, delivery note and lot. The quantity can also be typed in the consumption unit (for example m² for sheet): RTIndustry converts it into the stock unit.</li>
+          <li><span class="tasto">Adjustment</span>: a correction with a sign (+ or −), with a note on the reason.</li>
+          <li><span class="tasto">Stocktake</span>: print the <span class="tasto">Count sheet</span>, count and type the quantity only for the materials you counted; RTIndustry records the difference from the calculated stock.</li>
+          <li><span class="tasto">Movements</span>: the history of goods-in, issues, reversals, adjustments and stocktakes, with date, workstation, user, delivery note and lot.</li>
+        </ul>
+        <div class="nota"><strong>Below minimum</strong>: stock is below the minimum set on the material. <strong>Goods-in missing</strong>: stock is negative, i.e. more was issued than received; record the missing goods-in or do a stocktake. Production is never blocked by the stock.</div>
+        <p>Everyone can view it; goods-in, adjustments, stocktake and the choice of manager belong to the <strong>supervisor</strong> and the <strong>administrator</strong>. With the <a href="#archivio">company archive</a> the movements of every machine add up: stock is the company's.</p>
+      </section>
+
+      <section id="archivio">
+        <h2><span class="num">16</span>Company archive</h2>
+        <p class="scopo">Customers, items, materials, bills of materials, consumption and stock movements shared by all the machines of the license. It is activated in Settings › <strong>Company archive</strong> (administrator).</p>
+        <h3>Not even we can read your data</h3>
+        <p>Data leaves each workstation <strong>encrypted with a key only your company has</strong>. The Site Manager stores it and forwards it to the other machines but cannot read it: it only sees unreadable blocks, the date and the number of records. Without a network you work on the local copy and changes are sent when the connection is back; if two people change different fields of the same customer, the changes are merged.</p>
+        <figure class="schermata"><img src="../img/en/archivio.webp" width="1240" height="340" loading="lazy" alt="Company archive section of the Settings with the recovery code and the button to activate the archive"><figcaption>Settings › Company archive on a workstation not connected yet.</figcaption></figure>
+        <h3>First machine: activate</h3>
+        <ol>
+          <li>Press <span class="tasto">Activate the company archive</span>: RTIndustry creates the company key.</li>
+          <li><strong>Print or save the recovery sheet straight away</strong> (<span class="tasto">Open the sheet to print</span>): it holds the <em>recovery code</em> and a QR code. Keep it like a house key. You can also download the key file (<code>.rtikey</code>).</li>
+          <li>Confirm with <span class="tasto">Done: I printed or saved the sheet</span>.</li>
+        </ol>
+        <h3>Other machines: connect</h3>
+        <p>On the other workstations of the same license, in the same section, type the recovery code (upper/lower case and dashes do not matter) and press <span class="tasto">Connect this workstation</span>, or use <span class="tasto">From .rtikey file</span>. Master data arrives straight away; any data the workstation already had is merged with the company's.</p>
+        <p>The cloud in the top bar shows the status: synchronised, changes waiting, no network or error. <span class="tasto">Synchronise now</span> forces sending.</p>
+        <div class="attenzione"><strong>If the recovery code is lost and every machine breaks, the archive data cannot be recovered</strong>: we do not have the key. The local copies on the machines and the backups stay readable anyway.</div>
+        <h3>Advanced operations</h3>
+        <p>They are enabled by typing <strong>CONFERMO</strong>: <span class="tasto">Change the key</span> (afterwards the other workstations reconnect with the new code), <span class="tasto">Disconnect this workstation only</span>, <span class="tasto">Deactivate for the whole company</span> (the Site Manager deletes the archive after 30 days; the data stays on every workstation).</p>
+      </section>
+
       <section id="settings">
-        <h2><span class="num">13</span>Settings</h2>
+        <h2><span class="num">17</span>Settings</h2>
         <p class="scopo">The whole configuration of the software, reserved for the <strong>administrator</strong>. Changes apply immediately, without restarting anything.</p>
         <p>At the top of the page there is the <strong>Self-diagnosis</strong>: with <span class="tasto">Start self-diagnosis</span> RTIndustry checks the machine connection, license and PC and tells you what to do for each problem. See <a href="#risoluzione-problemi">Problem solving</a>.</p>
         <p>At the top you find the <strong>connection status</strong> with the machine (<em>ONLINE</em> in green) and the <span class="tasto">Test connection</span> button. With <span class="tasto">Test the changes before saving</span> you check a new address or protocol without touching the one in use.</p>
         <table>
           <tr><th>Section</th><th>What it is for</th></tr>
           <tr><td>Machine and protocol</td><td>Connection type (OPC UA, FANUC, Heidenhain, Modbus, Simulator), IP address, security. When you change protocol, the previous configuration stays saved.</td></tr>
-          <tr><td>Machine variables</td><td>Where to read state, parts, program, alarms… from (usually suggested automatically by the profile).</td></tr>
+          <tr><td>Machine variables</td><td>Where to read state, parts, program, alarms… from (usually suggested automatically by the profile). Next to each variable you see whether it is <em>assigned</em> or <em>not assigned</em>; with Modbus also whether the name matches no register. Sources are assigned with one tap from the OPC UA tree, the Modbus register table or the <em>Fields read from the machine</em> list (FANUC and Heidenhain): each variable shows whether it is already assigned to that source, to another one (and which) or free.</td></tr>
           <tr><td>State and mode mapping · part counter</td><td>How to translate the machine's values into RTIndustry states; how to count parts.</td></tr>
           <tr><td>Energy meter (Modbus)</td><td>Connection to the energy meter (model, register, type and order, scale factor in Wh), with a test reading: see <a href="#energy-meter">Connecting the energy meter</a>.</td></tr>
           <tr><td>Work shifts</td><td>Shift times.</td></tr>
           <tr><td>Identity and access</td><td>Company and machine details.</td></tr>
           <tr><td>Services, energy and license</td><td>Database and backup, energy price, time zone, license (activation and deactivation), Site Manager address and <strong>company proxy</strong> (if the PC reaches the internet through a proxy).</td></tr>
-          <tr><td>Work order integration (ERP, MES)</td><td>Receiving work orders from the management system.</td></tr>
+          <tr><td>Work order integration (ERP, MES)</td><td>Receiving work orders from the management system. With <strong>Automatic registration in master data</strong> the new customer and item codes coming from the management system are created <em>to complete</em>; when it is off, work orders still arrive but are not linked.</td></tr>
+          <tr><td>Company archive</td><td>Master data, consumption and stock shared between machines, encrypted with the company key: see <a href="#archivio">Company archive</a>.</td></tr>
           <tr><td>Folders and transfers</td><td>Folders for attachments, part programs, machine documents and the <strong>CNC network folder</strong> (where "Send to machine" copies the programs); program folder of Heidenhain controls. The folder button opens it in the browser, even from another PC: you can browse it, open and upload files. On the PC where RTIndustry is installed there is also <span class="tasto">Open in File Explorer</span>; on other PCs <span class="tasto">Copy path</span>. For network folders use the full path (<code>\\server\share</code>, not a mapped drive letter) and install the service with a user that can access it (installer › Advanced).</td></tr>
         </table>
         <p>After making changes press <span class="tasto">Save</span>: if you changed the machine connection, a connection test starts by itself.</p>
+        <h3 id="profilo-macchina">Machine profile: copying the configuration to an identical machine</h3>
+        <p>When two or more machines are of the same type (same manufacturer, model and controller), you configure them only once. On the machine that is already connected and tested, in the <strong>Machine profile</strong> box press <span class="tasto">Export profile</span>, give it a name (for example <em>Mazak QT 200 lathe · FANUC 0i-TF</em>), manufacturer, model, controller and a few notes for whoever will use it, then <span class="tasto">Download the profile</span>. The file (<code>.rtiprofilo.json</code>) contains protocol, variables, state mapping, part counting, rules and energy meter, but <strong>no IP address, no password and no company data</strong>: it can be kept and shared.</p>
+        <p>On the other machine press <span class="tasto">Import profile</span>, choose the file, enter the machine's IP address (and the energy meter's, if any: leave it empty if this machine has none) and press <span class="tasto">Use this profile</span>. The Settings are filled in: press <span class="tasto">Test the changes before saving</span> and then <span class="tasto">Save and apply</span>. The <em>saved</em> configuration is always exported; if the OPC UA connection is secured, the user name and password must be entered by hand.</p>
+        <p><strong>Profile library.</strong> With <span class="tasto">Library</span> you pick a ready-made profile without needing the file: the <em>RTIndustry official catalog</em> (profiles checked by us; those with the <em>Field-tested</em> badge have already been tried on a real machine) and, if your reseller has the private library, the <em>reseller's profiles</em>, visible only to its installations. Search by manufacturer, model or controller, press <span class="tasto">Use</span>, enter the IP address and continue as with a file. An active license and an internet connection are required. If your machine is missing, configure it, export the profile and ask your reseller or support to add it.</p>
+
         <h3 id="contapezzi">How parts are counted</h3>
         <p>RTIndustry counts parts in one of these ways, chosen in Settings › State and mode mapping · part counter:</p>
         <ul>
@@ -362,7 +479,7 @@
       </section>
 
       <section id="operatori">
-        <h2><span class="num">14</span>Operators and activity log</h2>
+        <h2><span class="num">18</span>Operators and activity log</h2>
         <p class="scopo">For the administrator only: personal operator accounts and the log of all operations (who did what and when).</p>
         <h3>Creating an operator account</h3>
         <ol>
@@ -384,13 +501,13 @@
       </section>
 
       <section id="stati">
-        <h2><span class="num">15</span>Machine and work order states</h2>
+        <h2><span class="num">19</span>Machine and work order states</h2>
         <table>
           <tr><th>State</th><th>Meaning</th></tr>
           <tr><td><span class="stato" style="--c: var(--ok)">Running</span></td><td>The machine is producing.</td></tr>
           <tr><td><span class="stato" style="--c: var(--warn)">Paused</span></td><td>Temporary pause.</td></tr>
-          <tr><td><span class="stato" style="--c: var(--stop)">Stopped</span> · <span class="stato" style="--c: var(--stop)">Fault</span></td><td>Machine stopped; fault if the cause is a malfunction.</td></tr>
-          <tr><td><span class="stato" style="--c: #ff2d55">In alarm</span></td><td>The control is signalling an alarm.</td></tr>
+          <tr><td><span class="stato" style="--c: var(--stop)">Stopped</span></td><td>Machine stopped.</td></tr>
+          <tr><td><span class="stato" style="--c: #ff2d55">In alarm</span></td><td>The control is signalling an alarm (or the operator reports it with the <span class="tasto">Alarm</span> button): it applies to both the machine and the work order.</td></tr>
           <tr><td><span class="stato" style="--c: var(--idle)">Idle</span> · <span class="stato" style="--c: var(--done)">Program end</span></td><td>Switched on but not working; <em>Program end</em> when the program has reached its end (the time counts as idle).</td></tr>
           <tr><td><span class="stato" style="--c: var(--info)">Set-up</span> · <span class="stato" style="--c: var(--info)">Rework</span></td><td>Preparing the machine; machining parts that must be redone.</td></tr>
           <tr><td><span class="stato" style="--c: var(--maint)">Maintenance</span> · <span class="stato" style="--c: var(--maint)">Cleaning</span></td><td>Planned stops.</td></tr>
@@ -400,7 +517,7 @@
       </section>
 
       <section id="tablet">
-        <h2><span class="num">16</span>Using a tablet</h2>
+        <h2><span class="num">20</span>Using a tablet</h2>
         <p>From the menu with your name at the top right:</p>
         <ul>
           <li><strong>Tablet mode (large buttons)</strong>: bigger buttons, suitable for touch and gloves.</li>
@@ -411,7 +528,7 @@
       </section>
 
       <section id="tray">
-        <h2><span class="num">17</span>Notification area icon</h2>
+        <h2><span class="num">21</span>Notification area icon</h2>
         <p>Next to the Windows clock there is the RTIndustry icon. Its color tells you at a glance whether everything is fine:</p>
         <ul>
           <li><span class="stato" style="--c: var(--ok)">Green</span> — service running and license valid.</li>
@@ -423,11 +540,13 @@
       </section>
 
       <section id="licenza">
-        <h2><span class="num">18</span>License and messages</h2>
+        <h2><span class="num">22</span>License and messages</h2>
         <p>The license is verified over the internet with the Site Manager and is managed from Settings (administrator only). If the license is not active, operators see the <em>Service suspended</em> page and must contact the administrator.</p>
         <p>If the connection is missing, RTIndustry keeps working normally and retries by itself: the license remains valid for a few days even without internet (<em>temporary offline operation</em> notice), then the connection is needed again.</p>
         <h3>Several machines</h3>
         <p>Each installation (<a href="#istanze">instance</a>) takes one license <strong>seat</strong>. With 8 machines you need 8 seats: usually a single key with 8 seats, entered in all the instances. The Site Manager shows how many seats are in use.</p>
+        <h3>License modules</h3>
+        <p>Some features are modules that the license may or may not include: <strong>Master data</strong> (with bills of materials and consumption), <strong>Company archive</strong> and <strong>Stock</strong>. Your reseller sets them. If a module is not included, its menu item does not appear and anyone trying to use it sees "The … module is not included in the license"; data already entered is not deleted and becomes visible again when the module is reactivated. Without Master data, work orders are created as before, with text fields, and those from the management system keep arriving.</p>
         <h3>Moving the license to another PC</h3>
         <p>On the old PC: Settings › Services, energy and license › <span class="tasto">Deactivate this installation</span> (frees the seat). On the new PC: install RTIndustry and enter the same key in the setup wizard. If the old PC no longer works, ask support to free the seat.</p>
         <table>
@@ -443,7 +562,7 @@
       </section>
 
       <section id="requisiti">
-        <h2><span class="num">19</span>Requirements, network and antivirus</h2>
+        <h2><span class="num">23</span>Requirements, network and antivirus</h2>
         <h3>The RTIndustry PC</h3>
         <ul>
           <li>Windows 10 (1809 or later) or Windows 11, 64-bit, 4 GB of RAM, 10 GB free; for several instances on the same PC allow about 100 MB of extra RAM for each machine (from 6 machines upwards 8 GB are recommended).</li>
@@ -471,7 +590,7 @@
       </section>
 
       <section id="problemi">
-        <h2><span class="num">20</span>Troubleshooting</h2>
+        <h2><span class="num">24</span>Troubleshooting</h2>
         <div class="nota">For a complete, guided check use the <a href="#risoluzione-problemi">Self-diagnosis</a> first (Settings › <span class="tasto">Start self-diagnosis</span>).</div>
         <h3>The machine shows "Off or unreachable"</h3>
         <ul>
@@ -512,12 +631,13 @@
           <tr><td><code>RTI-E001</code></td><td>The software does not start on this PC (folder copied from another PC, or PC name changed or Windows reinstalled). Reinstall RTIndustry: the data is kept.</td></tr>
           <tr><td><code>RTI-E011</code></td><td>Port 1880 is taken by another program (for example the previous version). Close the other program or change the port.</td></tr>
           <tr><td><code>RTI-E020</code> / <code>E021</code></td><td>Database problem. Contact support: automatic daily backups exist.</td></tr>
-          <tr><td><code>RTI-E030</code></td><td>Installation identity cannot be read: the license must be reactivated.</td></tr>
+          <tr><td><code>RTI-E030</code></td><td>Installation identity cannot be read: the license must be reactivated. In Settings › License and Site Manager enter your key (the same one as before is fine) and press «Activate» while the Site Manager is reachable; then re-enter the saved passwords (OPC UA, MySQL, Heidenhain, proxy).</td></tr>
+          <tr><td><code>RTI-E004</code></td><td>PC identifiers cannot be read right now: the service restarts by itself. If it happens again, restart the PC.</td></tr>
         </table>
       </section>
 
       <section id="risoluzione-problemi">
-        <h2><span class="num">21</span>Problem solving (Self-diagnosis)</h2>
+        <h2><span class="num">25</span>Problem solving (Self-diagnosis)</h2>
         <p class="scopo">Before calling support: <a href="#settings">Settings</a> › <span class="tasto">Start self-diagnosis</span> (at the top of the page, administrator only). In less than a minute RTIndustry checks the connection to the machine, the license and the PC and, for each point, tells you what it checked and what to do.</p>
         <p>Each check has a traffic light: <strong>green</strong> passed, <strong>yellow</strong> works but needs fixing, <strong>red</strong> problem, <strong>grey</strong> not checked (a problem above must be fixed first). Follow the red checks <strong>from top to bottom</strong>: often, once the first is fixed, the others are fixed too. The <span class="tasto">Guide</span> button next to a check opens the matching entry below.</p>
         <div class="nota">Self-diagnosis also works with a blocked license, does not change any setting and is recorded in the <a href="#operatori">activity log</a>. If the problem persists after the suggested actions, press <span class="tasto">Export diagnostics</span> and send the file to support.</div>
@@ -585,7 +705,7 @@
       </section>
 
       <section id="glossario">
-        <h2><span class="num">22</span>Glossary</h2>
+        <h2><span class="num">26</span>Glossary</h2>
         <table>
           <tr><td><strong>WO (work order)</strong></td><td>Production job: what to produce and in what quantity.</td></tr>
           <tr><td><strong>OEE</strong></td><td>Overall Equipment Effectiveness, the overall efficiency of the machine.</td></tr>
@@ -602,11 +722,16 @@
           <tr><td><strong>Energy meter</strong></td><td>Electrical instrument that measures the machine's consumption, read via Modbus TCP.</td></tr>
           <tr><td><strong>Wh / kWh</strong></td><td>Watt-hour / kilowatt-hour (1 kWh = 1000 Wh), units of the energy consumed.</td></tr>
           <tr><td><strong>Part program</strong></td><td>Machining program run by the machine tool.</td></tr>
+          <tr><td><strong>Bill of materials</strong></td><td>List of the materials needed to make one piece, with the quantities.</td></tr>
+          <tr><td><strong>Scrap (material)</strong></td><td>Material lost in machining (offcuts, chips), as a percentage.</td></tr>
+          <tr><td><strong>Consumption / purchase unit</strong></td><td>The unit of the bill of materials (e.g. m²) and the one the material is bought and stocked in (e.g. kg).</td></tr>
+          <tr><td><strong>Stock level</strong></td><td>Quantity of a material in stock.</td></tr>
+          <tr><td><strong>Recovery code</strong></td><td>The code that holds the company archive key: it is used to connect machines and to recover the data.</td></tr>
         </table>
       </section>
 
       <section id="assistenza">
-        <h2><span class="num">23</span>Support</h2>
+        <h2><span class="num">27</span>Support</h2>
         <p>Before writing, run the <a href="#risoluzione-problemi">Self-diagnosis</a>: it solves most cases by itself (machine off or not reachable, certificate, license, disk).</p>
         <p>For questions or problems contact the technician or reseller who installed RTIndustry, or write to <a href="mailto:assistenza@rtindustry.it">assistenza@rtindustry.it</a>.</p>
         <p>When you ask for support, attach the <strong>diagnostics</strong> file: <a href="#settings">Settings</a> › <span class="tasto">Export diagnostics</span> button at the top. It contains version, software status and the latest operating messages, <strong>without passwords</strong>.</p>
