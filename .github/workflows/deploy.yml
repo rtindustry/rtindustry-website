@@ -1,6 +1,6 @@
 # Pubblica il sito su GitHub Pages (dominio rtindustry.it, file CNAME).
 # Si pubblicano SOLO i file del sito: restano fuori gli strumenti locali di
-# gestione (server.py, admin.html, collegamenti) e le configurazioni.
+# gestione (server.py, admin.html, _strumenti, collegamenti) e le configurazioni.
 name: Pubblica sito
 on:
   push:
@@ -26,7 +26,7 @@ jobs:
           mkdir _site
           rsync -a ./ _site/ \
             --exclude '.git*' --exclude '_site' --exclude '__pycache__' \
-            --exclude 'server.py' --exclude 'admin.html' \
+            --exclude 'server.py' --exclude 'admin.html' --exclude '_strumenti' \
             --exclude '*.bat' --exclude '*.lnk' \
             --exclude 'data/sync_config.json' --exclude 'data/users.json' \
             --exclude '/pricing/'

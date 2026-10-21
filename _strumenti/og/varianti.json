@@ -1,0 +1,18 @@
+{
+  "testi": {
+    "it": { "m1": "Tornio 01", "m2": "Centro 02", "m3": "Fresa 03", "s1": "In lavorazione", "s2": "In pausa", "s3": "Allarme", "pezzi": "Pezzi" },
+    "en": { "m1": "Lathe 01", "m2": "Centre 02", "m3": "Mill 03", "s1": "Running", "s2": "Paused", "s3": "Alarm", "pezzi": "Parts" }
+  },
+  "varianti": [
+    { "file": "rtindustry-it.png", "lang": "it", "sezione": "Monitoraggio macchine CNC · Industria 4.0", "claim": "Monitora le tue macchine CNC<br><span>in tempo reale.</span>" },
+    { "file": "rtindustry-en.png", "lang": "en", "sezione": "CNC machine monitoring · Industry 4.0", "claim": "Monitor your CNC machines<br><span>in real time.</span>" },
+    { "file": "manuale-it.png", "lang": "it", "sezione": "Manuale d'uso", "claim": "Ogni schermata,<br><span>spiegata passo per passo.</span>" },
+    { "file": "manuale-en.png", "lang": "en", "sezione": "User manual", "claim": "Every screen,<br><span>explained step by step.</span>" },
+    { "file": "documentazione-it.png", "lang": "it", "sezione": "Documentazione tecnica", "claim": "Installazione, collegamento<br><span>alla macchina e licenza.</span>" },
+    { "file": "documentazione-en.png", "lang": "en", "sezione": "Technical documentation", "claim": "Installation, machine<br><span>connection and license.</span>" },
+    { "file": "developers-it.png", "lang": "it", "sezione": "Integrazione ERP e MES", "claim": "Work order dal gestionale:<br><span>API REST, database e MQTT.</span>" },
+    { "file": "developers-en.png", "lang": "en", "sezione": "ERP and MES integration", "claim": "Work orders from your ERP:<br><span>REST API, database and MQTT.</span>" },
+    { "file": "site-manager-it.png", "lang": "it", "sezione": "Site Manager", "claim": "Licenze e installazioni<br><span>in un unico pannello.</span>" },
+    { "file": "site-manager-en.png", "lang": "en", "sezione": "Site Manager", "claim": "Licenses and installations<br><span>in a single panel.</span>" }
+  ]
+}

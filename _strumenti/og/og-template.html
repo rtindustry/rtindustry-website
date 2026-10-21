@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Immagine di condivisione RTIndustry</title>
+<!--
+  Modello dell'immagine Open Graph (1200x630) mostrata nelle anteprime dei link
+  (WhatsApp, Facebook, LinkedIn, Telegram, X). I testi di ogni variante sono in
+  varianti.json; si rigenera con render.js (vedi il commento in quel file).
+  Gli elementi importanti stanno nella fascia centrale (x 285-915) perché
+  alcune app ritagliano l'anteprima in quadrato.
+-->
+<style>
+  :root {
+    --dark: #0d1b2a; --primary: #1a3a5c; --accent: #e63946; --accent-light: #ff6b6b;
+    --ok: #2ecc71; --warn: #f4c430; --ko: #ff4d5a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif; color: #fff;
+    background:
+      radial-gradient(ellipse 620px 360px at 50% 8%, rgba(230,57,70,.20), transparent 70%),
+      radial-gradient(ellipse 700px 420px at 50% 115%, rgba(46,204,113,.10), transparent 70%),
+      linear-gradient(135deg, #1a3a5c 0%, #0d1b2a 62%, #0a1522 100%);
+    position: relative;
+  }
+  /* griglia tecnica di sfondo */
+  body::before {
+    content: ""; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+    background-size: 40px 40px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 90% at 50% 50%, #000 30%, transparent 85%);
+  }
+  .wrap { position: relative; height: 100%; display: flex; flex-direction: column; align-items: center; padding-top: 56px; }
+
+  .logo { font-weight: 900; font-size: 84px; letter-spacing: -2px; line-height: 1; display: flex; align-items: center; gap: 18px; }
+  .logo .rt { color: var(--accent); }
+  .logo .ver { font-size: 26px; font-weight: 700; letter-spacing: 0; padding: 6px 14px; border-radius: 30px;
+    background: rgba(230,57,70,.25); border: 2px solid rgba(255,107,107,.55); color: #fff; }
+
+  .sezione { margin-top: 22px; font-size: 22px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+    color: rgba(255,255,255,.78); }
+  .sezione::before, .sezione::after { content: ""; display: inline-block; width: 46px; height: 2px; background: rgba(255,107,107,.7); vertical-align: middle; margin: 0 16px 5px; }
+
+  .claim { margin-top: 14px; text-align: center; font-weight: 800; font-size: 62px; line-height: 1.12; letter-spacing: -.5px; }
+  .claim span { color: var(--accent-light); }
+
+  /* pannello macchine: stato verde / giallo / rosso */
+  .macchine { margin-top: 38px; display: flex; gap: 20px; }
+  .m { width: 326px; padding: 18px 20px 18px 24px; border-radius: 14px; position: relative;
+    background: rgba(13,27,42,.78); border: 1px solid rgba(255,255,255,.12);
+    box-shadow: 0 10px 30px rgba(0,0,0,.35); }
+  .m::before { content: ""; position: absolute; left: 0; top: 12px; bottom: 12px; width: 5px; border-radius: 0 4px 4px 0; background: var(--c); }
+  .m .riga { display: flex; align-items: center; justify-content: space-between; }
+  .m .nome { font-size: 22px; font-weight: 700; white-space: nowrap; }
+  .m .stato { white-space: nowrap; font-size: 16px; font-weight: 700; color: var(--c); padding: 3px 12px; border-radius: 20px;
+    border: 2px solid var(--c); display: flex; align-items: center; gap: 7px; }
+  .m .stato i { width: 10px; height: 10px; border-radius: 50%; background: var(--c); box-shadow: 0 0 10px var(--c); }
+  .m .barra { margin-top: 14px; height: 9px; border-radius: 6px; background: rgba(255,255,255,.12); overflow: hidden; }
+  .m .barra b { display: block; height: 100%; width: var(--p); background: var(--c); border-radius: 6px; }
+  .m .dati { margin-top: 10px; display: flex; justify-content: space-between; font-size: 17px; color: rgba(255,255,255,.72); }
+  .m .dati strong { color: #fff; font-weight: 700; }
+  .ok { --c: var(--ok); } .warn { --c: var(--warn); } .ko { --c: var(--ko); }
+
+  .piede { position: absolute; bottom: 26px; left: 0; right: 0; text-align: center; font-size: 19px; color: rgba(255,255,255,.62); letter-spacing: .5px; }
+  .piede strong { color: #fff; font-weight: 700; }
+  .piede .sep { margin: 0 12px; color: rgba(255,107,107,.8); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo"><span><span class="rt">RT</span>Industry</span><span class="ver">2.0</span></div>
+  <div class="sezione" id="sezione">Monitoraggio macchine CNC · Industria 4.0</div>
+  <div class="claim" id="claim">Monitora le tue macchine CNC<br><span>in tempo reale.</span></div>
+
+  <div class="macchine">
+    <div class="m ok">
+      <div class="riga"><span class="nome" data-k="m1">Tornio 01</span><span class="stato"><i></i><span data-k="s1">In lavorazione</span></span></div>
+      <div class="barra" style="--p:72%"><b></b></div>
+      <div class="dati"><span><span data-k="pezzi">Pezzi</span> <strong>108</strong> / 150</span><span>OEE <strong>87 %</strong></span></div>
+    </div>
+    <div class="m warn">
+      <div class="riga"><span class="nome" data-k="m2">Centro 02</span><span class="stato"><i></i><span data-k="s2">In pausa</span></span></div>
+      <div class="barra" style="--p:38%"><b></b></div>
+      <div class="dati"><span><span data-k="pezzi">Pezzi</span> <strong>23</strong> / 60</span><span>OEE <strong>64 %</strong></span></div>
+    </div>
+    <div class="m ko">
+      <div class="riga"><span class="nome" data-k="m3">Fresa 03</span><span class="stato"><i></i><span data-k="s3">Allarme</span></span></div>
+      <div class="barra" style="--p:15%"><b></b></div>
+      <div class="dati"><span><span data-k="pezzi">Pezzi</span> <strong>12</strong> / 80</span><span>OEE <strong>41 %</strong></span></div>
+    </div>
+  </div>
+
+  <div class="piede" id="piede">OPC UA<span class="sep">·</span>FANUC<span class="sep">·</span>Heidenhain<span class="sep">·</span>Modbus TCP<span class="sep">|</span><strong>www.rtindustry.it</strong></div>
+</div>
+</body>
+</html>
