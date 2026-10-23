@@ -26,6 +26,7 @@
 - [Manuale d'uso](https://www.rtindustry.it/manuale/): come usare ogni schermata (work order, HMI, telemetria, OEE, report, energia, allarmi, storico WO, anagrafiche, consumi di materiale, magazzino, archivio aziendale, impostazioni, operatori e registro)
 - [Documentazione tecnica](https://www.rtindustry.it/documentazione/): requisiti, installazione, collegamento alla macchina, licenza, rete, backup, problemi frequenti
 - [Integrazione ERP e MES](https://www.rtindustry.it/developers/): API REST, tabella di scambio e MQTT per work order, anagrafiche, consumi e giacenze
+- [Iperammortamento 2026](https://www.rtindustry.it/iperammortamento/): requisiti di interconnessione 4.0 delle macchine (5 obbligatori + 2 aggiuntivi), perizia asseverata, tempi del GSE, come RTIndustry realizza lo scambio di dati nei due sensi con il gestionale (work order e part program verso la macchina, avanzamento verso il gestionale) e le prove per il perito (linea del tempo, pacchetto di audit)
 - [Site Manager](https://www.rtindustry.it/site-manager/): licenze, posti e installazioni per integratori e rivenditori
 
 ## Contatti

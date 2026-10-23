@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iperammortamento 2026 e interconnessione 4.0 delle macchine CNC | RTIndustry</title>
+    <meta name="description" content="Iperammortamento 2026: cosa serve per l'interconnessione 4.0 delle macchine CNC e PLC, i 5 requisiti obbligatori e i 2 aggiuntivi, la perizia asseverata, i tempi del GSE e come RTIndustry realizza e documenta lo scambio di dati con il gestionale.">
+    <link rel="canonical" href="https://www.rtindustry.it/iperammortamento/">
+    <link rel="alternate" hreflang="it" href="https://www.rtindustry.it/iperammortamento/">
+    <link rel="alternate" hreflang="en" href="https://www.rtindustry.it/en/hyper-depreciation/">
+    <link rel="alternate" hreflang="x-default" href="https://www.rtindustry.it/iperammortamento/">
+    <meta name="theme-color" content="#0d1b2a">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="RTIndustry">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:locale:alternate" content="en_GB">
+    <meta property="og:title" content="Iperammortamento 2026: interconnessione 4.0 delle macchine con RTIndustry">
+    <meta property="og:description" content="I requisiti di interconnessione, la perizia asseverata e come RTIndustry collega la macchina al gestionale e ne conserva le prove.">
+    <meta property="og:url" content="https://www.rtindustry.it/iperammortamento/">
+    <meta property="og:image" content="https://www.rtindustry.it/img/og/iperammortamento-it.png">
+    <meta property="og:image:secure_url" content="https://www.rtindustry.it/img/og/iperammortamento-it.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="RTIndustry — Iperammortamento 2026: interconnessione 4.0 della macchina con il gestionale, scambio di dati nei due sensi e prove per il perito.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Iperammortamento 2026: interconnessione 4.0 delle macchine con RTIndustry">
+    <meta name="twitter:description" content="I requisiti di interconnessione, la perizia asseverata e come RTIndustry collega la macchina al gestionale e ne conserva le prove.">
+    <meta name="twitter:image" content="https://www.rtindustry.it/img/og/iperammortamento-it.png">
+    <meta name="twitter:image:alt" content="RTIndustry — Iperammortamento 2026: interconnessione 4.0 della macchina con il gestionale, scambio di dati nei due sensi e prove per il perito.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link href="../css/common.css" rel="stylesheet">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "headline": "Iperammortamento 2026 e interconnessione 4.0 delle macchine CNC",
+          "description": "Requisiti di interconnessione per l'iperammortamento 2026, perizia asseverata, tempi del GSE e come RTIndustry realizza e documenta lo scambio di dati tra macchina e gestionale.",
+          "inLanguage": "it-IT",
+          "url": "https://www.rtindustry.it/iperammortamento/",
+          "dateModified": "2026-10-22",
+          "about": [
+            { "@type": "Thing", "name": "Iperammortamento 2026" },
+            { "@type": "Thing", "name": "Industria 4.0 — interconnessione delle macchine" },
+            { "@type": "SoftwareApplication", "name": "RTIndustry", "softwareVersion": "2.9" }
+          ],
+          "author": { "@type": "Organization", "name": "RTIndustry", "url": "https://www.rtindustry.it/" },
+          "publisher": { "@type": "Organization", "name": "RTIndustry", "url": "https://www.rtindustry.it/" }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "RTIndustry", "item": "https://www.rtindustry.it/" },
+            { "@type": "ListItem", "position": 2, "name": "Iperammortamento 2026", "item": "https://www.rtindustry.it/iperammortamento/" }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Basta installare RTIndustry per avere l'iperammortamento?",
+              "acceptedAnswer": { "@type": "Answer", "text": "No. Serve un bene nuovo con le caratteristiche 4.0 previste dalla legge, la perizia asseverata e le comunicazioni al GSE. RTIndustry si occupa della parte di interconnessione: collega la macchina al gestionale con scambio di dati nei due sensi e ne conserva le prove da mostrare al perito." }
+            },
+            {
+              "@type": "Question",
+              "name": "Da quando decorre il beneficio?",
+              "acceptedAnswer": { "@type": "Answer", "text": "Dal periodo d'imposta in cui il bene è effettivamente interconnesso, non dalla data di consegna. Collegare la macchina presto evita di far slittare il beneficio e le scadenze della pratica." }
+            },
+            {
+              "@type": "Question",
+              "name": "Serve il cloud o una connessione a internet sempre attiva?",
+              "acceptedAnswer": { "@type": "Answer", "text": "No. RTIndustry funziona sulla rete dell'azienda, su un PC o un server, con il database integrato. Internet serve solo per la verifica periodica della licenza." }
+            },
+            {
+              "@type": "Question",
+              "name": "Con quali macchine funziona?",
+              "acceptedAnswer": { "@type": "Answer", "text": "Con macchine CNC e PLC tramite OPC UA, FANUC FOCAS, Heidenhain DNC e Modbus TCP, anche in parchi macchine di marche diverse; i consumi si leggono da un contatore di energia Modbus." }
+            },
+            {
+              "@type": "Question",
+              "name": "Il perito come verifica l'interconnessione?",
+              "acceptedAnswer": { "@type": "Answer", "text": "Può vedere sul posto lo scambio con il gestionale e consultare la linea del tempo di RTIndustry, che registra con data e ora le chiamate ricevute dal gestionale, i cambi di stato, il programma in esecuzione, i pezzi e gli allarmi. Il pacchetto di audit esporta il periodo scelto in file CSV. La valutazione dei requisiti resta del perito." }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+
+    <nav class="site-nav" aria-label="Menu principale">
+        <div class="container">
+            <a href="../" class="nav-brand" aria-label="RTIndustry, pagina principale"><span class="brand-accent">RT</span>Industry</a>
+            <div class="nav-lang" role="group" aria-label="Lingua"><span aria-current="true">IT</span><a href="../en/hyper-depreciation/" hreflang="en" lang="en" title="English version">EN</a></div>
+            <button class="nav-toggle" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="menu-principale" onclick="var m=document.getElementById('menu-principale');this.setAttribute('aria-expanded',m.classList.toggle('open'))">
+                <i class="bi bi-list" aria-hidden="true"></i>
+            </button>
+            <!-- Sezione prezzi temporaneamente nascosta: la voce "Prezzi" (../pricing/) tornerà qui. -->
+            <ul class="nav-links" id="menu-principale">
+                <li><a href="../">Prodotto</a></li>
+                <li><a href="../site-manager/">Site Manager</a></li>
+                <li><a href="../documentazione/">Documentazione</a></li>
+                <li><a href="../manuale/">Manuale</a></li>
+                <li><a href="../developers/">Integrazione ERP</a></li>
+                <li><a href="mailto:demo@rtindustry.it?subject=Iperammortamento%202026%20-%20interconnessione%20con%20RTIndustry&amp;body=Buongiorno%2C%0D%0Avorremmo%20interconnettere%20con%20RTIndustry%20una%20macchina%20acquistata%20con%20l%27iperammortamento%202026.%0D%0A%0D%0AAzienda%3A%0D%0ASede%20%28citt%C3%A0%29%3A%0D%0AMacchina%20%28marca%2C%20modello%20e%20controllo%20CNC/PLC%29%3A%0D%0AData%20di%20consegna%20prevista%3A%0D%0AGestionale%20usato%3A%0D%0AReferente%20%28nome%20e%20ruolo%29%3A%0D%0ATelefono%3A%0D%0A%0D%0AGrazie." class="nav-cta">Richiedi una demo</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="docs-header">
+        <div class="container">
+            <div class="docs-breadcrumb"><a href="../">RTIndustry</a><span>/</span><a href="./">Iperammortamento 2026</a></div>
+            <h1>Iperammortamento 2026 e interconnessione delle macchine</h1>
+            <p>Cosa chiede la legge per l'interconnessione 4.0 di una macchina CNC o PLC, cosa deve attestare il perito e come RTIndustry collega la macchina al gestionale conservando le prove dello scambio di dati.</p>
+        </div>
+    </header>
+
+    <div class="docs-layout">
+        <nav class="docs-sidebar" aria-label="Indice della pagina">
+            <div class="gruppo">L'agevolazione</div>
+            <a href="#in-breve">In breve</a>
+            <a href="#requisiti">I requisiti della macchina</a>
+            <a href="#interconnessione">Cosa vuol dire interconnessa</a>
+            <div class="gruppo">Con RTIndustry</div>
+            <a href="#cosa-fa">Cosa fa RTIndustry</a>
+            <a href="#prove">Le prove per il perito</a>
+            <a href="#tempi">Tempi e mantenimento</a>
+            <a href="#percorso">Il percorso consigliato</a>
+            <div class="gruppo">Altro</div>
+            <a href="#domande">Domande frequenti</a>
+            <a href="#fonti">Fonti e avvertenze</a>
+        </nav>
+
+        <main class="docs-content">
+            <details class="docs-indice-mobile">
+                <summary>Indice</summary>
+                <a href="#in-breve">In breve</a>
+                <a href="#requisiti">I requisiti della macchina</a>
+                <a href="#interconnessione">Cosa vuol dire interconnessa</a>
+                <a href="#cosa-fa">Cosa fa RTIndustry</a>
+                <a href="#prove">Le prove per il perito</a>
+                <a href="#tempi">Tempi e mantenimento</a>
+                <a href="#percorso">Il percorso consigliato</a>
+                <a href="#domande">Domande frequenti</a>
+                <a href="#fonti">Fonti e avvertenze</a>
+            </details>
+
+            <h2 id="in-breve">In breve</h2>
+            <p>L'<strong>iperammortamento 2026</strong> permette di dedurre un costo maggiorato per gli investimenti in beni strumentali nuovi «4.0» fatti <strong>dal 1° gennaio 2026 al 30 settembre 2028</strong>. La maggiorazione è del <strong>180%</strong> fino a 2,5 milioni di euro di investimento, del 100% tra 2,5 e 10 milioni e del 50% tra 10 e 20 milioni.</p>
+            <p>Per una macchina utensile il punto decisivo è l'<strong>interconnessione</strong>: la macchina deve scambiare dati con i sistemi informatici dell'azienda, e un <strong>perito</strong> deve attestarlo con una <strong>perizia asseverata, obbligatoria per qualunque importo</strong>. Senza interconnessione l'agevolazione non spetta, anche se la macchina ha tutte le altre caratteristiche.</p>
+            <div class="box-nota"><strong>Il beneficio parte dall'anno in cui la macchina è davvero interconnessa</strong>, non da quando viene consegnata. Collegarla subito al gestionale evita di far slittare il beneficio e le scadenze della pratica.</div>
+
+            <h2 id="requisiti">I requisiti della macchina</h2>
+            <p>Per le macchine dell'Allegato IV (categoria 1: beni il cui funzionamento è controllato da sistemi computerizzati) servono <strong>5 caratteristiche obbligatorie</strong> e <strong>almeno 2 delle 3 aggiuntive</strong>.</p>
+            <div class="tabella"><table>
+                <thead><tr><th>Requisito</th><th>Cosa chiede</th><th>Il contributo di RTIndustry</th></tr></thead>
+                <tbody>
+                    <tr><td colspan="3"><strong>Obbligatori</strong></td></tr>
+                    <tr><td>1. Controllo computerizzato</td><td>Funzionamento gestito da CNC o PLC</td><td>È una caratteristica della macchina; RTIndustry legge il controllo.</td></tr>
+                    <tr><td>2. Interconnessione ai sistemi informatici</td><td>Scambio di dati con caricamento da remoto di istruzioni e/o part program</td><td>Riceve dal gestionale i work order (articolo, programma, quantità, consegna) e con <em>Invia alla macchina</em> copia il part program nella cartella del CNC; restituisce al gestionale l'avanzamento.</td></tr>
+                    <tr><td>3. Integrazione automatizzata</td><td>Con il sistema logistico, la rete di fornitura o altre macchine</td><td>Comunica pezzi, scarti, tempi e consumi di materiale; con il modulo magazzino scarica i materiali a fine lavorazione o lascia la gestione al gestionale.</td></tr>
+                    <tr><td>4. Interfaccia uomo-macchina semplice</td><td>Uso semplice e intuitivo</td><td>Pannello dell'operatore su tablet o PC con avanzamento, stato, allarmi e documenti del lavoro.</td></tr>
+                    <tr><td>5. Sicurezza</td><td>Rispetto delle norme di sicurezza, salute e igiene</td><td>È una caratteristica della macchina (marcatura CE e relativa documentazione).</td></tr>
+                    <tr><td colspan="3"><strong>Aggiuntivi (almeno 2 su 3)</strong></td></tr>
+                    <tr><td>Telemanutenzione, telediagnosi, controllo remoto</td><td>Diagnosi e controllo a distanza</td><td>Stato, allarmi con durata e valori della macchina consultabili da qualsiasi PC o tablet della rete aziendale.</td></tr>
+                    <tr><td>Monitoraggio continuo</td><td>Condizioni di lavoro e parametri di processo rilevati con continuità</td><td>Rileva in continuo stato, programma, contapezzi, allarmi e consumi di energia, con storico, OEE e report.</td></tr>
+                    <tr><td>Integrazione con la simulazione</td><td>Modello del comportamento della macchina (gemello digitale)</td><td>Non è una funzione di RTIndustry: di solito la coprono il CAM o il costruttore.</td></tr>
+                </tbody>
+            </table></div>
+            <p>La tabella indica il contributo del software: <strong>la verifica di ogni requisito spetta al perito</strong>, sulla macchina reale.</p>
+
+            <h2 id="interconnessione">Cosa vuol dire «interconnessa»</h2>
+            <ul>
+                <li><strong>Scambio nei due sensi</strong>: la macchina riceve istruzioni dal sistema aziendale e gli restituisce i dati di produzione. Un collegamento che solo «legge» la macchina non basta.</li>
+                <li><strong>Protocolli documentati</strong> e riconosciuti, come OPC UA, Modbus o MQTT.</li>
+                <li><strong>Identificazione univoca</strong> della macchina nella rete aziendale, per esempio con un indirizzo IP dedicato.</li>
+                <li><strong>Utilità per la tracciabilità</strong> della produzione: il dato scambiato deve servire a gestire e seguire il lavoro.</li>
+            </ul>
+
+            <h2 id="cosa-fa">Cosa fa RTIndustry</h2>
+            <div class="tabella"><table>
+                <thead><tr><th>Direzione</th><th>Cosa passa</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Dal gestionale alla macchina</strong></td><td>Work order con articolo, cliente, programma, quantità e consegna, tramite <a href="../developers/">API REST, tabella di scambio su database o MQTT</a>; part program copiato nella cartella di rete del CNC (o nella cartella programmi dei controlli Heidenhain).</td></tr>
+                    <tr><td><strong>Dalla macchina al gestionale</strong></td><td>Stato del lavoro, pezzi buoni e scarti, tempi per stato, tempo ciclo, consumi di materiale ed energia, inizio e fine lavorazione.</td></tr>
+                </tbody>
+            </table></div>
+            <ul>
+                <li><strong>Collegamento alla macchina</strong>: OPC UA, FANUC FOCAS, Heidenhain DNC, Modbus TCP; contatore di energia Modbus. Funziona anche con parchi macchine di marche diverse.</li>
+                <li><strong>Una postazione per macchina</strong>, con indirizzo, dati e licenza propri: ogni macchina è identificata in modo univoco.</li>
+                <li><strong>In locale</strong>, sulla rete dell'azienda, senza cloud obbligatorio.</li>
+            </ul>
+
+            <h2 id="prove">Le prove per il perito</h2>
+            <p>RTIndustry registra con data e ora quello che succede sulla postazione, ed è proprio ciò che serve per mostrare che lo scambio di dati avviene davvero:</p>
+            <ul>
+                <li><strong>Linea del tempo</strong>: le chiamate ricevute dal gestionale con l'esito, i cambi di stato, il programma in esecuzione, connessione persa e ripristinata, allarmi, pezzi contati, con i valori della macchina in ogni momento.</li>
+                <li><strong>Pacchetto di audit</strong>: esporta il periodo scelto (fino a 31 giorni) in un file con la linea del tempo in CSV, le variazioni dei valori della macchina e un riepilogo, con i nomi degli operatori sostituiti da numeri.</li>
+                <li><strong>Registro attività</strong> esportabile in CSV, <strong>storico dei work order</strong> e <strong>report di periodo</strong>.</li>
+            </ul>
+            <div class="box-nota">La linea del tempo dettagliata si conserva per 35 giorni, i pacchetti settimanali per 8 settimane: <strong>scaricate il pacchetto di audit del periodo del sopralluogo</strong> e conservatelo con la documentazione della pratica.</div>
+
+            <h2 id="tempi">Tempi e mantenimento</h2>
+            <ul>
+                <li>La pratica passa dal <strong>GSE</strong> con più comunicazioni: una preventiva, una di conferma con l'acconto e la comunicazione di completamento con perizia e certificazione contabile, <strong>entro il 15 novembre 2028</strong>. Seguono comunicazioni periodiche (il 20 gennaio e il 30 giugno di ogni anno) per tutto il periodo dell'agevolazione. I ritardi possono far perdere il diritto al beneficio.</li>
+                <li>Il beneficio decorre dal periodo in cui la macchina è <strong>effettivamente interconnessa</strong>.</li>
+                <li>L'interconnessione va <strong>mantenuta negli anni</strong>: se si perde, il beneficio residuo può essere revocato. Con RTIndustry il collegamento resta attivo e la linea del tempo segnala le interruzioni con la loro durata.</li>
+            </ul>
+
+            <h2 id="percorso">Il percorso consigliato</h2>
+            <ol>
+                <li><strong>Prima dell'acquisto</strong>: verificate con il costruttore che la macchina abbia le caratteristiche 4.0 e un controllo collegabile (OPC UA, FANUC, Heidenhain, Modbus).</li>
+                <li><strong>Alla consegna</strong>: installate RTIndustry e attivate lo scambio dei work order con il gestionale; per una prova sul vostro impianto c'è la prova gratuita di 30 giorni.</li>
+                <li><strong>Prima del sopralluogo</strong>: lasciate lavorare la macchina con i work order del gestionale, così la linea del tempo mostra scambi reali.</li>
+                <li><strong>Al sopralluogo</strong>: mostrate al perito lo scambio in tempo reale e consegnategli il pacchetto di audit.</li>
+                <li><strong>Negli anni successivi</strong>: mantenete attivo il collegamento e conservate i pacchetti di audit periodici.</li>
+            </ol>
+            <div class="box-nota"><strong>In sviluppo:</strong> un <strong>dossier di interconnessione</strong> generato da RTIndustry per ogni macchina, con la data della prima interconnessione, gli scambi con il gestionale e la continuità del collegamento, pensato per il lavoro del perito.</div>
+
+            <h2 id="domande">Domande frequenti</h2>
+            <h3>Basta installare RTIndustry per avere l'iperammortamento?</h3>
+            <p>No. Serve un bene nuovo con le caratteristiche 4.0 previste dalla legge, la perizia asseverata e le comunicazioni al GSE. RTIndustry si occupa della parte di interconnessione: collega la macchina al gestionale con scambio di dati nei due sensi e ne conserva le prove da mostrare al perito.</p>
+            <h3>Da quando decorre il beneficio?</h3>
+            <p>Dal periodo d'imposta in cui il bene è effettivamente interconnesso, non dalla data di consegna.</p>
+            <h3>Serve il cloud o una connessione a internet sempre attiva?</h3>
+            <p>No. RTIndustry funziona sulla rete dell'azienda, su un PC o un server, con il database integrato. Internet serve solo per la verifica periodica della licenza, e il programma continua a funzionare anche senza connessione.</p>
+            <h3>Con quali macchine funziona?</h3>
+            <p>Con macchine CNC e PLC tramite OPC UA, FANUC FOCAS, Heidenhain DNC e Modbus TCP, anche in parchi macchine di marche diverse. Dettagli nella <a href="../documentazione/">documentazione tecnica</a>.</p>
+            <h3>Il perito come verifica l'interconnessione?</h3>
+            <p>Può vedere sul posto lo scambio con il gestionale e consultare la linea del tempo, che registra con data e ora le chiamate ricevute dal gestionale, i cambi di stato, il programma in esecuzione, i pezzi e gli allarmi. Il pacchetto di audit esporta il periodo scelto in file CSV. La valutazione dei requisiti resta del perito.</p>
+            <h3>Abbiamo un gestionale che non ha un'integrazione già pronta</h3>
+            <p>RTIndustry offre tre canali equivalenti: API REST, tabella di scambio su database e MQTT. Il fornitore del gestionale trova tutto nella guida <a href="../developers/">Integrazione ERP e MES</a>.</p>
+
+            <h2 id="fonti">Fonti e avvertenze</h2>
+            <p>Riferimenti: Legge di Bilancio 2026 (Legge 30 dicembre 2025, n. 199, articolo 1, commi 427-436) e decreto attuativo del Ministero delle Imprese e del Made in Italy e del Ministero dell'Economia e delle Finanze, pubblicato l'11 giugno 2026.</p>
+            <p class="small text-muted">Informazioni generali aggiornate a ottobre 2026, non costituiscono consulenza fiscale né legale. Requisiti, scadenze e procedure vanno verificati con il commercialista e con il perito che assevera il bene, sui testi ufficiali e sulle indicazioni del GSE.</p>
+
+            <div class="box-nota">State per acquistare una macchina con l'iperammortamento? Raccontateci macchina, controllo e gestionale: <a href="mailto:demo@rtindustry.it?subject=Iperammortamento%202026%20-%20interconnessione%20con%20RTIndustry&amp;body=Buongiorno%2C%0D%0Avorremmo%20interconnettere%20con%20RTIndustry%20una%20macchina%20acquistata%20con%20l%27iperammortamento%202026.%0D%0A%0D%0AAzienda%3A%0D%0ASede%20%28citt%C3%A0%29%3A%0D%0AMacchina%20%28marca%2C%20modello%20e%20controllo%20CNC/PLC%29%3A%0D%0AData%20di%20consegna%20prevista%3A%0D%0AGestionale%20usato%3A%0D%0AReferente%20%28nome%20e%20ruolo%29%3A%0D%0ATelefono%3A%0D%0A%0D%0AGrazie.">demo@rtindustry.it</a>. Per assistenza: <a href="mailto:assistenza@rtindustry.it">assistenza@rtindustry.it</a>.</div>
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h2 class="h6"><span style="color:var(--accent)">RT</span>Industry</h2>
+                    <p>Software per il monitoraggio in tempo reale di macchine CNC e PLC: work order, OEE, energia, allarmi e report.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h2 class="h6">Navigazione</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="../">Prodotto</a></li>
+                        <li><a href="../site-manager/">Site Manager</a></li>
+                        <li><a href="../documentazione/">Documentazione tecnica</a></li>
+                        <li><a href="../manuale/">Manuale d'uso</a></li>
+                        <li><a href="../developers/">Integrazione ERP e MES</a></li>
+                        <li><a href="../iperammortamento/">Iperammortamento 2026</a></li>
+                        <!-- Sezione prezzi temporaneamente nascosta. -->
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h2 class="h6">Contatti</h2>
+                    <ul class="list-unstyled contact-line">
+                        <li><i class="bi bi-calendar-check me-2" aria-hidden="true"></i>Demo e informazioni: <a href="mailto:demo@rtindustry.it?subject=Richiesta%20demo%20RTIndustry">demo@rtindustry.it</a></li>
+                        <li><i class="bi bi-life-preserver me-2" aria-hidden="true"></i>Assistenza clienti: <a href="mailto:assistenza@rtindustry.it">assistenza@rtindustry.it</a></li>
+                    </ul>
+                    <h2 class="h6 mt-3">Legale</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="../privacy/">Privacy Policy</a></li>
+                        <li><a href="../cookie-policy/">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <p class="text-center mb-0">&copy; <span class="anno-corrente"></span> RTIndustry. Tutti i diritti riservati.</p>
+        </div>
+    </footer>
+    <script>document.querySelectorAll('.anno-corrente').forEach(function (e) { e.textContent = new Date().getFullYear(); });</script>
+</body>
+</html>

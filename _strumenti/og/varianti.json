@@ -13,6 +13,8 @@
     { "file": "developers-it.png", "lang": "it", "sezione": "Integrazione ERP e MES", "claim": "Work order dal gestionale:<br><span>API REST, database e MQTT.</span>" },
     { "file": "developers-en.png", "lang": "en", "sezione": "ERP and MES integration", "claim": "Work orders from your ERP:<br><span>REST API, database and MQTT.</span>" },
     { "file": "site-manager-it.png", "lang": "it", "sezione": "Site Manager", "claim": "Licenze e installazioni<br><span>in un unico pannello.</span>" },
-    { "file": "site-manager-en.png", "lang": "en", "sezione": "Site Manager", "claim": "Licenses and installations<br><span>in a single panel.</span>" }
+    { "file": "site-manager-en.png", "lang": "en", "sezione": "Site Manager", "claim": "Licenses and installations<br><span>in a single panel.</span>" },
+    { "file": "iperammortamento-it.png", "lang": "it", "sezione": "Iperammortamento 2026 · Industria 4.0", "claim": "Macchina interconnessa,<br><span>prove pronte per il perito.</span>" },
+    { "file": "iperammortamento-en.png", "lang": "en", "sezione": "2026 hyper-depreciation · Industry 4.0", "claim": "Interconnected machine,<br><span>evidence ready for the expert.</span>" }
   ]
 }
