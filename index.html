@@ -74,7 +74,7 @@
             "Telemetria del turno in tempo reale",
             "Calcolo automatico dell'OEE (disponibilità, efficienza, qualità)",
             "Report di periodo con esportazione CSV",
-            "Monitoraggio energia: potenza, Wh per pezzo, costo del turno",
+            "Monitoraggio energia: potenza, Wh per pezzo, costo del turno, energia a macchina ferma con costo al mese, ripartizione per stato, costo dell'energia per articolo",
             "Storico allarmi con analisi per turno",
             "Storico work order con ricerca ed esportazione",
             "Account personali degli operatori e registro attività",
@@ -407,17 +407,18 @@
             <div class="feature-block" id="energia">
                 <div class="row align-items-center g-5">
                     <div class="col-lg-6 order-lg-2">
-                        <img src="img/energia.webp" width="1440" height="900" loading="lazy" alt="Pagina Energia di RTIndustry con potenza, energia del turno, Wh per pezzo e costo" class="img-screenshot">
+                        <img src="img/energia-stato.webp" width="1440" height="900" loading="lazy" alt="Pagina Energia di RTIndustry: energia e costo al mese a macchina ferma, consumo giornaliero e ripartizione per stato della macchina, costo dell'energia per articolo" class="img-screenshot">
                     </div>
                     <div class="col-lg-6 order-lg-1">
                         <span class="etichetta">Energia</span>
-                        <h3>Quanto consuma la macchina, quanto costa ogni pezzo</h3>
-                        <p>Con un contatore di energia collegato (anche Modbus, separato dalla macchina) RTIndustry misura i consumi e li lega alla produzione.</p>
+                        <h3>Quanto consuma la macchina, quanto costa ogni pezzo, quanto spende da ferma</h3>
+                        <p>Con un contatore di energia collegato (anche Modbus, separato dalla macchina) RTIndustry misura i consumi e li lega alla produzione e allo stato della macchina.</p>
                         <ul class="feature-check">
                             <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> In tempo reale: potenza, energia del turno, Wh per pezzo e costo del turno</li>
-                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Storico: energia e costo totali, media e consumo giorno per giorno</li>
-                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Andamento dei Wh per pezzo</li>
-                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Prezzo dell'energia (euro al kWh) impostabile</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Energia a macchina ferma: quanto consuma la macchina accesa senza produrre (in attesa, ferma, in allarme), potenza media e costo al mese</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Ripartizione per stato: produzione, attesa, fermo, allarme e attrezzaggio, con kWh, ore e kW medi</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Per articolo: Wh e costo dell'energia per pezzo buono, confronto con l'obiettivo, andamento ordine per ordine, per preventivi più giusti</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Storico giorno per giorno, andamento dei Wh per pezzo, esportazione CSV e prezzo dell'energia (euro al kWh) impostabile</li>
                         </ul>
                     </div>
                 </div>

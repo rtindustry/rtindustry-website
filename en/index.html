@@ -76,7 +76,7 @@
             "Real-time shift telemetry",
             "Automatic OEE calculation (availability, performance, quality)",
             "Period reports with CSV export",
-            "Energy monitoring: power, Wh per part, shift cost",
+            "Energy monitoring: power, Wh per part, shift cost, energy while not producing with monthly cost, breakdown by machine state, energy cost per item",
             "Alarm history with analysis by shift",
             "Work order history with search and export",
             "Personal operator accounts and activity log",
@@ -410,17 +410,18 @@
             <div class="feature-block" id="energia">
                 <div class="row align-items-center g-5">
                     <div class="col-lg-6 order-lg-2">
-                        <img src="../img/energia.webp" width="1440" height="900" loading="lazy" alt="RTIndustry Energy page with power, shift energy, Wh per part and cost" class="img-screenshot">
+                        <img src="../img/energia-stato-en.webp" width="1440" height="900" loading="lazy" alt="RTIndustry Energy page: energy and monthly cost while the machine is not producing, daily consumption and breakdown by machine state, energy cost per item" class="img-screenshot">
                     </div>
                     <div class="col-lg-6 order-lg-1">
                         <span class="etichetta">Energy</span>
-                        <h3>How much the machine consumes, how much each part costs</h3>
-                        <p>With an energy meter connected (Modbus too, separate from the machine) RTIndustry measures consumption and links it to production.</p>
+                        <h3>How much the machine consumes, how much each part costs, how much it spends standing still</h3>
+                        <p>With an energy meter connected (Modbus too, separate from the machine) RTIndustry measures consumption and links it to production and to the machine state.</p>
                         <ul class="feature-check">
                             <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Real time: power, shift energy, Wh per part and shift cost</li>
-                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> History: total energy and cost, average and day-by-day consumption</li>
-                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Trend of Wh per part</li>
-                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Configurable energy price (euros per kWh)</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Energy while not producing: how much the machine uses while on but not producing (idle, stopped, in alarm), average power and monthly cost</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Breakdown by state: production, idle, stopped, alarm and set-up, with kWh, hours and average kW</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> By item: Wh and energy cost per good part, comparison with the target, order-by-order trend, for fairer quotes</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Day-by-day history, Wh per part trend, CSV export and configurable energy price (euros per kWh)</li>
                         </ul>
                     </div>
                 </div>
