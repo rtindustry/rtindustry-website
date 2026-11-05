@@ -407,3 +407,8 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--accent-light); 
     .site-nav .nav-toggle { order: 2; margin-left: 8px; }
     .site-nav .nav-lang a, .site-nav .nav-lang span { min-height: 38px; padding: 4px 12px; }
 }
+
+/* Dossier di interconnessione (pagina iperammortamento): immagine verticale contenuta */
+.figura-dossier { max-width: 520px; margin: 1.25rem auto; }
+.figura-dossier img { width: 100%; height: auto; }
+.figura-dossier figcaption { font-size: .85rem; opacity: .75; text-align: center; margin-top: .4rem; }

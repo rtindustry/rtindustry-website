@@ -42,7 +42,7 @@
           "description": "Requisiti di interconnessione per l'iperammortamento 2026, perizia asseverata, tempi del GSE e come RTIndustry realizza e documenta lo scambio di dati tra macchina e gestionale.",
           "inLanguage": "it-IT",
           "url": "https://www.rtindustry.it/iperammortamento/",
-          "dateModified": "2026-10-22",
+          "dateModified": "2026-11-05",
           "about": [
             { "@type": "Thing", "name": "Iperammortamento 2026" },
             { "@type": "Thing", "name": "Industria 4.0 — interconnessione delle macchine" },
@@ -84,7 +84,7 @@
             {
               "@type": "Question",
               "name": "Il perito come verifica l'interconnessione?",
-              "acceptedAnswer": { "@type": "Answer", "text": "Può vedere sul posto lo scambio con il gestionale e consultare la linea del tempo di RTIndustry, che registra con data e ora le chiamate ricevute dal gestionale, i cambi di stato, il programma in esecuzione, i pezzi e gli allarmi. Il pacchetto di audit esporta il periodo scelto in file CSV. La valutazione dei requisiti resta del perito." }
+              "acceptedAnswer": { "@type": "Answer", "text": "Può vedere sul posto lo scambio con il gestionale e consultare la linea del tempo di RTIndustry, che registra con data e ora le chiamate ricevute dal gestionale, i cambi di stato, il programma in esecuzione, i pezzi e gli allarmi. Il dossier di interconnessione raccoglie in un documento la data della prima interconnessione, le evidenze per ogni requisito e la continuità del collegamento, con un'impronta verificabile; il pacchetto di audit esporta il periodo scelto in file CSV. La valutazione dei requisiti resta del perito." }
             }
           ]
         }
@@ -130,6 +130,7 @@
             <div class="gruppo">Con RTIndustry</div>
             <a href="#cosa-fa">Cosa fa RTIndustry</a>
             <a href="#prove">Le prove per il perito</a>
+            <a href="#dossier">Il dossier per il perito</a>
             <a href="#tempi">Tempi e mantenimento</a>
             <a href="#percorso">Il percorso consigliato</a>
             <div class="gruppo">Altro</div>
@@ -145,6 +146,7 @@
                 <a href="#interconnessione">Cosa vuol dire interconnessa</a>
                 <a href="#cosa-fa">Cosa fa RTIndustry</a>
                 <a href="#prove">Le prove per il perito</a>
+                <a href="#dossier">Il dossier per il perito</a>
                 <a href="#tempi">Tempi e mantenimento</a>
                 <a href="#percorso">Il percorso consigliato</a>
                 <a href="#domande">Domande frequenti</a>
@@ -206,11 +208,28 @@
             </ul>
             <div class="box-nota">La linea del tempo dettagliata si conserva per 35 giorni, i pacchetti settimanali per 8 settimane: <strong>scaricate il pacchetto di audit del periodo del sopralluogo</strong> e conservatelo con la documentazione della pratica.</div>
 
+            <h2 id="dossier">Il dossier di interconnessione per il perito</h2>
+            <p>Dalla versione 2.10.0 RTIndustry prepara da solo, per ogni macchina, un <strong>dossier di interconnessione</strong> da consegnare al perito: un documento A4 da stampare o salvare in PDF, nella lingua scelta.</p>
+            <figure class="figura-dossier">
+                <img src="../img/dossier-interconnessione.webp" width="1440" height="2000" loading="lazy" alt="Prima pagina di un dossier di interconnessione di RTIndustry: dati del bene, sintesi con la data della prima interconnessione, schema macchina, RTIndustry e gestionale, requisiti con il riquadro per il perito" class="img-screenshot">
+                <figcaption>Dossier di esempio con dati dimostrativi.</figcaption>
+            </figure>
+            <ul>
+                <li><strong>Dati del bene</strong>: costruttore, modello, matricola, anno, controllo numerico, date di consegna e collaudo, fattura, identificazione in rete (indirizzo IP e MAC).</li>
+                <li><strong>Data della prima interconnessione nei due sensi</strong>, giorni registrati, giorni con scambio nei due sensi, ore di collegamento e interruzioni.</li>
+                <li><strong>Schema</strong> macchina ↔ RTIndustry ↔ gestionale con i protocolli e i canali attivi.</li>
+                <li>I <strong>requisiti dell'Allegato IV</strong>, ciascuno con le evidenze raccolte e un riquadro vuoto per la <strong>valutazione del perito</strong>.</li>
+                <li>Un <strong>campione degli scambi</strong> con il gestionale (data, canale, azione, work order, esito) e la <strong>continuità</strong> giorno per giorno, dal registro permanente che RTIndustry tiene dal primo giorno.</li>
+                <li>Un'<strong>impronta digitale</strong> (SHA-256) e un numero: il perito può verificare sul PC dell'azienda che il documento non sia stato modificato.</li>
+            </ul>
+            <p>Negli anni RTIndustry salva da solo un <strong>report semestrale</strong>, ricorda le comunicazioni periodiche e avvisa se la macchina resta scollegata troppo a lungo. Per i periti c'è una <a href="scheda-periti-rtindustry.pdf">scheda di due pagine (PDF)</a> che spiega cosa trovano nel dossier e come verificarlo.</p>
+            <div class="box-nota">Il dossier è un documento di supporto: la verifica e la valutazione dei requisiti spettano al perito, sulla macchina reale.</div>
+
             <h2 id="tempi">Tempi e mantenimento</h2>
             <ul>
                 <li>La pratica passa dal <strong>GSE</strong> con più comunicazioni: una preventiva, una di conferma con l'acconto e la comunicazione di completamento con perizia e certificazione contabile, <strong>entro il 15 novembre 2028</strong>. Seguono comunicazioni periodiche (il 20 gennaio e il 30 giugno di ogni anno) per tutto il periodo dell'agevolazione. I ritardi possono far perdere il diritto al beneficio.</li>
                 <li>Il beneficio decorre dal periodo in cui la macchina è <strong>effettivamente interconnessa</strong>.</li>
-                <li>L'interconnessione va <strong>mantenuta negli anni</strong>: se si perde, il beneficio residuo può essere revocato. Con RTIndustry il collegamento resta attivo e la linea del tempo segnala le interruzioni con la loro durata.</li>
+                <li>L'interconnessione va <strong>mantenuta negli anni</strong>: se si perde, il beneficio residuo può essere revocato. Con RTIndustry il collegamento resta attivo, la linea del tempo segnala le interruzioni con la loro durata e l'amministratore riceve un avviso se la macchina resta scollegata.</li>
             </ul>
 
             <h2 id="percorso">Il percorso consigliato</h2>
@@ -218,10 +237,9 @@
                 <li><strong>Prima dell'acquisto</strong>: verificate con il costruttore che la macchina abbia le caratteristiche 4.0 e un controllo collegabile (OPC UA, FANUC, Heidenhain, Modbus).</li>
                 <li><strong>Alla consegna</strong>: installate RTIndustry e attivate lo scambio dei work order con il gestionale; per una prova sul vostro impianto c'è la prova gratuita di 30 giorni.</li>
                 <li><strong>Prima del sopralluogo</strong>: lasciate lavorare la macchina con i work order del gestionale, così la linea del tempo mostra scambi reali.</li>
-                <li><strong>Al sopralluogo</strong>: mostrate al perito lo scambio in tempo reale e consegnategli il pacchetto di audit.</li>
-                <li><strong>Negli anni successivi</strong>: mantenete attivo il collegamento e conservate i pacchetti di audit periodici.</li>
+                <li><strong>Al sopralluogo</strong>: mostrate al perito lo scambio in tempo reale e consegnategli il dossier di interconnessione e il pacchetto di audit.</li>
+                <li><strong>Negli anni successivi</strong>: mantenete attivo il collegamento e conservate i report semestrali che RTIndustry salva da solo.</li>
             </ol>
-            <div class="box-nota"><strong>In sviluppo:</strong> un <strong>dossier di interconnessione</strong> generato da RTIndustry per ogni macchina, con la data della prima interconnessione, gli scambi con il gestionale e la continuità del collegamento, pensato per il lavoro del perito.</div>
 
             <h2 id="domande">Domande frequenti</h2>
             <h3>Basta installare RTIndustry per avere l'iperammortamento?</h3>
@@ -233,7 +251,7 @@
             <h3>Con quali macchine funziona?</h3>
             <p>Con macchine CNC e PLC tramite OPC UA, FANUC FOCAS, Heidenhain DNC e Modbus TCP, anche in parchi macchine di marche diverse. Dettagli nella <a href="../documentazione/">documentazione tecnica</a>.</p>
             <h3>Il perito come verifica l'interconnessione?</h3>
-            <p>Può vedere sul posto lo scambio con il gestionale e consultare la linea del tempo, che registra con data e ora le chiamate ricevute dal gestionale, i cambi di stato, il programma in esecuzione, i pezzi e gli allarmi. Il pacchetto di audit esporta il periodo scelto in file CSV. La valutazione dei requisiti resta del perito.</p>
+            <p>Può vedere sul posto lo scambio con il gestionale e consultare la linea del tempo, che registra con data e ora le chiamate ricevute dal gestionale, i cambi di stato, il programma in esecuzione, i pezzi e gli allarmi. Il dossier di interconnessione raccoglie in un documento la data della prima interconnessione, le evidenze per ogni requisito e la continuità del collegamento, con un'impronta verificabile; il pacchetto di audit esporta il periodo scelto in file CSV. La valutazione dei requisiti resta del perito.</p>
             <h3>Abbiamo un gestionale che non ha un'integrazione già pronta</h3>
             <p>RTIndustry offre tre canali equivalenti: API REST, tabella di scambio su database e MQTT. Il fornitore del gestionale trova tutto nella guida <a href="../developers/">Integrazione ERP e MES</a>.</p>
 

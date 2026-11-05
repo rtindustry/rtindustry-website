@@ -42,7 +42,7 @@
           "description": "Interconnection requirements for Italy's 2026 hyper-depreciation, the sworn technical report, GSE deadlines and how RTIndustry implements and documents the data exchange between machine and ERP.",
           "inLanguage": "en-GB",
           "url": "https://www.rtindustry.it/en/hyper-depreciation/",
-          "dateModified": "2026-10-22",
+          "dateModified": "2026-11-05",
           "about": [
             { "@type": "Thing", "name": "Iperammortamento 2026 (Italian hyper-depreciation)" },
             { "@type": "Thing", "name": "Industry 4.0 machine interconnection" },
@@ -79,7 +79,7 @@
             {
               "@type": "Question",
               "name": "How does the expert check the interconnection?",
-              "acceptedAnswer": { "@type": "Answer", "text": "They can watch the exchange with the ERP on site and review RTIndustry's timeline, which records with date and time the calls received from the ERP, state changes, the running program, parts and alarms. The audit package exports the chosen period to CSV files. Assessing the requirements remains the expert's responsibility." }
+              "acceptedAnswer": { "@type": "Answer", "text": "They can watch the exchange with the ERP on site and review RTIndustry's timeline, which records with date and time the calls received from the ERP, state changes, the running program, parts and alarms. The interconnection dossier collects in one document the date of first interconnection, the evidence for each requirement and the continuity of the link, with a verifiable fingerprint; the audit package exports the chosen period to CSV files. Assessing the requirements remains the expert's responsibility." }
             }
           ]
         }
@@ -125,6 +125,7 @@
             <div class="gruppo">With RTIndustry</div>
             <a href="#what-it-does">What RTIndustry does</a>
             <a href="#evidence">Evidence for the expert</a>
+            <a href="#dossier">The dossier for the expert</a>
             <a href="#timing">Timing and upkeep</a>
             <div class="gruppo">More</div>
             <a href="#faq">FAQ</a>
@@ -139,6 +140,7 @@
                 <a href="#interconnected">What "interconnected" means</a>
                 <a href="#what-it-does">What RTIndustry does</a>
                 <a href="#evidence">Evidence for the expert</a>
+                <a href="#dossier">The dossier for the expert</a>
                 <a href="#timing">Timing and upkeep</a>
                 <a href="#faq">FAQ</a>
                 <a href="#sources">Sources and disclaimer</a>
@@ -198,13 +200,29 @@
             </ul>
             <div class="box-nota">The detailed timeline is kept for 35 days and weekly packages for 8 weeks: <strong>download the audit package for the inspection period</strong> and keep it with the application documents.</div>
 
+            <h2 id="dossier">The interconnection dossier for the expert</h2>
+            <p>From version 2.10.0 RTIndustry prepares by itself, for each machine, an <strong>interconnection dossier</strong> to hand to the expert: an A4 document to print or save as PDF, in the chosen language.</p>
+            <figure class="figura-dossier">
+                <img src="../../img/dossier-interconnessione-en.webp" width="1440" height="2000" loading="lazy" alt="First page of an RTIndustry interconnection dossier: asset data, summary with the date of first interconnection, machine, RTIndustry and ERP diagram, requirements with the box for the expert" class="img-screenshot">
+                <figcaption>Sample dossier with demo data.</figcaption>
+            </figure>
+            <ul>
+                <li><strong>Asset data</strong>: manufacturer, model, serial number, year, numerical control, delivery and commissioning dates, invoice, network identification (IP and MAC address).</li>
+                <li><strong>Date of the first two-way interconnection</strong>, days recorded, days with two-way exchange, connection hours and interruptions.</li>
+                <li><strong>Diagram</strong> machine ↔ RTIndustry ↔ ERP with the active protocols and channels.</li>
+                <li>The <strong>Annex IV requirements</strong>, each with the evidence collected and an empty box for the <strong>expert's assessment</strong>.</li>
+                <li>A <strong>sample of the exchanges</strong> with the ERP (date, channel, action, work order, result) and day-by-day <strong>continuity</strong>, from the permanent log RTIndustry keeps from day one.</li>
+                <li>A <strong>digital fingerprint</strong> (SHA-256) and a number: the expert can check on the company PC that the document has not been altered.</li>
+            </ul>
+            <p>Over the years RTIndustry saves a <strong>half-yearly report</strong> by itself, reminds the periodic notices and warns if the machine stays disconnected for too long. For experts there is a <a href="../../iperammortamento/scheda-periti-rtindustry.pdf">two-page sheet (PDF, in Italian)</a> explaining what they find in the dossier and how to verify it.</p>
+            <div class="box-nota">The dossier is a supporting document: checking and assessing the requirements is up to the expert, on the actual machine.</div>
+
             <h2 id="timing">Timing and upkeep</h2>
             <ul>
                 <li>The application goes through the <strong>GSE</strong> with several notices: a preliminary one, a confirmation with the down payment and the completion notice with the technical report and accounting certification, <strong>by 15 November 2028</strong>, followed by periodic notices (20 January and 30 June each year). Delays can forfeit the benefit.</li>
                 <li>The benefit starts in the period the machine is <strong>actually interconnected</strong>.</li>
-                <li>Interconnection must be <strong>maintained over the years</strong>: if it is lost, the remaining benefit may be revoked. RTIndustry keeps the link active and the timeline flags interruptions with their duration.</li>
+                <li>Interconnection must be <strong>maintained over the years</strong>: if it is lost, the remaining benefit may be revoked. RTIndustry keeps the link active, the timeline flags interruptions with their duration and the administrator is alerted if the machine stays disconnected.</li>
             </ul>
-            <div class="box-nota"><strong>In development:</strong> an <strong>interconnection dossier</strong> generated by RTIndustry for each machine, with the date of first interconnection, the exchanges with the ERP and the continuity of the link, designed for the expert's work.</div>
 
             <h2 id="faq">FAQ</h2>
             <h3>Is installing RTIndustry enough to obtain the hyper-depreciation?</h3>
