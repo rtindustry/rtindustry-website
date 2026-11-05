@@ -408,7 +408,38 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--accent-light); 
     .site-nav .nav-lang a, .site-nav .nav-lang span { min-height: 38px; padding: 4px 12px; }
 }
 
+/* Prova gratuita: modulo di richiesta del download */
+.trial-pagina { padding: 2.5rem 0 3.5rem; }
+.trial-punti { list-style: none; padding: 0; margin: 0 0 1.25rem; }
+.trial-punti li { display: flex; gap: .6rem; padding: .45rem 0; line-height: 1.5; }
+.trial-punti i { color: var(--success); margin-top: .15rem; }
+.trial-requisiti { background: #f4f6f9; border-radius: 12px; padding: 1rem 1.15rem; }
+.trial-requisiti p { margin: 0; font-size: .95rem; }
+.trial-card { background: #fff; border: 1px solid #e3e7ee; border-radius: 16px; padding: 1.6rem; box-shadow: 0 10px 30px rgba(13, 27, 42, .08); }
+.trial-card .form-check { margin-bottom: .35rem; }
+.trial-card .form-check-label { font-size: .93rem; }
+.trial-card .btn-cta-primary { border: 0; cursor: pointer; }
+.trial-card .btn-cta-primary:disabled { opacity: .7; cursor: wait; }
+.trial-nascosto { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.trial-esito { margin-top: .75rem; font-size: .95rem; }
+.trial-esito.errore { color: #b42318; }
+.trial-fatto { text-align: center; padding: 1.5rem .5rem; }
+.trial-fatto > i { font-size: 3rem; color: var(--success); }
+@media (max-width: 575px) { .trial-card { padding: 1.15rem; } }
+
 /* Dossier di interconnessione (pagina iperammortamento): immagine verticale contenuta */
 .figura-dossier { max-width: 520px; margin: 1.25rem auto; }
 .figura-dossier img { width: 100%; height: auto; }
 .figura-dossier figcaption { font-size: .85rem; opacity: .75; text-align: center; margin-top: .4rem; }
+
+/* Pagina Versioni */
+.versioni-pagina { padding: 2rem 0 3rem; }
+.versioni-pagina .versione { border-bottom: 1px solid #e3e7ee; padding: 1.4rem 0; }
+.versioni-pagina .versione h2 { font-size: 1.35rem; margin: 0; display: flex; align-items: center; gap: .6rem; }
+.versioni-pagina .versione-ultima { font-size: .75rem; background: var(--success); color: #fff; border-radius: 999px; padding: .15rem .6rem; font-weight: 600; }
+.versioni-pagina .versione-titolo { color: var(--primary); font-weight: 600; margin: .2rem 0 .6rem; }
+.versioni-pagina .versione-note p, .versioni-pagina .versione-note li { line-height: 1.6; }
+
+/* Home: pulsanti dell'apertura allineati, a capo in ordine sugli schermi stretti */
+.hero-azioni { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: center; }
+.hero-azioni .btn-cta-secondary { margin: 0; }
