@@ -85,6 +85,11 @@
               "@type": "Question",
               "name": "Il perito come verifica l'interconnessione?",
               "acceptedAnswer": { "@type": "Answer", "text": "Può vedere sul posto lo scambio con il gestionale e consultare la linea del tempo di RTIndustry, che registra con data e ora le chiamate ricevute dal gestionale, i cambi di stato, il programma in esecuzione, i pezzi e gli allarmi. Il dossier di interconnessione raccoglie in un documento la data della prima interconnessione, le evidenze per ogni requisito e la continuità del collegamento, con un'impronta verificabile; il pacchetto di audit esporta il periodo scelto in file CSV. La valutazione dei requisiti resta del perito." }
+            },
+            {
+              "@type": "Question",
+              "name": "Il dossier di interconnessione costa a parte?",
+              "acceptedAnswer": { "@type": "Answer", "text": "No. È incluso nella licenza RTIndustry di ogni macchina, dalla versione 2.10.0: nessun modulo aggiuntivo. Ogni macchina ha il suo dossier, con i suoi dati e la sua data di prima interconnessione." }
             }
           ]
         }
@@ -209,7 +214,7 @@
             <div class="box-nota">La linea del tempo dettagliata si conserva per 35 giorni, i pacchetti settimanali per 8 settimane: <strong>scaricate il pacchetto di audit del periodo del sopralluogo</strong> e conservatelo con la documentazione della pratica.</div>
 
             <h2 id="dossier">Il dossier di interconnessione per il perito</h2>
-            <p>Dalla versione 2.10.0 RTIndustry prepara da solo, per ogni macchina, un <strong>dossier di interconnessione</strong> da consegnare al perito: un documento A4 da stampare o salvare in PDF, nella lingua scelta.</p>
+            <p>Dalla versione 2.10.0 RTIndustry prepara da solo, per ogni macchina, un <strong>dossier di interconnessione</strong> da consegnare al perito: un documento A4 da stampare o salvare in PDF, nella lingua scelta. Il dossier è <strong>incluso nella licenza RTIndustry di ogni macchina</strong>: nessun modulo da acquistare a parte.</p>
             <figure class="figura-dossier">
                 <img src="../img/dossier-interconnessione.webp" width="1440" height="2000" loading="lazy" alt="Prima pagina di un dossier di interconnessione di RTIndustry: dati del bene, sintesi con la data della prima interconnessione, schema macchina, RTIndustry e gestionale, requisiti con il riquadro per il perito" class="img-screenshot">
                 <figcaption>Dossier di esempio con dati dimostrativi.</figcaption>
@@ -252,6 +257,8 @@
             <p>Con macchine CNC e PLC tramite OPC UA, FANUC FOCAS, Heidenhain DNC e Modbus TCP, anche in parchi macchine di marche diverse. Dettagli nella <a href="../documentazione/">documentazione tecnica</a>.</p>
             <h3>Il perito come verifica l'interconnessione?</h3>
             <p>Può vedere sul posto lo scambio con il gestionale e consultare la linea del tempo, che registra con data e ora le chiamate ricevute dal gestionale, i cambi di stato, il programma in esecuzione, i pezzi e gli allarmi. Il dossier di interconnessione raccoglie in un documento la data della prima interconnessione, le evidenze per ogni requisito e la continuità del collegamento, con un'impronta verificabile; il pacchetto di audit esporta il periodo scelto in file CSV. La valutazione dei requisiti resta del perito.</p>
+            <h3>Il dossier di interconnessione costa a parte?</h3>
+            <p>No. È incluso nella licenza RTIndustry di ogni macchina, dalla versione 2.10.0: nessun modulo aggiuntivo. Ogni macchina ha il suo dossier, con i suoi dati e la sua data di prima interconnessione.</p>
             <h3>Abbiamo un gestionale che non ha un'integrazione già pronta</h3>
             <p>RTIndustry offre tre canali equivalenti: API REST, tabella di scambio su database e MQTT. Il fornitore del gestionale trova tutto nella guida <a href="../developers/">Integrazione ERP e MES</a>.</p>
 
